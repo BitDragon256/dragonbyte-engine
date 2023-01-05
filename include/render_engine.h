@@ -1,33 +1,48 @@
 #pragma once
 
+#include <string>
+#include <vector>
+
 #include "vulkan/vulkan.h"
 
-#include "engines.h"
+#include "engine.h"
 
-#include "graphics/pipeline.h"
-#include "graphics/swapchain.h"
-#include "graphics/window.h"
+#include "vulkan/instance.h"
+#include "vulkan/logical_device.h"
+#include "vulkan/physical_device.h"
+#include "vulkan/window.h"
+
 
 namespace dragonbyte_engine
 {
+
+	typedef enum { Rasterization, RayTracing } RenderType;
 
 	struct RenderEngineConfig
 	{
 		bool renderModels;
 		bool renderParticles;
 		bool renderGui;
+
+		uint32_t windowHeight;
+		uint32_t windowWidth;
+
+		const char* applicationName; 
+		const char* engineName;
+
+		RenderType renderType;
 	};
 
 	class RenderEngine : Engine
 	{
 	public:
-		RenderEngine(const RenderEngineConfig& config);
+
+		RenderEngine(const RenderEngineConfig& a_kConfig);
+		~RenderEngine();
 
 		RenderEngineConfig m_config;
 
-		void initialize() override;
 		void tick() override;
-		void destruct() override;
 
 		void render_particles();
 		void render_models();
@@ -39,22 +54,15 @@ namespace dragonbyte_engine
 
 	private:
 
-		graphics::Window* m_window;
-		graphics::Pipeline m_graphicsPipeline;
-		graphics::Swapchain m_swapchain;
-
-		VkInstance m_vkInstance;
-		VkPhysicalDevice m_physicalDevice;
-		VkDevice m_device;
-
-		VkSurfaceKHR m_surface;
+		vulkan::Instance* m_pInstance;
+		vulkan::Window* m_pWindow;
+		vulkan::PhysicalDevice* m_pPhysicalDevice;
+		vulkan::LogicalDevice* m_pLogicalDevice;
 
 		void create_window();
-		void create_vk_instance();
-		void get_physical_device();
+		void create_instance();
+		void create_physical_device();
 		void create_device();
-		void get_surface();
-		void create_swapchain();
 
 	};
 

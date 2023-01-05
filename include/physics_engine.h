@@ -1,6 +1,6 @@
 #pragma once
 
-#include "engines.h"
+#include "engine.h"
 #include "component.h"
 
 namespace dragonbyte_engine
@@ -10,8 +10,6 @@ namespace dragonbyte_engine
 	public:
 
 		void tick() override;
-		void initialize() override;
-		void destruct() override;
 
 	private:
 

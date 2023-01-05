@@ -1,7 +1,7 @@
 #pragma once
 
 #define GLFW_INCLUDE_VULKAN
-#include <external/glfw/include/GLFW/glfw3.h>
+#include <GLFW/glfw3.h>
 
 #include "vulkan/vulkan.h"
 
@@ -9,19 +9,31 @@
 
 namespace dragonbyte_engine
 {
-	namespace graphics
+	namespace vulkan
 	{
+
+		struct WindowConfig
+		{
+			uint32_t width;
+			uint32_t height;
+
+			std::string name;
+		};
 
 		class Window
 		{
 		public:
-			Window(const unsigned int width, const unsigned int height, std::string name);
+
+			Window(const WindowConfig& a_rWindowConfig);
 			~Window();
 
 			Window(const Window&) = delete;
 			Window& operator=(const Window&) = delete;
 
 			bool should_close();
+			void tick();
+
+			GLFWwindow* m_pGlfwWindow;
 
 		private:
 
@@ -29,11 +41,6 @@ namespace dragonbyte_engine
 			const unsigned int m_kHeight;
 
 			const std::string m_kName;
-
-			GLFWwindow* m_glfwWindow;
-
-			void create_window();
-			void get_surface(VkInstance& instance, VkSurfaceKHR* surface);
 
 		};
 

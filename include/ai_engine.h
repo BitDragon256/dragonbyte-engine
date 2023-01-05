@@ -1,4 +1,4 @@
-#include "engines.h"
+#include "engine.h"
 
 namespace dragonbyte_engine
 {
@@ -6,9 +6,7 @@ namespace dragonbyte_engine
 	class AiEngine : Engine
 	{
 	public:
-		void initialize() override;
 		void tick() override;
-		void destruct() override;
 
 	};
 

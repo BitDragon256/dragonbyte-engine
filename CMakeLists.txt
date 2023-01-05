@@ -1,6 +1,6 @@
 
-file(GLOB_RECURSE SOURCE_FILES_ENGINE "*.cpp")
-file(GLOB_RECURSE HEADER_FILES_ENGINE "*.h")
+file(GLOB_RECURSE SOURCE_FILES_ENGINE "src/*.cpp")
+file(GLOB_RECURSE HEADER_FILES_ENGINE "include/*.h")
 
 # vulkan
 find_package(Vulkan REQUIRED)

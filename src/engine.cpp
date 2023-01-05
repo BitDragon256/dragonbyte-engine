@@ -2,12 +2,14 @@
 
 namespace dragonbyte_engine
 {
-
-	class AudioEngine : public Engine
+	Engine::Engine()
 	{
-	public:
-		void tick() override;
+		//initialize();
+	}
 
-	};
+	Engine::~Engine()
+	{
+		//destruct();
+	}
 
 } // namespace dragonbyte_engine

@@ -38,17 +38,53 @@ namespace dragonbyte_engine
 	// initializes all pieces of the game engine and starts them up
 	void Overseer::init_game()
 	{
-		GameClockConfig clockConfig;
+		GameClockConfig clockConfig = {};
 		clockConfig.physicsFps = 50.f;
 		clockConfig.targetFps = 100000.f;
 		clockConfig.pOverseer = this;
 
 		m_pGameClock = new GameClock(clockConfig);
+
+		// TODO initialize File Engine
+		m_pFileEngine = new FileEngine();
+
+		// TODO initialize Object Engine
+		m_pObjectEngine = new ObjectEngine();
+
+		// initialize Physics Engine
+		m_pPhysicsEngine = new PhysicsEngine();
+
+		// initialize Render Engine
+		RenderEngineConfig renderEngineConfig {};
+		renderEngineConfig.applicationName = "Hello World";
+		renderEngineConfig.engineName = "Bytedragon Engine";
+		renderEngineConfig.renderModels = true;
+		renderEngineConfig.renderParticles = true;
+		renderEngineConfig.renderGui = true;
+		renderEngineConfig.renderType = RenderType::Rasterization;
+		renderEngineConfig.windowHeight = 500;
+		renderEngineConfig.windowWidth = 800;
+
+		m_pRenderEngine = new RenderEngine(renderEngineConfig);
+
+		// initialize other engines
+		m_pAiEngine = new AiEngine();
+		m_pAudioEngine = new AudioEngine();
+		m_pInputEngine = new InputEngine();
 	}
 
 	// destructs all pieces of the game / controlled shutdown
 	void Overseer::end_game()
 	{
+		delete m_pRenderEngine;
+		delete m_pPhysicsEngine;
+		delete m_pObjectEngine;
+
+		delete m_pAiEngine;
+		delete m_pAudioEngine;
+		delete m_pFileEngine;
+		delete m_pInputEngine;
+
 		delete m_pGameClock;
 	}
 	void Overseer::game_loop()
