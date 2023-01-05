@@ -17,7 +17,7 @@ namespace dragonbyte_engine
 	}
 	Overseer::~Overseer()
 	{
-		end_game();
+		
 	}
 	
 
