@@ -35,19 +35,16 @@ namespace dragonbyte_engine
 		render_particles();
 		render_gui();
 	}
-
 	void RenderEngine::render_models()
 	{
 		if (!m_config.renderModels)
 			return;
 	}
-
 	void RenderEngine::render_particles()
 	{
 		if (!m_config.renderParticles)
 			return;
 	}
-
 	void RenderEngine::render_gui()
 	{
 		if (!m_config.renderGui)
@@ -67,6 +64,7 @@ namespace dragonbyte_engine
 			create_device();
 
 			create_swap_chain();
+			create_graphics_pipeline();
 		}
 		catch (const std::exception& e)
 		{
@@ -103,6 +101,10 @@ namespace dragonbyte_engine
 	void RenderEngine::create_swap_chain()
 	{
 		m_pSwapChain = new vulkan::SwapChain(*m_pWindow, *m_pPhysicalDevice, *m_pLogicalDevice);
+	}
+	void RenderEngine::create_graphics_pipeline()
+	{
+		m_pGraphicsPipeline = new vulkan::GraphicsPipeline();
 	}
 
 	bool RenderEngine::should_close_window()

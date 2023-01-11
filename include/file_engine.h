@@ -1,6 +1,7 @@
 #include "engine.h"
 
 #include <string>
+#include <vector>
 
 namespace dragonbyte_engine
 {
@@ -19,6 +20,8 @@ namespace dragonbyte_engine
 		void tick() override;
 
 		ConfigValue get_config_value(const std::string section, const std::string key);
+
+		static std::vector<char> read_file(const std::string& a_krFilename);
 
 	};
 

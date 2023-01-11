@@ -7,6 +7,7 @@
 
 #include "engine.h"
 
+#include "vulkan/graphics_pipeline.h"
 #include "vulkan/instance.h"
 #include "vulkan/logical_device.h"
 #include "vulkan/physical_device.h"
@@ -51,7 +52,7 @@ namespace dragonbyte_engine
 		void render_gui();
 
 		void animation_tick();
-
+		
 		bool should_close_window();
 
 	private:
@@ -62,6 +63,7 @@ namespace dragonbyte_engine
 		vulkan::PhysicalDevice* m_pPhysicalDevice;
 		vulkan::LogicalDevice* m_pLogicalDevice;
 		vulkan::SwapChain* m_pSwapChain;
+		vulkan::GraphicsPipeline* m_pGraphicsPipeline;
 
 		void setup_vulkan();
 
@@ -71,7 +73,8 @@ namespace dragonbyte_engine
 		void get_physical_device();
 		void create_device();
 		void create_swap_chain();
+		void create_graphics_pipeline();
 
 	};
 
-} // namespace dragonbyte_engine
+} // n amespace dragonbyte_engine
