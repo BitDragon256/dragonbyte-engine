@@ -1,5 +1,7 @@
 #include "overseer.h"
 
+#include <iostream>
+
 #include "game_clock.h"
 
 namespace dragonbyte_engine
@@ -89,6 +91,7 @@ namespace dragonbyte_engine
 	}
 	void Overseer::game_loop()
 	{
+		std::cout << "Starting game loop..." << '\n';
 		while (!should_end_game())
 		{
 			m_pGameClock->game_loop_tick();

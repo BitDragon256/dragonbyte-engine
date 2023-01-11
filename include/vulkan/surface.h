@@ -15,14 +15,18 @@ namespace dragonbyte_engine
 		{
 		public:
 
-			Surface(const Instance& a_rInstance, Window& a_rWindow);
+			Surface(Instance* a_pInstance, Window* a_pWindow);
 			~Surface();
+
+			Surface(const Surface&) = delete;
+			const Surface& operator=(const Surface&) = delete;
 
 			VkSurfaceKHR m_surface;
 
 		private:
 
-
+			Instance* m_pInstance;
+			Window* m_pWindow;
 
 		};
 

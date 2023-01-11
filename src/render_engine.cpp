@@ -5,6 +5,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "tools.h"
+
 namespace dragonbyte_engine
 {
 
@@ -13,14 +15,13 @@ namespace dragonbyte_engine
 	{
 		create_window();
 
-		create_instance();
-		create_physical_device();
-		create_device();
+		setup_vulkan();
 	}
 	RenderEngine::~RenderEngine()
 	{
 		delete m_pLogicalDevice;
 		delete m_pPhysicalDevice;
+		delete m_pSurface;
 		delete m_pInstance;
 		delete m_pWindow;
 	}
@@ -52,6 +53,27 @@ namespace dragonbyte_engine
 			return;
 	}
 
+	void RenderEngine::setup_vulkan()
+	{
+		std::cout << "Setting up Vulkan..." << '\n';
+
+		try
+		{
+			create_instance();
+			create_surface();
+
+			get_physical_device();
+			create_device();
+
+			create_swap_chain();
+		}
+		catch (const std::exception& e)
+		{
+			tools::print_error(e);
+		}
+
+		std::cout << "Finished setting up Vulkan..." << '\n';
+	}
 	void RenderEngine::create_window()
 	{
 		vulkan::WindowConfig windowConfig{};
@@ -61,17 +83,25 @@ namespace dragonbyte_engine
 
 		m_pWindow = new vulkan::Window(windowConfig);
 	}
+	void RenderEngine::create_surface()
+	{
+		m_pSurface = new vulkan::Surface(m_pInstance, m_pWindow);
+	}
 	void RenderEngine::create_instance()
 	{
 		m_pInstance = new vulkan::Instance(m_config.applicationName, m_config.engineName);
 	}
-	void RenderEngine::create_physical_device()
+	void RenderEngine::get_physical_device()
 	{
-		m_pPhysicalDevice = new vulkan::PhysicalDevice(*m_pInstance);
+		m_pPhysicalDevice = new vulkan::PhysicalDevice(*m_pInstance, *m_pSurface);
 	}
 	void RenderEngine::create_device()
 	{
 		m_pLogicalDevice = new vulkan::LogicalDevice(*m_pPhysicalDevice);
+	}
+	void RenderEngine::create_swap_chain()
+	{
+		m_pSwapChain = new vulkan::SwapChain(*m_pWindow, *m_pPhysicalDevice, *m_pLogicalDevice);
 	}
 
 	bool RenderEngine::should_close_window()

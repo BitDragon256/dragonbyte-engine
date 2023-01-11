@@ -4,20 +4,25 @@
 
 #include <stdexcept>
 
-#include "vulkan/helper.h"
-
 namespace dragonbyte_engine
 {
 
 	namespace vulkan
 	{
 
-		Surface::Surface(const Instance& a_rInstance, Window& a_rWindow)
+		Surface::Surface(Instance* a_pInstance, Window* a_pWindow) :
+			m_pInstance(a_pInstance), m_pWindow(a_pWindow)
 		{
-			Helper::check_result(
-				glfwCreateWindowSurface(a_rInstance.m_instance, a_rWindow.m_pGlfwWindow, nullptr, &m_surface),
-				"Failed to create surface"
-			);
+			VkResult res = glfwCreateWindowSurface(a_pInstance->m_instance, a_pWindow->m_pGlfwWindow, nullptr, &m_surface);
+			if (res != VK_SUCCESS)
+				throw std::runtime_error("Failed to create surface");
+		}
+
+		Surface::~Surface()
+		{
+			if (m_pInstance == nullptr)
+				throw std::runtime_error("Destruction of Instance before Surface is forbidden");
+			vkDestroySurfaceKHR(m_pInstance->m_instance, m_surface, nullptr);
 		}
 
 	} // namespace vulkan

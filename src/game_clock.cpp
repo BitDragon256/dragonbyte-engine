@@ -7,6 +7,7 @@ namespace dragonbyte_engine
 		m_targetDeltaTime{ 1.f / config.targetFps },
 		m_deltaTime{ 0 },
 		m_lag{ 0 },
+		m_firstLoop{ true },
 		m_pOverseer{ config.pOverseer }
 	{}
 
@@ -15,6 +16,11 @@ namespace dragonbyte_engine
 		m_pOverseer->pre_tick();
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
+		if (m_firstLoop)
+		{
+			m_firstLoop = false;
+			m_lastTime = currentTime;
+		}
 		m_deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - m_lastTime).count();
 		m_lastTime = currentTime;
 
@@ -29,7 +35,7 @@ namespace dragonbyte_engine
 
 			m_lag -= m_physicsDeltaTime;
 		}
-
+		
 		m_pOverseer->tick();
 		m_pOverseer->render_tick();
 		m_pOverseer->late_tick();

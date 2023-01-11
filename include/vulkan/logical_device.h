@@ -21,8 +21,12 @@ namespace dragonbyte_engine
 			LogicalDevice& operator=(const LogicalDevice&) = delete;
 
 			VkDevice m_device;
+			VkQueue m_graphicsQueue;
+			VkQueue m_presentQueue;
 
 		private:
+
+			PhysicalDevice* m_physicalDevice;
 
 		};
 

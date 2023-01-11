@@ -10,6 +10,8 @@
 #include "vulkan/instance.h"
 #include "vulkan/logical_device.h"
 #include "vulkan/physical_device.h"
+#include "vulkan/surface.h"
+#include "vulkan/swapchain.h"
 #include "vulkan/window.h"
 
 
@@ -56,13 +58,19 @@ namespace dragonbyte_engine
 
 		vulkan::Instance* m_pInstance;
 		vulkan::Window* m_pWindow;
+		vulkan::Surface* m_pSurface;
 		vulkan::PhysicalDevice* m_pPhysicalDevice;
 		vulkan::LogicalDevice* m_pLogicalDevice;
+		vulkan::SwapChain* m_pSwapChain;
+
+		void setup_vulkan();
 
 		void create_window();
+		void create_surface();
 		void create_instance();
-		void create_physical_device();
+		void get_physical_device();
 		void create_device();
+		void create_swap_chain();
 
 	};
 
