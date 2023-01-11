@@ -25,7 +25,8 @@ namespace dragonbyte_engine
 			);
 			~SwapChain();
 
-			std::vector<VkImage> m_swapChainImages;
+			std::vector<VkImage> m_images;
+			std::vector<VkImageView> m_imageViews;
 
 		private:
 
@@ -33,11 +34,14 @@ namespace dragonbyte_engine
 			static VkPresentModeKHR choose_swap_present_mode(const std::vector<VkPresentModeKHR>& a_krAvailablePresentModes);
 			static VkExtent2D choose_swap_extent(const VkSurfaceCapabilitiesKHR& a_krCapabilities, const Window& a_krWindow);
 
+			void create_image_views();
+			void destroy_image_views();
+
 			const LogicalDevice& m_krLogicalDevice;
 
 			VkSwapchainKHR m_swapChain;
-			VkFormat m_swapChainImageFormat;
-			VkExtent2D m_swapChainExtent;
+			VkFormat m_imageFormat;
+			VkExtent2D m_extent;
 
 		};
 

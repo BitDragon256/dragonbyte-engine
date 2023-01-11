@@ -19,6 +19,7 @@ namespace dragonbyte_engine
 	}
 	RenderEngine::~RenderEngine()
 	{
+		delete m_pSwapChain;
 		delete m_pLogicalDevice;
 		delete m_pPhysicalDevice;
 		delete m_pSurface;
