@@ -1,5 +1,7 @@
 #include "overseer.h"
 
+#include <iostream>
+
 #include "game_clock.h"
 
 namespace dragonbyte_engine
@@ -30,9 +32,17 @@ namespace dragonbyte_engine
 	// called from outside to start up / represents the whole game cycle
 	void Overseer::run_game()
 	{
+		std::cerr << "Initialization Start" << '\n';
 		init_game();
+		std::cerr << "Initialized" << '\n';
+
+		std::cerr << "Loop Start" << '\n';
 		game_loop();
+		std::cerr << "Loop End" << '\n';
+
+		std::cerr << "Ending" << '\n';
 		end_game();
+		std::cerr << "Ended" << '\n';
 	}
 
 	// initializes all pieces of the game engine and starts them up
@@ -57,7 +67,7 @@ namespace dragonbyte_engine
 		// initialize Render Engine
 		RenderEngineConfig renderEngineConfig {};
 		renderEngineConfig.applicationName = "Hello World";
-		renderEngineConfig.engineName = "Bytedragon Engine";
+		renderEngineConfig.engineName = "Dragonbyte Engine";
 		renderEngineConfig.renderModels = true;
 		renderEngineConfig.renderParticles = true;
 		renderEngineConfig.renderGui = true;
