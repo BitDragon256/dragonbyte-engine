@@ -1,8 +1,9 @@
 #include "vulkan/surface.h"
 
-#include <GLFW/glfw3.h>
-
+#include <iostream>
 #include <stdexcept>
+
+#include <GLFW/glfw3.h>
 
 namespace dragonbyte_engine
 {
@@ -15,13 +16,13 @@ namespace dragonbyte_engine
 		{
 			VkResult res = glfwCreateWindowSurface(a_pInstance->m_instance, a_pWindow->m_pGlfwWindow, nullptr, &m_surface);
 			if (res != VK_SUCCESS)
+			{
 				throw std::runtime_error("Failed to create surface");
+			}
 		}
 
 		Surface::~Surface()
 		{
-			if (m_pInstance == nullptr)
-				throw std::runtime_error("Destruction of Instance before Surface is forbidden");
 			vkDestroySurfaceKHR(m_pInstance->m_instance, m_surface, nullptr);
 		}
 

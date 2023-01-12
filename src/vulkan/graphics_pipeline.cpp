@@ -9,8 +9,14 @@ namespace dragonbyte_engine
 		GraphicsPipeline::GraphicsPipeline(const LogicalDevice& a_krLogicalDevice)
 		{
 			// create the shader modules
-			m_pVertShaderModule = new ShaderModule(default_shaders::get_vert_shader_filename(default_shaders::eVertShader::Simple), a_krLogicalDevice);
-			m_pFragShaderModule = new ShaderModule(default_shaders::get_frag_shader_filename(default_shaders::eFragShader::Simple), a_krLogicalDevice);
+			m_pVertShaderModule = new ShaderModule(
+				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Vert),
+				a_krLogicalDevice
+			);
+			m_pFragShaderModule = new ShaderModule(
+				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag),
+				a_krLogicalDevice
+			);
 
 			// create infos for later staging the shader modules
 			VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};

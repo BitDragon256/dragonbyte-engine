@@ -16,13 +16,13 @@ namespace dragonbyte_engine
 		namespace default_shaders
 		{
 
-			typedef enum {
+			typedef enum eShader {
 				Simple = 0
-			} const eVertShader;
+			} const tShader;
 
-			typedef enum {
-				Simple = 0
-			} const eFragShader;
+			typedef enum eShaderType {
+				Vert = 0, Frag = 1
+			} const tShaderType;
 
 			const std::string kPathPrefix = "shaders/";
 			const std::string kVertShaderPathPostfix = ".vert.spv";
@@ -35,8 +35,7 @@ namespace dragonbyte_engine
 				"simple"
 			};
 
-			std::string get_vert_shader_filename(eVertShader a_vertShader);
-			std::string get_frag_shader_filename(eFragShader a_fragShader);
+			std::string get_shader_filename(tShader a_shader, tShaderType a_shaderType);
 
 		};
 

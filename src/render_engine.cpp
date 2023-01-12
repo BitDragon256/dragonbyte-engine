@@ -75,6 +75,8 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::create_window()
 	{
+		std::cout << "Create Window" << '\n';
+
 		vulkan::WindowConfig windowConfig{};
 		windowConfig.height = m_config.windowHeight;
 		windowConfig.width = m_config.windowWidth;
@@ -84,27 +86,39 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::create_surface()
 	{
+		std::cout << "Create Surface" << '\n';
+
 		m_pSurface = new vulkan::Surface(m_pInstance, m_pWindow);
 	}
 	void RenderEngine::create_instance()
 	{
+		std::cout << "Create Instance" << '\n';
+
 		m_pInstance = new vulkan::Instance(m_config.applicationName, m_config.engineName);
 	}
 	void RenderEngine::get_physical_device()
 	{
+		std::cout << "Get Physical Device" << '\n';
+
 		m_pPhysicalDevice = new vulkan::PhysicalDevice(*m_pInstance, *m_pSurface);
 	}
 	void RenderEngine::create_device()
 	{
+		std::cout << "Create Logical Device" << '\n';
+
 		m_pLogicalDevice = new vulkan::LogicalDevice(*m_pPhysicalDevice);
 	}
 	void RenderEngine::create_swap_chain()
 	{
+		std::cout << "Create Swapchain" << '\n';
+
 		m_pSwapChain = new vulkan::SwapChain(*m_pWindow, *m_pPhysicalDevice, *m_pLogicalDevice);
 	}
 	void RenderEngine::create_graphics_pipeline()
 	{
-		m_pGraphicsPipeline = new vulkan::GraphicsPipeline();
+		std::cout << "Create Graphics Pipeline" << '\n';
+
+		m_pGraphicsPipeline = new vulkan::GraphicsPipeline(*m_pLogicalDevice);
 	}
 
 	bool RenderEngine::should_close_window()

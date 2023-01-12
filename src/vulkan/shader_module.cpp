@@ -13,13 +13,13 @@ namespace dragonbyte_engine
 		namespace default_shaders
 		{
 
-			std::string get_vert_shader_filename(eVertShader a_vertShader)
+			std::string get_shader_filename(tShader a_shader, tShaderType a_shaderType)
 			{
-				return kPathPrefix + kVertShaderFilenames[static_cast<size_t>(a_vertShader)] + kVertShaderPathPostfix;
-			}
-			std::string get_frag_shader_filename(eFragShader a_fragShader)
-			{
-				return kPathPrefix + kFragShaderFilenames[static_cast<size_t>(a_fragShader)] + kFragShaderPathPostfix;
+				if (a_shaderType == tShaderType::Vert)
+					return kPathPrefix + kVertShaderFilenames[static_cast<size_t>(a_shader)] + kVertShaderPathPostfix;
+				if (a_shaderType == tShaderType::Frag)
+					return kPathPrefix + kFragShaderFilenames[static_cast<size_t>(a_shader)] + kFragShaderPathPostfix;
+				return "";
 			}
 
 		} // namespace default_shaders
