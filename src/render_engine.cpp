@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "tools.h"
+#include "vulkan/validation_layers.h"
 
 namespace dragonbyte_engine
 {
@@ -23,6 +24,8 @@ namespace dragonbyte_engine
 		delete m_pLogicalDevice;
 		delete m_pPhysicalDevice;
 		delete m_pSurface;
+		if (vulkan::validation_layers::kEnable)
+			delete m_pDebugMessenger;
 		delete m_pInstance;
 		delete m_pWindow;
 	}
@@ -58,6 +61,8 @@ namespace dragonbyte_engine
 		try
 		{
 			create_instance();
+			if (vulkan::validation_layers::kEnable)
+				create_debug_messenger();
 			create_surface();
 
 			get_physical_device();
@@ -119,6 +124,12 @@ namespace dragonbyte_engine
 		std::cout << "Create Graphics Pipeline" << '\n';
 
 		m_pGraphicsPipeline = new vulkan::GraphicsPipeline(*m_pLogicalDevice);
+	}
+	void RenderEngine::create_debug_messenger()
+	{
+		std::cout << "Create Debug Messenger" << '\n';
+
+		m_pDebugMessenger = new vulkan::DebugMessenger(*m_pInstance);
 	}
 
 	bool RenderEngine::should_close_window()

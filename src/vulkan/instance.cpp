@@ -4,6 +4,8 @@
 
 #include <GLFW/glfw3.h>
 
+#include "vulkan/debug_messenger.h"
+#include "vulkan/extensions.h"
 #include "vulkan/validation_layers.h"
 
 namespace dragonbyte_engine
@@ -14,7 +16,7 @@ namespace dragonbyte_engine
 
 		Instance::Instance(const char* a_pAppName, const char* a_pEngineName)
 		{
-			if (kEnableValidationLayers && !check_validation_layer_support())
+			if (validation_layers::kEnable && !validation_layers::check_support())
 			{
 				throw std::runtime_error("validation layers requested, but not available!");
 			}
@@ -29,25 +31,32 @@ namespace dragonbyte_engine
 			applicationInfo.applicationVersion = VK_MAKE_VERSION(0, 1, 0);
 
 			// Required Extensions
-			uint32_t glfwExtensionCount;
-			const char** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+			auto extensions = get_required_extensions();
 
 			// Instance Create Info
 			VkInstanceCreateInfo instanceCreateInfo = {};
 			instanceCreateInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			instanceCreateInfo.pApplicationInfo = &applicationInfo;
-			instanceCreateInfo.enabledExtensionCount = glfwExtensionCount;
-			instanceCreateInfo.ppEnabledExtensionNames = glfwExtensions;
 
-			if (kEnableValidationLayers) {
-				instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(kValidationLayers.size());
-				instanceCreateInfo.ppEnabledLayerNames = kValidationLayers.data();
+			instanceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+			instanceCreateInfo.ppEnabledExtensionNames = extensions.data();
+
+			VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo = {};
+			if (validation_layers::kEnable) {
+				instanceCreateInfo.enabledLayerCount = static_cast<uint32_t>(validation_layers::kValidationLayers.size());
+				instanceCreateInfo.ppEnabledLayerNames = validation_layers::kValidationLayers.data();
+
+				DebugMessenger::populate_create_info(debugCreateInfo);
+				instanceCreateInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*) &debugCreateInfo;
 			} else {
 				instanceCreateInfo.enabledLayerCount = 0;
+				instanceCreateInfo.pNext = nullptr;
 			}
 
 			// Create Vulkan Instance
-			vkCreateInstance(&instanceCreateInfo, nullptr, &m_instance);
+			VkResult res = vkCreateInstance(&instanceCreateInfo, nullptr, &m_instance);
+			if (res != VK_SUCCESS)
+				throw std::runtime_error("Failed to create instance");
 		}
 
 		Instance::~Instance()
