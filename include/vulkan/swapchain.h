@@ -30,6 +30,8 @@ namespace dragonbyte_engine
 			std::vector<VkImage> m_images;
 			std::vector<VkImageView> m_imageViews;
 
+			VkExtent2D m_extent;
+
 		private:
 
 			static VkSurfaceFormatKHR choose_swap_surface_format(const std::vector<VkSurfaceFormatKHR>& a_krAvailableFormats);
@@ -43,7 +45,6 @@ namespace dragonbyte_engine
 
 			VkSwapchainKHR m_swapChain;
 			VkFormat m_imageFormat;
-			VkExtent2D m_extent;
 
 		};
 

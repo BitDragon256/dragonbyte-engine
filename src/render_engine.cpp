@@ -123,7 +123,7 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Create Graphics Pipeline" << '\n';
 
-		m_pGraphicsPipeline = new vulkan::GraphicsPipeline(*m_pLogicalDevice);
+		m_pGraphicsPipeline = new vulkan::GraphicsPipeline(*m_pLogicalDevice, *m_pSwapChain);
 	}
 	void RenderEngine::create_debug_messenger()
 	{
