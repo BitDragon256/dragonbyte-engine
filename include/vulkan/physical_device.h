@@ -5,6 +5,7 @@
 #include <vulkan/vulkan.h>
 
 #include "instance.h"
+#include "surface.h"
 #include "tools.h"
 
 namespace dragonbyte_engine
@@ -17,7 +18,7 @@ namespace dragonbyte_engine
 		{
 		public:
 
-			PhysicalDevice(Instance& a_rInstance);
+			PhysicalDevice(const Instance& a_rInstance, const Surface& a_pSurface);
 
 			PhysicalDevice(const PhysicalDevice&) = delete;
 			PhysicalDevice& operator=(const PhysicalDevice&) = delete;
@@ -25,20 +26,29 @@ namespace dragonbyte_engine
 			VkPhysicalDevice m_physicalDevice;
 			VkPhysicalDeviceFeatures m_physicalDeviceFeatures;
 			
+			const Surface& m_krSurface;
+
+			// needed device extensions
+			const std::vector<const char*> m_kDeviceExtensions = {
+				VK_KHR_SWAPCHAIN_EXTENSION_NAME
+			};
+
 		private:
 
 			bool is_suitable(const VkPhysicalDevice& a_rPhysicalDevice);
+			bool check_device_extension_support(const VkPhysicalDevice& a_rPhysicalDevice);
 
 		};
 
 		struct QueueFamilyIndices
 		{
-			tools::optional<uint32_t> graphicsFamily;
+			std::optional<uint32_t> graphicsFamily;
+			std::optional<uint32_t> presentFamily;
 
 			bool is_complete();
 		};
 
-		QueueFamilyIndices find_queue_families(const VkPhysicalDevice& a_rPhysicalDevice);
+		QueueFamilyIndices find_queue_families(const VkPhysicalDevice& a_rPhysicalDevice, const Surface& a_rSurface);
 
 	} // namespace vulkan
 

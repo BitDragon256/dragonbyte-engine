@@ -18,3 +18,5 @@ add_library(DragonbyteEngine ${SOURCE_FILES_ENGINE} ${HEADER_FILES_ENGINE})
 target_include_directories(DragonbyteEngine PUBLIC "include")
 
 target_link_libraries(DragonbyteEngine PUBLIC Vulkan::Vulkan glfw)
+
+set_property(TARGET DragonbyteEngine PROPERTY CXX_STANDARD 20)

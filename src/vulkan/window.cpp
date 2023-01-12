@@ -20,6 +20,7 @@ namespace dragonbyte_engine
 
 		Window::~Window()
 		{
+			glfwDestroyWindow(m_pGlfwWindow);
 			glfwTerminate();
 		}
 

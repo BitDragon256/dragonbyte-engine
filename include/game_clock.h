@@ -51,6 +51,7 @@ namespace dragonbyte_engine
 		const float m_targetDeltaTime;
 
 		float m_lag;
+		bool m_firstLoop;
 
 		std::chrono::high_resolution_clock::time_point m_time;
 		std::chrono::high_resolution_clock::time_point m_lastTime;

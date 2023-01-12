@@ -19,7 +19,7 @@ namespace dragonbyte_engine
 	}
 	Overseer::~Overseer()
 	{
-		end_game();
+		
 	}
 	
 
@@ -99,6 +99,7 @@ namespace dragonbyte_engine
 	}
 	void Overseer::game_loop()
 	{
+		std::cout << "Starting game loop..." << '\n';
 		while (!should_end_game())
 		{
 			m_pGameClock->game_loop_tick();
