@@ -20,14 +20,14 @@ namespace dragonbyte_engine
 	}
 	RenderEngine::~RenderEngine()
 	{
-		delete m_pSwapChain;
-		delete m_pLogicalDevice;
-		delete m_pPhysicalDevice;
-		delete m_pSurface;
+		m_vkObjectInfo.pSwapChain.reset();
+		m_vkObjectInfo.pLogicalDevice.reset();
+		m_vkObjectInfo.pPhysicalDevice.reset();
+		m_vkObjectInfo.pSurface.reset();
 		if (vulkan::validation_layers::kEnable)
-			delete m_pDebugMessenger;
-		delete m_pInstance;
-		delete m_pWindow;
+			m_vkObjectInfo.pDebugMessenger.reset();
+		m_vkObjectInfo.pInstance.reset();
+		m_vkObjectInfo.pWindow.reset();
 	}
 
 	void RenderEngine::tick()
@@ -60,6 +60,8 @@ namespace dragonbyte_engine
 
 		try
 		{
+			m_vkObjectInfo.reset();
+
 			create_instance();
 			if (vulkan::validation_layers::kEnable)
 				create_debug_messenger();
@@ -88,7 +90,7 @@ namespace dragonbyte_engine
 		windowConfig.width = m_config.windowWidth;
 		windowConfig.name = m_config.applicationName;
 
-		m_pWindow = new vulkan::Window(windowConfig);
+		m_vkObjectInfo.pWindow = std::make_unique<vulkan::Window>(windowConfig);
 	}
 	void RenderEngine::create_surface()
 	{

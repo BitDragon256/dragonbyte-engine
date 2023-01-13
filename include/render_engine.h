@@ -7,15 +7,7 @@
 
 #include "engine.h"
 
-#include "vulkan/debug_messenger.h"
-#include "vulkan/graphics_pipeline.h"
-#include "vulkan/instance.h"
-#include "vulkan/logical_device.h"
-#include "vulkan/physical_device.h"
-#include "vulkan/render_pass.h"
-#include "vulkan/surface.h"
-#include "vulkan/swapchain.h"
-#include "vulkan/window.h"
+#include "vulkan/object_info.h"
 
 
 namespace dragonbyte_engine
@@ -59,15 +51,7 @@ namespace dragonbyte_engine
 
 	private:
 
-		vulkan::DebugMessenger* m_pDebugMessenger;
-		vulkan::GraphicsPipeline* m_pGraphicsPipeline;
-		vulkan::Instance* m_pInstance;
-		vulkan::LogicalDevice* m_pLogicalDevice;
-		vulkan::PhysicalDevice* m_pPhysicalDevice;
-		vulkan::RenderPass* m_pRenderPass;
-		vulkan::Surface* m_pSurface;
-		vulkan::SwapChain* m_pSwapChain;
-		vulkan::Window* m_pWindow;
+		vulkan::ObjectInfo m_vkObjectInfo;
 
 		void setup_vulkan();
 
