@@ -31,6 +31,7 @@ namespace dragonbyte_engine
 			std::vector<VkImageView> m_imageViews;
 
 			VkExtent2D m_extent;
+			VkFormat m_imageFormat;
 
 		private:
 
@@ -44,7 +45,6 @@ namespace dragonbyte_engine
 			const LogicalDevice& m_krLogicalDevice;
 
 			VkSwapchainKHR m_swapChain;
-			VkFormat m_imageFormat;
 
 		};
 

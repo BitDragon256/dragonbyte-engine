@@ -8,7 +8,7 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		GraphicsPipeline::GraphicsPipeline(const LogicalDevice& a_krLogicalDevice, const SwapChain& a_krSwapChain) :
+		GraphicsPipeline::GraphicsPipeline(const LogicalDevice& a_krLogicalDevice, const SwapChain& a_krSwapChain, const RenderPass& a_krRenderPass) :
 			m_krLogicalDevice{ a_krLogicalDevice }
 		{
 			// create the shader modules
@@ -49,13 +49,13 @@ namespace dragonbyte_engine
 				VK_DYNAMIC_STATE_SCISSOR
 			};
 
-			VkPipelineDynamicStateCreateInfo dynamicState{};
+			VkPipelineDynamicStateCreateInfo dynamicState = {};
 			dynamicState.sType = VK_STRUCTURE_TYPE_PIPELINE_DYNAMIC_STATE_CREATE_INFO;
 			dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
 			dynamicState.pDynamicStates = dynamicStates.data();
 
 			// vertex input stuff
-			VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
+			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 			vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 			vertexInputInfo.vertexBindingDescriptionCount = 0;
 			vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
@@ -63,7 +63,7 @@ namespace dragonbyte_engine
 			vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
 
 			// vertex assembly stuff
-			VkPipelineInputAssemblyStateCreateInfo inputAssembly{};
+			VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};
 			inputAssembly.sType = VK_STRUCTURE_TYPE_PIPELINE_INPUT_ASSEMBLY_STATE_CREATE_INFO;
 			inputAssembly.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 			inputAssembly.primitiveRestartEnable = VK_FALSE;
@@ -84,7 +84,7 @@ namespace dragonbyte_engine
 			scissor.extent = a_krSwapChain.m_extent;
 
 			// combine viewport and scissor
-			VkPipelineViewportStateCreateInfo viewportState{};
+			VkPipelineViewportStateCreateInfo viewportState = {};
 			viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
 			viewportState.viewportCount = 1;
 			viewportState.scissorCount = 1;
@@ -96,7 +96,7 @@ namespace dragonbyte_engine
 			*/
 
 			// rasterization settings
-			VkPipelineRasterizationStateCreateInfo rasterizer{};
+			VkPipelineRasterizationStateCreateInfo rasterizer = {};
 			rasterizer.sType = VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_CREATE_INFO;
 
 			rasterizer.depthClampEnable = VK_FALSE;
@@ -115,7 +115,7 @@ namespace dragonbyte_engine
 			rasterizer.depthBiasSlopeFactor = 0.0f; // Optional
 
 			// multisampling
-			VkPipelineMultisampleStateCreateInfo multisampling{};
+			VkPipelineMultisampleStateCreateInfo multisampling = {};
 			multisampling.sType = VK_STRUCTURE_TYPE_PIPELINE_MULTISAMPLE_STATE_CREATE_INFO;
 			multisampling.sampleShadingEnable = VK_FALSE;
 			multisampling.rasterizationSamples = VK_SAMPLE_COUNT_1_BIT;
@@ -125,7 +125,7 @@ namespace dragonbyte_engine
 			multisampling.alphaToOneEnable = VK_FALSE; // Optional
 
 			// color blending
-			VkPipelineColorBlendAttachmentState colorBlendAttachment{};
+			VkPipelineColorBlendAttachmentState colorBlendAttachment = {};
 			colorBlendAttachment.colorWriteMask = VK_COLOR_COMPONENT_R_BIT | VK_COLOR_COMPONENT_G_BIT | VK_COLOR_COMPONENT_B_BIT | VK_COLOR_COMPONENT_A_BIT;
 			colorBlendAttachment.blendEnable = VK_FALSE;
 			colorBlendAttachment.srcColorBlendFactor = VK_BLEND_FACTOR_ONE; // Optional
@@ -144,7 +144,7 @@ namespace dragonbyte_engine
 			colorBlendAttachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
 			colorBlendAttachment.alphaBlendOp = VK_BLEND_OP_ADD;*/
 
-			VkPipelineColorBlendStateCreateInfo colorBlending{};
+			VkPipelineColorBlendStateCreateInfo colorBlending = {};
 			colorBlending.sType = VK_STRUCTURE_TYPE_PIPELINE_COLOR_BLEND_STATE_CREATE_INFO;
 			colorBlending.logicOpEnable = VK_FALSE;
 			colorBlending.logicOp = VK_LOGIC_OP_COPY; // Optional
@@ -155,8 +155,14 @@ namespace dragonbyte_engine
 			colorBlending.blendConstants[2] = 0.0f; // Optional
 			colorBlending.blendConstants[3] = 0.0f; // Optional
 
+
+			/* ------------------------------------------
+			*				  Creation
+			*  ------------------------------------------
+			*/
+
 			// pipeline layout creation
-			VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+			VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = 0; // Optional
 			pipelineLayoutInfo.pSetLayouts = nullptr; // Optional
@@ -166,13 +172,42 @@ namespace dragonbyte_engine
 			VkResult res = vkCreatePipelineLayout(a_krLogicalDevice.m_device, &pipelineLayoutInfo, nullptr, &m_pipelineLayout);
 			if (res != VK_SUCCESS)
 				throw std::runtime_error("Failed to create Pipeline Layout");
+
+			// actual pipeline creation
+			VkGraphicsPipelineCreateInfo pipelineInfo = {};
+			pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+			pipelineInfo.stageCount = 2;
+			pipelineInfo.pStages = shaderStages;
+
+			pipelineInfo.pVertexInputState = &vertexInputInfo;
+			pipelineInfo.pInputAssemblyState = &inputAssembly;
+			pipelineInfo.pViewportState = &viewportState;
+			pipelineInfo.pRasterizationState = &rasterizer;
+			pipelineInfo.pMultisampleState = &multisampling;
+			pipelineInfo.pDepthStencilState = nullptr; // Optional
+			pipelineInfo.pColorBlendState = &colorBlending;
+			pipelineInfo.pDynamicState = &dynamicState;
+
+			pipelineInfo.layout = m_pipelineLayout;
+
+			pipelineInfo.renderPass = a_krRenderPass.m_renderPass;
+			pipelineInfo.subpass = 0;
+
+			pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
+			pipelineInfo.basePipelineIndex = -1; // Optional
+
+			res = vkCreateGraphicsPipelines(a_krLogicalDevice.m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline);
+			if (res != VK_SUCCESS)
+				throw std::runtime_error("Failed to create Graphics Pipeline");
+
+			// destruction of the shader modules
+			delete m_pFragShaderModule;
+			delete m_pVertShaderModule;
 		}
 		GraphicsPipeline::~GraphicsPipeline()
 		{
 			vkDestroyPipelineLayout(m_krLogicalDevice.m_device, m_pipelineLayout, nullptr);
-
-			delete m_pFragShaderModule;
-			delete m_pVertShaderModule;
+			vkDestroyPipeline(m_krLogicalDevice.m_device, m_pipeline, nullptr);
 		}
 
 	} // namespace vulkan

@@ -69,6 +69,7 @@ namespace dragonbyte_engine
 			create_device();
 
 			create_swap_chain();
+			create_render_pass();
 			create_graphics_pipeline();
 		}
 		catch (const std::exception& e)
@@ -123,13 +124,17 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Create Graphics Pipeline" << '\n';
 
-		m_pGraphicsPipeline = new vulkan::GraphicsPipeline(*m_pLogicalDevice, *m_pSwapChain);
+		m_pGraphicsPipeline = new vulkan::GraphicsPipeline(*m_pLogicalDevice, *m_pSwapChain, *m_pRenderPass);
 	}
 	void RenderEngine::create_debug_messenger()
 	{
 		std::cout << "Create Debug Messenger" << '\n';
 
 		m_pDebugMessenger = new vulkan::DebugMessenger(*m_pInstance);
+	}
+	void RenderEngine::create_render_pass()
+	{
+		m_pRenderPass = new vulkan::RenderPass(*m_pLogicalDevice, *m_pSwapChain);
 	}
 
 	bool RenderEngine::should_close_window()
