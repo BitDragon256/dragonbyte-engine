@@ -3,20 +3,20 @@
 #include <vulkan/vulkan.h>
 
 #include "logical_device.h"
-#include "swapchain.h"
 
 namespace dragonbyte_engine
 {
 
 	namespace vulkan
 	{
+		struct ObjectInfo;
 
 		class RenderPass
 		{
 
 		public:
 
-			RenderPass(const LogicalDevice& a_krLogicalDevice, const SwapChain& a_krSwapChain);
+			RenderPass(const ObjectInfo& a_krObjectInfo);
 			~RenderPass();
 
 			VkRenderPass m_renderPass;

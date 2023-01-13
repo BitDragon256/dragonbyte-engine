@@ -2,6 +2,8 @@
 
 #include <vulkan/vulkan.h>
 
+// #include "object_info.h"
+
 #include "instance.h"
 
 namespace dragonbyte_engine
@@ -9,13 +11,14 @@ namespace dragonbyte_engine
 
     namespace vulkan
     {
+        struct ObjectInfo;
 
         class DebugMessenger
         {
 
         public:
 
-            DebugMessenger(const Instance& a_krInstance);
+            DebugMessenger(const ObjectInfo& a_krObjectInfo);
             ~DebugMessenger();
 
             VkDebugUtilsMessengerEXT m_debugMessenger;

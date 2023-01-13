@@ -1,5 +1,16 @@
 #include "vulkan/object_info.h"
 
+#include "vulkan/debug_messenger.h"
+#include "vulkan/framebuffer.h"
+#include "vulkan/graphics_pipeline.h"
+#include "vulkan/instance.h"
+#include "vulkan/logical_device.h"
+#include "vulkan/physical_device.h"
+#include "vulkan/render_pass.h"
+#include "vulkan/surface.h"
+#include "vulkan/swapchain.h"
+#include "vulkan/window.h"
+
 namespace dragonbyte_engine
 {
 

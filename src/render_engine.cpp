@@ -7,6 +7,18 @@
 
 #include "tools.h"
 #include "vulkan/validation_layers.h"
+#include "vulkan/object_info.h"
+
+#include "vulkan/debug_messenger.h"
+#include "vulkan/framebuffer.h"
+#include "vulkan/graphics_pipeline.h"
+#include "vulkan/instance.h"
+#include "vulkan/logical_device.h"
+#include "vulkan/physical_device.h"
+#include "vulkan/render_pass.h"
+#include "vulkan/surface.h"
+#include "vulkan/swapchain.h"
+#include "vulkan/window.h"
 
 namespace dragonbyte_engine
 {
@@ -14,6 +26,8 @@ namespace dragonbyte_engine
 	RenderEngine::RenderEngine(const RenderEngineConfig& a_kConfig) :
 		m_config(a_kConfig)
 	{
+		m_vkObjectInfo.reset();
+
 		create_window();
 
 		setup_vulkan();
@@ -32,7 +46,7 @@ namespace dragonbyte_engine
 
 	void RenderEngine::tick()
 	{
-		m_pWindow->tick();
+		m_vkObjectInfo.pWindow->tick();
 
 		render_models();
 		render_particles();
@@ -60,8 +74,6 @@ namespace dragonbyte_engine
 
 		try
 		{
-			m_vkObjectInfo.reset();
-
 			create_instance();
 			if (vulkan::validation_layers::kEnable)
 				create_debug_messenger();
@@ -90,58 +102,58 @@ namespace dragonbyte_engine
 		windowConfig.width = m_config.windowWidth;
 		windowConfig.name = m_config.applicationName;
 
-		m_vkObjectInfo.pWindow = std::make_unique<vulkan::Window>(windowConfig);
+		m_vkObjectInfo.pWindow = std::make_shared<vulkan::Window>(windowConfig);
 	}
 	void RenderEngine::create_surface()
 	{
 		std::cout << "Create Surface" << '\n';
 
-		m_pSurface = new vulkan::Surface(m_pInstance, m_pWindow);
+		m_vkObjectInfo.pSurface = std::make_shared<vulkan::Surface>(m_vkObjectInfo);
 	}
 	void RenderEngine::create_instance()
 	{
 		std::cout << "Create Instance" << '\n';
 
-		m_pInstance = new vulkan::Instance(m_config.applicationName, m_config.engineName);
+		m_vkObjectInfo.pInstance = std::make_shared<vulkan::Instance>(m_config.applicationName, m_config.engineName);
 	}
 	void RenderEngine::get_physical_device()
 	{
 		std::cout << "Get Physical Device" << '\n';
 
-		m_pPhysicalDevice = new vulkan::PhysicalDevice(*m_pInstance, *m_pSurface);
+		m_vkObjectInfo.pPhysicalDevice = std::make_shared<vulkan::PhysicalDevice>(m_vkObjectInfo);
 	}
 	void RenderEngine::create_device()
 	{
 		std::cout << "Create Logical Device" << '\n';
 
-		m_pLogicalDevice = new vulkan::LogicalDevice(*m_pPhysicalDevice);
+		m_vkObjectInfo.pLogicalDevice = std::make_shared<vulkan::LogicalDevice>(m_vkObjectInfo);
 	}
 	void RenderEngine::create_swap_chain()
 	{
 		std::cout << "Create Swapchain" << '\n';
 
-		m_pSwapChain = new vulkan::SwapChain(*m_pWindow, *m_pPhysicalDevice, *m_pLogicalDevice);
+		m_vkObjectInfo.pSwapChain = std::make_shared<vulkan::SwapChain>(m_vkObjectInfo);
 	}
 	void RenderEngine::create_graphics_pipeline()
 	{
 		std::cout << "Create Graphics Pipeline" << '\n';
 
-		m_pGraphicsPipeline = new vulkan::GraphicsPipeline(*m_pLogicalDevice, *m_pSwapChain, *m_pRenderPass);
+		m_vkObjectInfo.pGraphicsPipeline = std::make_shared<vulkan::GraphicsPipeline>(m_vkObjectInfo);
 	}
 	void RenderEngine::create_debug_messenger()
 	{
 		std::cout << "Create Debug Messenger" << '\n';
 
-		m_pDebugMessenger = new vulkan::DebugMessenger(*m_pInstance);
+		m_vkObjectInfo.pDebugMessenger = std::make_shared<vulkan::DebugMessenger>(m_vkObjectInfo);
 	}
 	void RenderEngine::create_render_pass()
 	{
-		m_pRenderPass = new vulkan::RenderPass(*m_pLogicalDevice, *m_pSwapChain);
+		m_vkObjectInfo.pRenderPass = std::make_shared<vulkan::RenderPass>(m_vkObjectInfo);
 	}
 
 	bool RenderEngine::should_close_window()
 	{
-		return m_pWindow->should_close();
+		return m_vkObjectInfo.pWindow->should_close();
 	}
 
 } // namespace dragonbyte_engine

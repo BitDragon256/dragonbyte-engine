@@ -10,12 +10,13 @@ namespace dragonbyte_engine
 
 	namespace vulkan
 	{
+		struct ObjectInfo;
 
 		class Surface
 		{
 		public:
 
-			Surface(Instance* a_pInstance, Window* a_pWindow);
+			Surface(const ObjectInfo& a_krObjectInfo);
 			~Surface();
 
 			Surface(const Surface&) = delete;
@@ -25,8 +26,8 @@ namespace dragonbyte_engine
 
 		private:
 
-			Instance* m_pInstance;
-			Window* m_pWindow;
+			const Instance& m_krInstance;
+			const Window& m_krWindow;
 
 		};
 

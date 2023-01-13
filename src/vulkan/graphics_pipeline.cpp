@@ -2,23 +2,27 @@
 
 #include <stdexcept>
 
+#include "vulkan/object_info.h"
+#include "vulkan/render_pass.h"
+#include "vulkan/swapchain.h"
+
 namespace dragonbyte_engine
 {
 
 	namespace vulkan
 	{
 
-		GraphicsPipeline::GraphicsPipeline(const LogicalDevice& a_krLogicalDevice, const SwapChain& a_krSwapChain, const RenderPass& a_krRenderPass) :
-			m_krLogicalDevice{ a_krLogicalDevice }
+		GraphicsPipeline::GraphicsPipeline(const ObjectInfo& a_krObjectInfo) :
+			m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
 		{
 			// create the shader modules
 			m_pVertShaderModule = new ShaderModule(
 				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Vert),
-				a_krLogicalDevice
+				a_krObjectInfo
 			);
 			m_pFragShaderModule = new ShaderModule(
 				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag),
-				a_krLogicalDevice
+				a_krObjectInfo
 			);
 
 			// create infos for later staging the shader modules
@@ -73,15 +77,15 @@ namespace dragonbyte_engine
 			viewport.x = 0.0f;
 			viewport.y = 0.0f;
 			
-			viewport.width = (float) a_krSwapChain.m_extent.width;
-			viewport.height = (float)a_krSwapChain.m_extent.height;
+			viewport.width = (float) a_krObjectInfo.pSwapChain->m_extent.width;
+			viewport.height = (float) a_krObjectInfo.pSwapChain->m_extent.height;
 			viewport.minDepth = 0.0f;
 			viewport.maxDepth = 1.0f;
 
 			// scissor
 			VkRect2D scissor{};
 			scissor.offset = { 0, 0 };
-			scissor.extent = a_krSwapChain.m_extent;
+			scissor.extent = a_krObjectInfo.pSwapChain->m_extent;
 
 			// combine viewport and scissor
 			VkPipelineViewportStateCreateInfo viewportState = {};
@@ -169,7 +173,7 @@ namespace dragonbyte_engine
 			pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
 			pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
-			VkResult res = vkCreatePipelineLayout(a_krLogicalDevice.m_device, &pipelineLayoutInfo, nullptr, &m_pipelineLayout);
+			VkResult res = vkCreatePipelineLayout(a_krObjectInfo.pLogicalDevice->m_device, &pipelineLayoutInfo, nullptr, &m_pipelineLayout);
 			if (res != VK_SUCCESS)
 				throw std::runtime_error("Failed to create Pipeline Layout");
 
@@ -190,13 +194,13 @@ namespace dragonbyte_engine
 
 			pipelineInfo.layout = m_pipelineLayout;
 
-			pipelineInfo.renderPass = a_krRenderPass.m_renderPass;
+			pipelineInfo.renderPass = a_krObjectInfo.pRenderPass->m_renderPass;
 			pipelineInfo.subpass = 0;
 
 			pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 			pipelineInfo.basePipelineIndex = -1; // Optional
 
-			res = vkCreateGraphicsPipelines(a_krLogicalDevice.m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline);
+			res = vkCreateGraphicsPipelines(a_krObjectInfo.pLogicalDevice->m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline);
 			if (res != VK_SUCCESS)
 				throw std::runtime_error("Failed to create Graphics Pipeline");
 

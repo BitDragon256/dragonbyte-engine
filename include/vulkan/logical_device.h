@@ -9,16 +9,14 @@ namespace dragonbyte_engine
 
 	namespace vulkan
 	{
+		struct ObjectInfo;
 
 		class LogicalDevice
 		{
 		public:
 
-			LogicalDevice(PhysicalDevice& a_rPhysicalDevice);
+			LogicalDevice(const ObjectInfo& a_krObjectInfo);
 			~LogicalDevice();
-
-			LogicalDevice(const LogicalDevice&) = delete;
-			LogicalDevice& operator=(const LogicalDevice&) = delete;
 
 			VkDevice m_device;
 			VkQueue m_graphicsQueue;
@@ -26,7 +24,7 @@ namespace dragonbyte_engine
 
 		private:
 
-			PhysicalDevice* m_physicalDevice;
+			const PhysicalDevice& m_krPhysicalDevice;
 
 		};
 

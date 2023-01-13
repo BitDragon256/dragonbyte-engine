@@ -14,17 +14,14 @@ namespace dragonbyte_engine
 
 	namespace vulkan
 	{
+		struct ObjectInfo;
 
 		class SwapChain
 		{
 
 		public:
 
-			SwapChain(
-				const Window& a_krWindow,
-				const PhysicalDevice& a_krPhysicalDevice,
-				const LogicalDevice& a_krLogicalDevice
-			);
+			SwapChain(const ObjectInfo& a_krObjectInfo);
 			~SwapChain();
 
 			std::vector<VkImage> m_images;

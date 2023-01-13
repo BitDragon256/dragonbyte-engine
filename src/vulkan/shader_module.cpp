@@ -4,6 +4,10 @@
 
 #include "file_engine.h"
 
+#include "vulkan/logical_device.h"
+
+#include "vulkan/object_info.h"
+
 namespace dragonbyte_engine
 {
 
@@ -24,8 +28,8 @@ namespace dragonbyte_engine
 
 		} // namespace default_shaders
 
-		ShaderModule::ShaderModule(std::string a_shaderFile, const LogicalDevice& a_krLogicalDevice) :
-			m_krLogicalDevice{ a_krLogicalDevice }
+		ShaderModule::ShaderModule(std::string a_shaderFile, const ObjectInfo& a_krObjectInfo) :
+			m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
 		{
 			// get the compiled shader
 			m_shaderCode = FileEngine::read_file(a_shaderFile);
@@ -36,7 +40,7 @@ namespace dragonbyte_engine
 			createInfo.codeSize = m_shaderCode.size();
 			createInfo.pCode = reinterpret_cast<const uint32_t*>(m_shaderCode.data());
 
-			VkResult res = vkCreateShaderModule(a_krLogicalDevice.m_device, &createInfo, nullptr, &m_shaderModule);
+			VkResult res = vkCreateShaderModule(a_krObjectInfo.pLogicalDevice->m_device, &createInfo, nullptr, &m_shaderModule);
 			if (res != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to create shader module");

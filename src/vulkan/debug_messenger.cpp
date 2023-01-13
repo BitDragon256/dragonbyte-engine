@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "vulkan/validation_layers.h"
+#include "vulkan/object_info.h"
 
 namespace dragonbyte_engine
 {
@@ -26,8 +27,8 @@ namespace dragonbyte_engine
             }
         }
 
-        DebugMessenger::DebugMessenger(const Instance& a_krInstance) :
-            m_krInstance{ a_krInstance }
+        DebugMessenger::DebugMessenger(const ObjectInfo& a_krObjectInfo) :
+            m_krInstance{ *a_krObjectInfo.pInstance }
         {
             if (!validation_layers::kEnable)
                 return;
@@ -36,7 +37,7 @@ namespace dragonbyte_engine
             populate_create_info(createInfo);
             
 
-            VkResult res = CreateDebugUtilsMessengerEXT(a_krInstance.m_instance, &createInfo, nullptr, &m_debugMessenger);
+            VkResult res = CreateDebugUtilsMessengerEXT(a_krObjectInfo.pInstance->m_instance, &createInfo, nullptr, &m_debugMessenger);
             if (res != VK_SUCCESS)
             {
                 throw std::runtime_error("Failed to create debug messenger");

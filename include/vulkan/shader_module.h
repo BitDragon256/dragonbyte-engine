@@ -12,6 +12,7 @@ namespace dragonbyte_engine
 
 	namespace vulkan
 	{
+		struct ObjectInfo;
 
 		namespace default_shaders
 		{
@@ -37,14 +38,14 @@ namespace dragonbyte_engine
 
 			std::string get_shader_filename(tShader a_shader, tShaderType a_shaderType);
 
-		};
+		}; // namespace default_shaders
 
 		class ShaderModule
 		{
 
 		public:
 
-			ShaderModule(std::string a_shaderFile, const LogicalDevice& a_krLogicalDevice);
+			ShaderModule(std::string a_shaderFile, const ObjectInfo& a_krObjectInfo);
 			~ShaderModule();
 
 			VkShaderModule m_shaderModule;

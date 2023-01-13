@@ -4,7 +4,6 @@
 
 #include <vulkan/vulkan.h>
 
-#include "instance.h"
 #include "surface.h"
 #include "tools.h"
 
@@ -13,27 +12,25 @@ namespace dragonbyte_engine
 
 	namespace vulkan
 	{
+		struct ObjectInfo;
 
 		class PhysicalDevice
 		{
 		public:
 
-			PhysicalDevice(const Instance& a_rInstance, const Surface& a_pSurface);
-
-			PhysicalDevice(const PhysicalDevice&) = delete;
-			PhysicalDevice& operator=(const PhysicalDevice&) = delete;
+			PhysicalDevice(const ObjectInfo& a_krObjectInfo);
 
 			VkPhysicalDevice m_physicalDevice;
 			VkPhysicalDeviceFeatures m_physicalDeviceFeatures;
 			
-			const Surface& m_krSurface;
-
 			// needed device extensions
 			const std::vector<const char*> m_kDeviceExtensions = {
 				VK_KHR_SWAPCHAIN_EXTENSION_NAME
 			};
 
 		private:
+
+			const Surface& m_krSurface;
 
 			bool is_suitable(const VkPhysicalDevice& a_rPhysicalDevice);
 			bool check_device_extension_support(const VkPhysicalDevice& a_rPhysicalDevice);

@@ -5,16 +5,18 @@
 
 #include <GLFW/glfw3.h>
 
+#include "vulkan/object_info.h"
+
 namespace dragonbyte_engine
 {
 
 	namespace vulkan
 	{
 
-		Surface::Surface(Instance* a_pInstance, Window* a_pWindow) :
-			m_pInstance(a_pInstance), m_pWindow(a_pWindow)
+		Surface::Surface(const ObjectInfo& a_krObjectInfo) :
+			m_krInstance(*a_krObjectInfo.pInstance), m_krWindow(*a_krObjectInfo.pWindow)
 		{
-			VkResult res = glfwCreateWindowSurface(a_pInstance->m_instance, a_pWindow->m_pGlfwWindow, nullptr, &m_surface);
+			VkResult res = glfwCreateWindowSurface(a_krObjectInfo.pInstance->m_instance, a_krObjectInfo.pWindow->m_pGlfwWindow, nullptr, &m_surface);
 			if (res != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to create surface");
@@ -23,7 +25,7 @@ namespace dragonbyte_engine
 
 		Surface::~Surface()
 		{
-			vkDestroySurfaceKHR(m_pInstance->m_instance, m_surface, nullptr);
+			vkDestroySurfaceKHR(m_krInstance.m_instance, m_surface, nullptr);
 		}
 
 	} // namespace vulkan

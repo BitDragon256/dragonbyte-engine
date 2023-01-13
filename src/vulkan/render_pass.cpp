@@ -2,18 +2,22 @@
 
 #include <stdexcept>
 
+#include "vulkan/object_info.h"
+
+#include "vulkan/swapchain.h"
+
 namespace dragonbyte_engine
 {
 
 	namespace vulkan
 	{
 
-		RenderPass::RenderPass(const LogicalDevice& a_krLogicalDevice, const SwapChain& a_krSwapChain) :
-			m_krLogicalDevice{ a_krLogicalDevice }
+		RenderPass::RenderPass(const ObjectInfo& a_krObjectInfo) :
+			m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
 		{
 			// attachment description
 			VkAttachmentDescription colorAttachment = {};
-			colorAttachment.format = a_krSwapChain.m_imageFormat;
+			colorAttachment.format = a_krObjectInfo.pSwapChain->m_imageFormat;
 			colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
 
 			colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
@@ -45,7 +49,7 @@ namespace dragonbyte_engine
 			renderPassInfo.subpassCount = 1;
 			renderPassInfo.pSubpasses = &subpass;
 
-			VkResult res = vkCreateRenderPass(a_krLogicalDevice.m_device, &renderPassInfo, nullptr, &m_renderPass);
+			VkResult res = vkCreateRenderPass(a_krObjectInfo.pLogicalDevice->m_device, &renderPassInfo, nullptr, &m_renderPass);
 			if (res != VK_SUCCESS)
 				throw std::runtime_error("Failed to create Render Pass");
 		}

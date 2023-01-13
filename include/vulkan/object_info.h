@@ -4,38 +4,48 @@
 
 #include <vulkan/vulkan.h>
 
-#include "debug_messenger.h"
-#include "framebuffer.h"
-#include "graphics_pipeline.h"
-#include "instance.h"
-#include "logical_device.h"
-#include "physical_device.h"
-#include "render_pass.h"
-#include "surface.h"
-#include "swapchain.h"
-#include "window.h"
+//#include "debug_messenger.h"
+//#include "framebuffer.h"
+//#include "graphics_pipeline.h"
+//#include "instance.h"
+//#include "logical_device.h"
+//#include "physical_device.h"
+//#include "render_pass.h"
+//#include "surface.h"
+//#include "swapchain.h"
+//#include "window.h"
 
 namespace dragonbyte_engine
 {
 
 	namespace vulkan
 	{
+		class DebugMessenger;
+		class FramebufferHandler;
+		class GraphicsPipeline;
+		class Instance;
+		class LogicalDevice;
+		class PhysicalDevice;
+		class RenderPass;
+		class Surface;
+		class SwapChain;
+		class Window;
 
 		struct ObjectInfo
 		{
 			ObjectInfo();
 			~ObjectInfo();
 
-			std::unique_ptr<DebugMessenger> pDebugMessenger;
-			std::unique_ptr<FramebufferHandler> pFramebufferHandler;
-			std::unique_ptr<GraphicsPipeline> pGraphicsPipeline;
-			std::unique_ptr<Instance> pInstance;
-			std::unique_ptr<LogicalDevice> pLogicalDevice;
-			std::unique_ptr<PhysicalDevice> pPhysicalDevice;
-			std::unique_ptr<RenderPass> pRenderPass;
-			std::unique_ptr<Surface> pSurface;
-			std::unique_ptr<SwapChain> pSwapChain;
-			std::unique_ptr<Window> pWindow;
+			std::shared_ptr<class DebugMessenger> pDebugMessenger;
+			std::shared_ptr<FramebufferHandler> pFramebufferHandler;
+			std::shared_ptr<GraphicsPipeline> pGraphicsPipeline;
+			std::shared_ptr<Instance> pInstance;
+			std::shared_ptr<LogicalDevice> pLogicalDevice;
+			std::shared_ptr<PhysicalDevice> pPhysicalDevice;
+			std::shared_ptr<RenderPass> pRenderPass;
+			std::shared_ptr<Surface> pSurface;
+			std::shared_ptr<SwapChain> pSwapChain;
+			std::shared_ptr<Window> pWindow;
 
 			void reset();
 		};

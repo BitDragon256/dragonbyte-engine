@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <vector>
 
+#include "vulkan/object_info.h"
 #include "vulkan/swapchain.h"
 
 namespace dragonbyte_engine
@@ -12,14 +13,14 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		PhysicalDevice::PhysicalDevice(const Instance& a_rInstance, const Surface& a_krSurface) :
-			m_krSurface{ a_krSurface }
+		PhysicalDevice::PhysicalDevice(const ObjectInfo& a_krObjectInfo) :
+			m_krSurface{ *a_krObjectInfo.pSurface }
 		{
 			// get accessible physical devices
 			uint32_t physicalDeviceCount;
-			vkEnumeratePhysicalDevices(a_rInstance.m_instance, &physicalDeviceCount, nullptr);
+			vkEnumeratePhysicalDevices(a_krObjectInfo.pInstance->m_instance, &physicalDeviceCount, nullptr);
 			std::vector<VkPhysicalDevice> physicalDevices{ physicalDeviceCount };
-			VkResult res = vkEnumeratePhysicalDevices(a_rInstance.m_instance, &physicalDeviceCount, physicalDevices.data());
+			VkResult res = vkEnumeratePhysicalDevices(a_krObjectInfo.pInstance->m_instance, &physicalDeviceCount, physicalDevices.data());
 
 			if (res != VK_SUCCESS || physicalDeviceCount == 0)
 				throw std::runtime_error("Failed physical device enumeration");

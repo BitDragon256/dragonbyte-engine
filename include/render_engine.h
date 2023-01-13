@@ -3,12 +3,11 @@
 #include <string>
 #include <vector>
 
-#include "vulkan/vulkan.h"
+#include <vulkan/vulkan.h>
 
 #include "engine.h"
 
 #include "vulkan/object_info.h"
-
 
 namespace dragonbyte_engine
 {
@@ -29,6 +28,8 @@ namespace dragonbyte_engine
 
 		RenderType renderType;
 	};
+
+	// namespace vulkan { struct ObjectInfo; }
 
 	class RenderEngine : Engine
 	{
