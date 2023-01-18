@@ -58,6 +58,7 @@ namespace dragonbyte_engine
 
 		void create_debug_messenger(); 
 		void create_device();
+		void create_framebuffer();
 		void create_graphics_pipeline();
 		void create_instance();
 		void get_physical_device();

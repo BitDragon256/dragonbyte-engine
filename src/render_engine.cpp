@@ -89,6 +89,7 @@ namespace dragonbyte_engine
 		catch (const std::exception& e)
 		{
 			tools::print_error(e);
+			exit(EXIT_FAILURE);
 		}
 
 		std::cout << "Finished setting up Vulkan..." << '\n';
@@ -148,7 +149,15 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::create_render_pass()
 	{
+		std::cout << "Create Render Pass" << '\n';
+
 		m_vkObjectInfo.pRenderPass = std::make_shared<vulkan::RenderPass>(m_vkObjectInfo);
+	}
+	void RenderEngine::create_framebuffer()
+	{
+		std::cout << "Create Framebuffer" << '\n';
+
+		m_vkObjectInfo.pFramebufferHandler = std::make_shared<vulkan::FramebufferHandler>(m_vkObjectInfo);
 	}
 
 	bool RenderEngine::should_close_window()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string.h>
 #include <vector>
 
 #include <vulkan/vulkan.h>
@@ -48,6 +49,7 @@ namespace dragonbyte_engine
                     }
 
                     if (!layerFound) {
+                        std::cout << layerName << " not found" << '\n';
                         return false;
                     }
                 }
