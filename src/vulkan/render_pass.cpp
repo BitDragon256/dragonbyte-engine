@@ -3,7 +3,6 @@
 #include <stdexcept>
 
 #include "vulkan/object_info.h"
-
 #include "vulkan/swapchain.h"
 
 namespace dragonbyte_engine

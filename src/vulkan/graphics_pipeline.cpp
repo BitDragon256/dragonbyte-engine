@@ -17,11 +17,11 @@ namespace dragonbyte_engine
 		{
 			// create the shader modules
 			m_pVertShaderModule = new ShaderModule(
-				"/home/BitDragon256/Dev/TestProgram/dragonbyte-engine/default_shaders/simple.vert.spv", //default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Vert),
+				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Vert),
 				a_krObjectInfo
 			);
 			m_pFragShaderModule = new ShaderModule(
-				"/home/BitDragon256/Dev/TestProgram/dragonbyte-engine/default_shaders/simple.frag.spv", //default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag),
+				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag),
 				a_krObjectInfo
 			);
 

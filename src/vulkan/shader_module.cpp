@@ -19,11 +19,15 @@ namespace dragonbyte_engine
 
 			std::string get_shader_filename(tShader a_shader, tShaderType a_shaderType)
 			{
+				std::string filepath = "";
 				if (a_shaderType == tShaderType::Vert)
-					return kPathPrefix + kVertShaderFilenames[static_cast<size_t>(a_shader)] + kVertShaderPathPostfix;
-				if (a_shaderType == tShaderType::Frag)
-					return kPathPrefix + kFragShaderFilenames[static_cast<size_t>(a_shader)] + kFragShaderPathPostfix;
-				return "";
+					filepath = kPathPrefix + kVertShaderFilenames[static_cast<size_t>(a_shader)] + kVertShaderPathPostfix;
+				else if (a_shaderType == tShaderType::Frag)
+					filepath = kPathPrefix + kFragShaderFilenames[static_cast<size_t>(a_shader)] + kFragShaderPathPostfix;
+				
+				std::cout << "Loading shader from " << filepath << '\n';
+
+				return filepath;
 			}
 
 		} // namespace default_shaders
