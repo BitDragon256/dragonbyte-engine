@@ -14,7 +14,7 @@ namespace dragonbyte_engine
 	{
 
 		Surface::Surface(const ObjectInfo& a_krObjectInfo) :
-			m_krInstance(*a_krObjectInfo.pInstance), m_krWindow(*a_krObjectInfo.pWindow)
+			m_pInstance(a_krObjectInfo.pInstance), m_pWindow(a_krObjectInfo.pWindow)
 		{
 			VkResult res = glfwCreateWindowSurface(a_krObjectInfo.pInstance->m_instance, a_krObjectInfo.pWindow->m_pGlfwWindow, nullptr, &m_surface);
 			if (res != VK_SUCCESS)
@@ -25,7 +25,7 @@ namespace dragonbyte_engine
 
 		Surface::~Surface()
 		{
-			vkDestroySurfaceKHR(m_krInstance.m_instance, m_surface, nullptr);
+			vkDestroySurfaceKHR(m_pInstance.lock()->m_instance, m_surface, nullptr);
 		}
 
 	} // namespace vulkan

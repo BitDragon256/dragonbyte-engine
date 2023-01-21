@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <vulkan/vulkan.h>
 
 #include "instance.h"
@@ -19,15 +21,12 @@ namespace dragonbyte_engine
 			Surface(const ObjectInfo& a_krObjectInfo);
 			~Surface();
 
-			Surface(const Surface&) = delete;
-			const Surface& operator=(const Surface&) = delete;
-
 			VkSurfaceKHR m_surface;
 
 		private:
 
-			const Instance& m_krInstance;
-			const Window& m_krWindow;
+			std::weak_ptr<Instance> m_pInstance;
+			std::weak_ptr<Window> m_pWindow;
 
 		};
 

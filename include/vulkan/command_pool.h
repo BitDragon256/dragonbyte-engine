@@ -19,6 +19,10 @@ namespace dragonbyte_engine
 
             VkCommandPool m_commandPool;
 
+        private:
+            
+            const LogicalDevice& m_krLogicalDevice;
+
         };
 
     }; // namespace vulkan

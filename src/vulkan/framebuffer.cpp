@@ -12,7 +12,7 @@ namespace dragonbyte_engine
 
 		size_t Framebuffer::s_swapchainImageIndex = 0;
 		Framebuffer::Framebuffer(const ObjectInfo& a_krObjectInfo) :
-			m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
+			m_pLogicalDevice{ a_krObjectInfo.pLogicalDevice }
 		{
 			VkImageView attachments[] = {
 				a_krObjectInfo.pSwapChain->m_imageViews[s_swapchainImageIndex]
@@ -33,24 +33,36 @@ namespace dragonbyte_engine
 
 			s_swapchainImageIndex++;
 		}
+		Framebuffer::Framebuffer()
+		{
+		
+		}
 		Framebuffer::~Framebuffer()
 		{
-			vkDestroyFramebuffer(m_krLogicalDevice.m_device, m_framebuffer, nullptr);
+			vkDestroyFramebuffer(m_pLogicalDevice.lock()->m_device, m_framebuffer, nullptr);
 		}
 
 		FramebufferHandler::FramebufferHandler(const ObjectInfo& a_krObjectInfo)
 		{
 			Framebuffer::s_swapchainImageIndex = 0;
-			//m_swapChainFramebuffers.resize(a_krObjectInfo.pSwapChain->m_imageViews.size(), Framebuffer{ a_krObjectInfo });
-			m_swapChainFramebuffers = std::vector<Framebuffer>();
-			for (size_t i = 0; i < a_krObjectInfo.pSwapChain->m_imageViews.size(); i++)
+			size_t imageCount = a_krObjectInfo.pSwapChain->m_imageViews.size();
+			m_swapChainFramebuffers.resize(imageCount);
+			for (size_t i = 0; i < imageCount; i++)
 			{
-				m_swapChainFramebuffers.push_back(Framebuffer{ a_krObjectInfo });
+				m_swapChainFramebuffers[i] = new Framebuffer{ a_krObjectInfo };
 			}
 		}
 		FramebufferHandler::~FramebufferHandler()
 		{
+			for (size_t i = 0; i < m_swapChainFramebuffers.size(); i++)
+			{
+				delete m_swapChainFramebuffers[i];
+			}
+		}
 
+		Framebuffer& FramebufferHandler::get(size_t index)
+		{
+			return *m_swapChainFramebuffers.at(index);
 		}
 
 	} // namespace vulkan

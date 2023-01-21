@@ -37,6 +37,7 @@ namespace dragonbyte_engine
 			pRenderPass = nullptr;
 			pSurface = nullptr;
 			pSwapChain = nullptr;
+			pSyncHandler = nullptr;
 			pWindow = nullptr;
 		}
 

@@ -17,9 +17,6 @@ namespace dragonbyte_engine
 			Instance(const char* a_pAppName, const char* a_pEngineName);
 			~Instance();
 
-			Instance(const Instance&) = delete;
-			Instance& operator=(const Instance&) = delete;
-
 			VkInstance m_instance;
 
 		private:

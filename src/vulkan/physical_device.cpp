@@ -14,7 +14,7 @@ namespace dragonbyte_engine
 	{
 
 		PhysicalDevice::PhysicalDevice(const ObjectInfo& a_krObjectInfo) :
-			m_krSurface{ *a_krObjectInfo.pSurface }
+			m_pSurface{ a_krObjectInfo.pSurface }
 		{
 			// get accessible physical devices
 			uint32_t physicalDeviceCount;
@@ -43,14 +43,14 @@ namespace dragonbyte_engine
 
 		bool PhysicalDevice::is_suitable(const VkPhysicalDevice& a_rPhysicalDevice)
 		{
-			QueueFamilyIndices indices = find_queue_families(a_rPhysicalDevice, m_krSurface);
+			QueueFamilyIndices indices = find_queue_families(a_rPhysicalDevice, *m_pSurface.lock());
 
 			bool extensionsSupported = check_device_extension_support(a_rPhysicalDevice);
 
 			bool swapChainAdequate = false;
 			if (extensionsSupported)
 			{
-				SwapChainSupportDetails swapChainSupport = query_swapchain_support(a_rPhysicalDevice, m_krSurface);
+				SwapChainSupportDetails swapChainSupport = query_swapchain_support(a_rPhysicalDevice, *m_pSurface.lock());
 				swapChainAdequate = !swapChainSupport.formats.empty() && !swapChainSupport.presentModes.empty();
 			}
 
@@ -64,7 +64,7 @@ namespace dragonbyte_engine
 			std::vector<VkExtensionProperties> availableExtensions(extensionCount);
 			vkEnumerateDeviceExtensionProperties(a_rPhysicalDevice, nullptr, &extensionCount, availableExtensions.data());
 
-			std::set<std::string> requiredExtensions(m_kDeviceExtensions.begin(), m_kDeviceExtensions.end());
+			std::set<std::string> requiredExtensions(s_kDeviceExtensions.begin(), s_kDeviceExtensions.end());
 
 			for (const auto& extension : availableExtensions) {
 				requiredExtensions.erase(extension.extensionName);
@@ -72,6 +72,10 @@ namespace dragonbyte_engine
 
 			return requiredExtensions.empty();
 		}
+
+		const std::vector<const char*> PhysicalDevice::s_kDeviceExtensions = {
+			VK_KHR_SWAPCHAIN_EXTENSION_NAME
+		};
 
 		QueueFamilyIndices find_queue_families(const VkPhysicalDevice& a_rPhysicalDevice, const Surface& a_rSurface)
 		{

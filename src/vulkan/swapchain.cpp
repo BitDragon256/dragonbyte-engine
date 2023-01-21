@@ -8,6 +8,8 @@
 
 #include "vulkan/object_info.h"
 
+#include "vulkan/sync_handler.h"
+
 namespace dragonbyte_engine
 {
 
@@ -90,6 +92,14 @@ namespace dragonbyte_engine
 		{
 			destroy_image_views();
 			vkDestroySwapchainKHR(m_krLogicalDevice.m_device, m_swapChain, nullptr);
+		}
+
+		uint32_t SwapChain::acquire_next_image(const ObjectInfo& a_krObjectInfo)
+		{
+			uint32_t imageIndex;
+			vkAcquireNextImageKHR(m_krLogicalDevice.m_device, m_swapChain, UINT64_MAX, a_krObjectInfo.pSyncHandler->m_imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+		
+			return imageIndex;
 		}
 
 		void SwapChain::create_image_views()

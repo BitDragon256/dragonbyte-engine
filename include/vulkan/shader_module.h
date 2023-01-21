@@ -25,7 +25,7 @@ namespace dragonbyte_engine
 				Vert = 0, Frag = 1
 			} const tShaderType;
 
-			const std::string kPathPrefix = "../../../../dragonbyte-engine/shaders/";
+			const std::string kPathPrefix = "/home/BitDragon256/Dev/TestProgram/dragonbyte-engine/default_shaders/";
 			const std::string kVertShaderPathPostfix = ".vert.spv";
 			const std::string kFragShaderPathPostfix = ".frag.spv";
 

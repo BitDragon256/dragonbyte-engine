@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include <vulkan/vulkan.h>
@@ -19,6 +20,7 @@ namespace dragonbyte_engine
 		public:
 
 			Framebuffer(const ObjectInfo& a_krObjectInfo);
+			Framebuffer();
 			~Framebuffer();
 
 			VkFramebuffer m_framebuffer;
@@ -27,8 +29,7 @@ namespace dragonbyte_engine
 
 		private:
 
-			const LogicalDevice& m_krLogicalDevice;
-
+			std::weak_ptr<LogicalDevice> m_pLogicalDevice;
 		};
 
 		class FramebufferHandler
@@ -38,7 +39,11 @@ namespace dragonbyte_engine
 			FramebufferHandler(const ObjectInfo& a_krObjectInfo);
 			~FramebufferHandler();
 
-			std::vector<Framebuffer> m_swapChainFramebuffers;
+			Framebuffer& get(size_t index);
+
+		private:
+
+			std::vector<Framebuffer*> m_swapChainFramebuffers;
 
 		};
 

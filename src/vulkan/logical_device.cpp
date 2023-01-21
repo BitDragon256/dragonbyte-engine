@@ -12,8 +12,7 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		LogicalDevice::LogicalDevice(const ObjectInfo& a_krObjectInfo) :
-			m_krPhysicalDevice{ *a_krObjectInfo.pPhysicalDevice }
+		LogicalDevice::LogicalDevice(const ObjectInfo& a_krObjectInfo)
 		{
 			QueueFamilyIndices indices = find_queue_families(a_krObjectInfo.pPhysicalDevice->m_physicalDevice, *a_krObjectInfo.pSurface);
 
@@ -37,8 +36,8 @@ namespace dragonbyte_engine
 			deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 			deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
 			deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-			deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(a_krObjectInfo.pPhysicalDevice->m_kDeviceExtensions.size());
-			deviceCreateInfo.ppEnabledExtensionNames = a_krObjectInfo.pPhysicalDevice->m_kDeviceExtensions.data();
+			deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(a_krObjectInfo.pPhysicalDevice->s_kDeviceExtensions.size());
+			deviceCreateInfo.ppEnabledExtensionNames = a_krObjectInfo.pPhysicalDevice->s_kDeviceExtensions.data();
 
 			VkPhysicalDeviceFeatures enabledPhysicalDeviceFeatures{}; // all to VK_FALSE
 			deviceCreateInfo.pEnabledFeatures = &enabledPhysicalDeviceFeatures;

@@ -18,8 +18,10 @@ namespace dragonbyte_engine
 
 			RenderPass(const ObjectInfo& a_krObjectInfo);
 			~RenderPass();
-
+			
 			VkRenderPass m_renderPass;
+
+			void begin(const ObjectInfo& a_krObjectInfo, uint32_t a_kImageIndex);
 
 		private:
 

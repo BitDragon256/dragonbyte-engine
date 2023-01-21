@@ -30,6 +30,9 @@ namespace dragonbyte_engine
 
 			VkExtent2D m_extent;
 			VkFormat m_imageFormat;
+			VkSwapchainKHR m_swapChain;
+			
+			uint32_t acquire_next_image(const ObjectInfo& a_krObjectInfo);
 
 		private:
 
@@ -41,8 +44,6 @@ namespace dragonbyte_engine
 			void destroy_image_views();
 
 			const LogicalDevice& m_krLogicalDevice;
-
-			VkSwapchainKHR m_swapChain;
 
 		};
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <optional>
 
 #include <vulkan/vulkan.h>
@@ -24,13 +25,11 @@ namespace dragonbyte_engine
 			VkPhysicalDeviceFeatures m_physicalDeviceFeatures;
 			
 			// needed device extensions
-			const std::vector<const char*> m_kDeviceExtensions = {
-				VK_KHR_SWAPCHAIN_EXTENSION_NAME
-			};
+			static const std::vector<const char*> s_kDeviceExtensions;
 
 		private:
 
-			const Surface& m_krSurface;
+			std::weak_ptr<Surface> m_pSurface;
 
 			bool is_suitable(const VkPhysicalDevice& a_rPhysicalDevice);
 			bool check_device_extension_support(const VkPhysicalDevice& a_rPhysicalDevice);

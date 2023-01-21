@@ -21,6 +21,8 @@ namespace dragonbyte_engine
 
 			VkPipelineLayout m_pipelineLayout;
 			VkPipeline m_pipeline;
+			
+			void bind(const ObjectInfo& a_krObjectInfo);
 
 		private:
 

@@ -27,9 +27,6 @@ namespace dragonbyte_engine
 			Window(const WindowConfig& a_rWindowConfig);
 			~Window();
 
-			Window(const Window&) = delete;
-			Window& operator=(const Window&) = delete;
-
 			bool should_close();
 			void tick();
 
@@ -37,10 +34,10 @@ namespace dragonbyte_engine
 
 		private:
 
-			const unsigned int m_kWidth;
-			const unsigned int m_kHeight;
+			unsigned int m_kWidth;
+			unsigned int m_kHeight;
 
-			const std::string m_kName;
+			std::string m_kName;
 
 		};
 

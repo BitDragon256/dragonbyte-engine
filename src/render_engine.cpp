@@ -9,16 +9,19 @@
 #include "vulkan/validation_layers.h"
 #include "vulkan/object_info.h"
 
-#include "vulkan/debug_messenger.h"
-#include "vulkan/framebuffer.h"
-#include "vulkan/graphics_pipeline.h"
-#include "vulkan/instance.h"
-#include "vulkan/logical_device.h"
-#include "vulkan/physical_device.h"
-#include "vulkan/render_pass.h"
-#include "vulkan/surface.h"
-#include "vulkan/swapchain.h"
 #include "vulkan/window.h"
+#include "vulkan/instance.h"
+#include "vulkan/debug_messenger.h"
+#include "vulkan/surface.h"
+#include "vulkan/physical_device.h"
+#include "vulkan/logical_device.h"
+#include "vulkan/swapchain.h"
+#include "vulkan/render_pass.h"
+#include "vulkan/graphics_pipeline.h"
+#include "vulkan/framebuffer.h"
+#include "vulkan/command_pool.h"
+#include "vulkan/command_buffer.h"
+#include "vulkan/sync_handler.h"
 
 namespace dragonbyte_engine
 {
@@ -34,12 +37,22 @@ namespace dragonbyte_engine
 	}
 	RenderEngine::~RenderEngine()
 	{
+		vkWaitForFences(m_vkObjectInfo.pLogicalDevice->m_device, 1, &m_vkObjectInfo.pSyncHandler->m_inFlightFence, VK_TRUE, UINT64_MAX);
+	
+		m_vkObjectInfo.pRenderPass.reset();
+		m_vkObjectInfo.pCommandBuffer.reset();
+		m_vkObjectInfo.pCommandPool.reset();
+		m_vkObjectInfo.pSyncHandler.reset();
+		m_vkObjectInfo.pGraphicsPipeline.reset();
+		m_vkObjectInfo.pFramebufferHandler.reset();
 		m_vkObjectInfo.pSwapChain.reset();
 		m_vkObjectInfo.pLogicalDevice.reset();
 		m_vkObjectInfo.pPhysicalDevice.reset();
 		m_vkObjectInfo.pSurface.reset();
+		
 		if (vulkan::validation_layers::kEnable)
 			m_vkObjectInfo.pDebugMessenger.reset();
+			
 		m_vkObjectInfo.pInstance.reset();
 		m_vkObjectInfo.pWindow.reset();
 	}
@@ -48,14 +61,18 @@ namespace dragonbyte_engine
 	{
 		m_vkObjectInfo.pWindow->tick();
 
-		render_models();
-		render_particles();
-		render_gui();
+		draw_frame();
+
+		// render_models();
+		// render_particles();
+		// render_gui();
 	}
 	void RenderEngine::render_models()
 	{
 		if (!m_config.renderModels)
 			return;
+			
+		
 	}
 	void RenderEngine::render_particles()
 	{
@@ -85,6 +102,12 @@ namespace dragonbyte_engine
 			create_swap_chain();
 			create_render_pass();
 			create_graphics_pipeline();
+			
+			create_framebuffer();
+			create_command_pool();
+			create_command_buffer();
+			
+			create_sync_objects();
 		}
 		catch (const std::exception& e)
 		{
@@ -155,11 +178,97 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::create_framebuffer()
 	{
-		std::cout << "Create Framebuffer" << '\n';
+		std::cout << "Create Framebuffers" << '\n';
 
 		m_vkObjectInfo.pFramebufferHandler = std::make_shared<vulkan::FramebufferHandler>(m_vkObjectInfo);
 	}
-
+	void RenderEngine::create_command_pool()
+	{
+		std::cout << "Create Command Pool" << '\n';
+		
+		m_vkObjectInfo.pCommandPool = std::make_shared<vulkan::CommandPool>(m_vkObjectInfo);
+	}
+	void RenderEngine::create_command_buffer()
+	{
+		std::cout << "Create Command Buffer" << '\n';
+		
+		m_vkObjectInfo.pCommandBuffer = std::make_shared<vulkan::CommandBuffer>(m_vkObjectInfo);
+	}
+	void RenderEngine::create_sync_objects()
+	{
+		std::cout << "Create Sync Objects" << '\n';
+		
+		m_vkObjectInfo.pSyncHandler = std::make_shared<vulkan::SyncHandler>(m_vkObjectInfo);
+	}
+	
+	void RenderEngine::draw_frame()
+	{
+		vkWaitForFences(m_vkObjectInfo.pLogicalDevice->m_device, 1, &m_vkObjectInfo.pSyncHandler->m_inFlightFence, VK_TRUE, UINT64_MAX);
+		vkResetFences(m_vkObjectInfo.pLogicalDevice->m_device, 1, &m_vkObjectInfo.pSyncHandler->m_inFlightFence);
+	
+		uint32_t imageIndex = m_vkObjectInfo.pSwapChain->acquire_next_image(m_vkObjectInfo);
+		
+		record_command_buffer(imageIndex);
+		submit_command_buffer();
+		
+		present(imageIndex);
+	}
+	void RenderEngine::record_command_buffer(uint32_t a_imageIndex)
+	{
+		m_vkObjectInfo.pCommandBuffer->begin_recording(a_imageIndex);
+	
+		m_vkObjectInfo.pRenderPass->begin(m_vkObjectInfo, a_imageIndex);
+		m_vkObjectInfo.pGraphicsPipeline->bind(m_vkObjectInfo);
+		
+		vkCmdDraw(m_vkObjectInfo.pCommandBuffer->m_commandBuffer, 3, 1, 0, 0);
+		
+		vkCmdEndRenderPass(m_vkObjectInfo.pCommandBuffer->m_commandBuffer);
+		VkResult res = vkEndCommandBuffer(m_vkObjectInfo.pCommandBuffer->m_commandBuffer);
+		if (res != VK_SUCCESS)
+			throw std::runtime_error("Failed to record command buffer (ending)");
+	}
+	void RenderEngine::submit_command_buffer()
+	{
+		VkSubmitInfo submitInfo = {};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+		
+		VkSemaphore waitSems[] = { m_vkObjectInfo.pSyncHandler->m_imageAvailableSemaphore };
+		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+		submitInfo.waitSemaphoreCount = 1;
+		submitInfo.pWaitSemaphores = waitSems;
+		submitInfo.pWaitDstStageMask = waitStages;
+		
+		submitInfo.commandBufferCount = 1;
+		submitInfo.pCommandBuffers = &m_vkObjectInfo.pCommandBuffer->m_commandBuffer;
+		
+		VkSemaphore signalSems[] = { m_vkObjectInfo.pSyncHandler->m_renderFinishedSemaphore };
+		submitInfo.signalSemaphoreCount = 1;
+		submitInfo.pSignalSemaphores = signalSems;
+		
+		VkResult res = vkQueueSubmit(m_vkObjectInfo.pLogicalDevice->m_graphicsQueue, 1, &submitInfo, m_vkObjectInfo.pSyncHandler->m_inFlightFence);
+		if (res != VK_SUCCESS)
+			throw std::runtime_error("Failed to submit Draw Command Buffer");
+	}
+	void RenderEngine::present(uint32_t a_imageIndex)
+	{
+		VkPresentInfoKHR presentInfo = {};
+		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+		
+		VkSemaphore signalSems[] = { m_vkObjectInfo.pSyncHandler->m_renderFinishedSemaphore };
+		
+		presentInfo.waitSemaphoreCount = 1;
+		presentInfo.pWaitSemaphores = signalSems;
+		
+		VkSwapchainKHR swapChains[] = { m_vkObjectInfo.pSwapChain->m_swapChain };
+		presentInfo.swapchainCount = 1;
+		presentInfo.pSwapchains = swapChains;
+		presentInfo.pImageIndices = &a_imageIndex;
+		
+		presentInfo.pResults = nullptr;
+		
+		vkQueuePresentKHR(m_vkObjectInfo.pLogicalDevice->m_presentQueue, &presentInfo);
+	}
+	
 	bool RenderEngine::should_close_window()
 	{
 		return m_vkObjectInfo.pWindow->should_close();

@@ -56,16 +56,25 @@ namespace dragonbyte_engine
 
 		void setup_vulkan();
 
-		void create_debug_messenger(); 
-		void create_device();
-		void create_framebuffer();
-		void create_graphics_pipeline();
-		void create_instance();
-		void get_physical_device();
-		void create_render_pass();
-		void create_surface();
-		void create_swap_chain();
 		void create_window();
+		
+		void create_instance();
+		void create_debug_messenger(); 
+		void create_surface();
+		void get_physical_device();
+		void create_device();
+		void create_swap_chain();
+		void create_render_pass();
+		void create_graphics_pipeline();
+		void create_framebuffer();
+		void create_command_pool();
+		void create_command_buffer();
+		void create_sync_objects();
+		
+		void draw_frame();
+		void record_command_buffer(uint32_t imageIndex);
+		void submit_command_buffer();
+		void present(uint32_t imageIndex);
 
 	};
 

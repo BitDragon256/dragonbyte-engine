@@ -24,7 +24,6 @@ namespace dragonbyte_engine
 
 		private:
 
-			const PhysicalDevice& m_krPhysicalDevice;
 
 		};
 

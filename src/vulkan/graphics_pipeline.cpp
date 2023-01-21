@@ -3,6 +3,8 @@
 #include <stdexcept>
 
 #include "vulkan/object_info.h"
+
+#include "vulkan/command_buffer.h"
 #include "vulkan/render_pass.h"
 #include "vulkan/swapchain.h"
 
@@ -212,6 +214,25 @@ namespace dragonbyte_engine
 		{
 			vkDestroyPipelineLayout(m_krLogicalDevice.m_device, m_pipelineLayout, nullptr);
 			vkDestroyPipeline(m_krLogicalDevice.m_device, m_pipeline, nullptr);
+		}
+
+		void GraphicsPipeline::bind(const ObjectInfo& a_krObjectInfo)
+		{
+			VkViewport viewport = {};
+			viewport.x = 0.f;
+			viewport.y = 0.f;
+			viewport.width = static_cast<float>(a_krObjectInfo.pSwapChain->m_extent.width);
+			viewport.height = static_cast<float>(a_krObjectInfo.pSwapChain->m_extent.height);
+			viewport.minDepth = 0.f;
+			viewport.maxDepth = 1.f;
+			vkCmdSetViewport(a_krObjectInfo.pCommandBuffer->m_commandBuffer, 0, 1, &viewport);
+			
+			VkRect2D scissor = {};
+			scissor.offset = { 0, 0 };
+			scissor.extent = a_krObjectInfo.pSwapChain->m_extent;
+			vkCmdSetScissor(a_krObjectInfo.pCommandBuffer->m_commandBuffer, 0, 1, &scissor);
+			
+			vkCmdBindPipeline(a_krObjectInfo.pCommandBuffer->m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
 		}
 
 	} // namespace vulkan
