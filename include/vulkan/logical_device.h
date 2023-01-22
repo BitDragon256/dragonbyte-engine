@@ -15,7 +15,7 @@ namespace dragonbyte_engine
 		{
 		public:
 
-			LogicalDevice(const ObjectInfo& a_krObjectInfo);
+			LogicalDevice();
 			~LogicalDevice();
 
 			VkDevice m_device;

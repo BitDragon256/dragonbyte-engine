@@ -56,10 +56,12 @@ namespace dragonbyte_engine
 			std::shared_ptr<Window> pWindow;
 
 			void reset();
+			
+			static ObjectInfo s_ObjectInfo;
 		};
 		
-		ObjectInfo oi;
-
+		#define oi ObjectInfo::s_ObjectInfo
+		
 	} // namespace vulkan
 
 } // namespace dragonbyte_engine

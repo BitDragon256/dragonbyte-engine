@@ -16,13 +16,13 @@ namespace dragonbyte_engine
 		{
 		public:
 
-			GraphicsPipeline(const ObjectInfo& a_krObjectInfo);
+			GraphicsPipeline();
 			~GraphicsPipeline();
 
 			VkPipelineLayout m_pipelineLayout;
 			VkPipeline m_pipeline;
 			
-			void bind(const ObjectInfo& a_krObjectInfo);
+			void bind();
 
 		private:
 

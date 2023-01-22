@@ -45,7 +45,7 @@ namespace dragonbyte_engine
 
 		public:
 
-			ShaderModule(std::string a_shaderFile, const ObjectInfo& a_krObjectInfo);
+			ShaderModule(std::string a_shaderFile);
 			~ShaderModule();
 
 			VkShaderModule m_shaderModule;

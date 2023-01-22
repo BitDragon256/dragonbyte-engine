@@ -40,6 +40,8 @@ namespace dragonbyte_engine
 			pSyncHandler = nullptr;
 			pWindow = nullptr;
 		}
+		
+		ObjectInfo ObjectInfo::s_ObjectInfo = {};
 
 	} // namespace vulkan
 

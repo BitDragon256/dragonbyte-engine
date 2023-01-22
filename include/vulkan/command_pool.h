@@ -20,7 +20,7 @@ namespace dragonbyte_engine
         {
         public:
 
-            CommandPool(const ObjectInfo& a_krObjectInfo, CommandPoolQueueType a_queueType);
+            CommandPool(CommandPoolQueueType a_queueType);
             ~CommandPool();
 
             VkCommandPool m_commandPool;
@@ -36,7 +36,7 @@ namespace dragonbyte_engine
         {
         public:
             
-            CommandPoolHandler(const ObjectInfo& a_krObjectInfo);
+            CommandPoolHandler();
             ~CommandPoolHandler();
             
             CommandPool* get_command_pool(CommandPoolQueueType a_queueType);

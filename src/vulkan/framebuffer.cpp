@@ -11,45 +11,41 @@ namespace dragonbyte_engine
 	{
 
 		size_t Framebuffer::s_swapchainImageIndex = 0;
-		Framebuffer::Framebuffer(const ObjectInfo& a_krObjectInfo) :
-			m_pLogicalDevice{ a_krObjectInfo.pLogicalDevice }
+		Framebuffer::Framebuffer() :
+			m_pLogicalDevice{ oi.pLogicalDevice }
 		{
 			VkImageView attachments[] = {
-				a_krObjectInfo.pSwapChain->m_imageViews[s_swapchainImageIndex]
+				oi.pSwapChain->m_imageViews[s_swapchainImageIndex]
 			};
 
 			VkFramebufferCreateInfo framebufferInfo = {};
 			framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-			framebufferInfo.renderPass = a_krObjectInfo.pRenderPass->m_renderPass;
+			framebufferInfo.renderPass = oi.pRenderPass->m_renderPass;
 			framebufferInfo.attachmentCount = 1;
 			framebufferInfo.pAttachments = attachments;
-			framebufferInfo.width = a_krObjectInfo.pSwapChain->m_extent.width;
-			framebufferInfo.height = a_krObjectInfo.pSwapChain->m_extent.height;
+			framebufferInfo.width = oi.pSwapChain->m_extent.width;
+			framebufferInfo.height = oi.pSwapChain->m_extent.height;
 			framebufferInfo.layers = 1;
 
-			VkResult res = vkCreateFramebuffer(a_krObjectInfo.pLogicalDevice->m_device, &framebufferInfo, nullptr, &m_framebuffer);
+			VkResult res = vkCreateFramebuffer(oi.pLogicalDevice->m_device, &framebufferInfo, nullptr, &m_framebuffer);
 			if (res != VK_SUCCESS)
 				throw std::runtime_error("Failed to create framebuffer no " + s_swapchainImageIndex);
 
 			s_swapchainImageIndex++;
-		}
-		Framebuffer::Framebuffer()
-		{
-		
 		}
 		Framebuffer::~Framebuffer()
 		{
 			vkDestroyFramebuffer(m_pLogicalDevice.lock()->m_device, m_framebuffer, nullptr);
 		}
 
-		FramebufferHandler::FramebufferHandler(const ObjectInfo& a_krObjectInfo)
+		FramebufferHandler::FramebufferHandler()
 		{
 			Framebuffer::s_swapchainImageIndex = 0;
-			size_t imageCount = a_krObjectInfo.pSwapChain->m_imageViews.size();
+			size_t imageCount = oi.pSwapChain->m_imageViews.size();
 			m_swapChainFramebuffers.resize(imageCount);
 			for (size_t i = 0; i < imageCount; i++)
 			{
-				m_swapChainFramebuffers[i] = new Framebuffer{ a_krObjectInfo };
+				m_swapChainFramebuffers[i] = new Framebuffer();
 			}
 		}
 		FramebufferHandler::~FramebufferHandler()

@@ -11,10 +11,10 @@ namespace dragonbyte_engine
     namespace vulkan
     {
 
-        CommandPool::CommandPool(const ObjectInfo& a_krObjectInfo, CommandPoolQueueType a_queueType) :
-            m_pLogicalDevice{ a_krObjectInfo.pLogicalDevice }, m_queueType(a_queueType)
+        CommandPool::CommandPool(CommandPoolQueueType a_queueType) :
+            m_pLogicalDevice{ oi.pLogicalDevice }, m_queueType(a_queueType)
         {
-            QueueFamilyIndices queueFamilyIndices = find_queue_families(a_krObjectInfo.pPhysicalDevice->m_physicalDevice, *a_krObjectInfo.pSurface);
+            QueueFamilyIndices queueFamilyIndices = find_queue_families(oi.pPhysicalDevice->m_physicalDevice, *oi.pSurface);
 
             VkCommandPoolCreateInfo cmdPoolInfo = {};
             cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;

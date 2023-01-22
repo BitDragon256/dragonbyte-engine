@@ -18,7 +18,7 @@ namespace dragonbyte_engine
 
         public:
 
-            DebugMessenger(const ObjectInfo& a_krObjectInfo);
+            DebugMessenger();
             ~DebugMessenger();
 
             VkDebugUtilsMessengerEXT m_debugMessenger;

@@ -14,7 +14,7 @@ namespace dragonbyte_engine
         {
         public:
             
-            CommandBuffer(const ObjectInfo& a_krObjectInfo);
+            CommandBuffer();
             ~CommandBuffer();
             
             void begin_recording(const uint32_t a_kImageIndex);

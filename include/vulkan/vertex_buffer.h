@@ -20,7 +20,7 @@ namespace dragonbyte_engine
         {
         public:
         
-            VertexBuffer(ObjectInfo a_krObjectInfo);
+            VertexBuffer();
             ~VertexBuffer();
         
             std::vector<Vertex> m_vertices;
@@ -28,7 +28,7 @@ namespace dragonbyte_engine
             VkBuffer m_vertexBuffer;
             VkDeviceMemory m_deviceMemory;
             
-            void bind(const ObjectInfo& a_krObjectInfo);
+            void bind();
             
         private:
         

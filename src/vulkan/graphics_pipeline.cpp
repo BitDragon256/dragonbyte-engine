@@ -15,17 +15,15 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		GraphicsPipeline::GraphicsPipeline(const ObjectInfo& a_krObjectInfo) :
-			m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
+		GraphicsPipeline::GraphicsPipeline() :
+			m_krLogicalDevice{ *oi.pLogicalDevice }
 		{
 			// create the shader modules
 			m_pVertShaderModule = new ShaderModule(
-				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Vert),
-				a_krObjectInfo
+				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Vert)
 			);
 			m_pFragShaderModule = new ShaderModule(
-				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag),
-				a_krObjectInfo
+				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag)
 			);
 
 			// create infos for later staging the shader modules
@@ -83,15 +81,15 @@ namespace dragonbyte_engine
 			viewport.x = 0.0f;
 			viewport.y = 0.0f;
 			
-			viewport.width = (float) a_krObjectInfo.pSwapChain->m_extent.width;
-			viewport.height = (float) a_krObjectInfo.pSwapChain->m_extent.height;
+			viewport.width = (float) oi.pSwapChain->m_extent.width;
+			viewport.height = (float) oi.pSwapChain->m_extent.height;
 			viewport.minDepth = 0.0f;
 			viewport.maxDepth = 1.0f;
 
 			// scissor
 			VkRect2D scissor{};
 			scissor.offset = { 0, 0 };
-			scissor.extent = a_krObjectInfo.pSwapChain->m_extent;
+			scissor.extent = oi.pSwapChain->m_extent;
 
 			// combine viewport and scissor
 			VkPipelineViewportStateCreateInfo viewportState = {};
@@ -179,7 +177,7 @@ namespace dragonbyte_engine
 			pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
 			pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 
-			VkResult res = vkCreatePipelineLayout(a_krObjectInfo.pLogicalDevice->m_device, &pipelineLayoutInfo, nullptr, &m_pipelineLayout);
+			VkResult res = vkCreatePipelineLayout(oi.pLogicalDevice->m_device, &pipelineLayoutInfo, nullptr, &m_pipelineLayout);
 			if (res != VK_SUCCESS)
 				throw std::runtime_error("Failed to create Pipeline Layout");
 
@@ -200,13 +198,13 @@ namespace dragonbyte_engine
 
 			pipelineInfo.layout = m_pipelineLayout;
 
-			pipelineInfo.renderPass = a_krObjectInfo.pRenderPass->m_renderPass;
+			pipelineInfo.renderPass = oi.pRenderPass->m_renderPass;
 			pipelineInfo.subpass = 0;
 
 			pipelineInfo.basePipelineHandle = VK_NULL_HANDLE; // Optional
 			pipelineInfo.basePipelineIndex = -1; // Optional
 
-			res = vkCreateGraphicsPipelines(a_krObjectInfo.pLogicalDevice->m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline);
+			res = vkCreateGraphicsPipelines(oi.pLogicalDevice->m_device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_pipeline);
 			if (res != VK_SUCCESS)
 				throw std::runtime_error("Failed to create Graphics Pipeline");
 
@@ -220,23 +218,23 @@ namespace dragonbyte_engine
 			vkDestroyPipeline(m_krLogicalDevice.m_device, m_pipeline, nullptr);
 		}
 
-		void GraphicsPipeline::bind(const ObjectInfo& a_krObjectInfo)
+		void GraphicsPipeline::bind()
 		{
 			VkViewport viewport = {};
 			viewport.x = 0.f;
 			viewport.y = 0.f;
-			viewport.width = static_cast<float>(a_krObjectInfo.pSwapChain->m_extent.width);
-			viewport.height = static_cast<float>(a_krObjectInfo.pSwapChain->m_extent.height);
+			viewport.width = static_cast<float>(oi.pSwapChain->m_extent.width);
+			viewport.height = static_cast<float>(oi.pSwapChain->m_extent.height);
 			viewport.minDepth = 0.f;
 			viewport.maxDepth = 1.f;
-			vkCmdSetViewport(a_krObjectInfo.pCommandBuffer->m_commandBuffer, 0, 1, &viewport);
+			vkCmdSetViewport(oi.pCommandBuffer->m_commandBuffer, 0, 1, &viewport);
 			
 			VkRect2D scissor = {};
 			scissor.offset = { 0, 0 };
-			scissor.extent = a_krObjectInfo.pSwapChain->m_extent;
-			vkCmdSetScissor(a_krObjectInfo.pCommandBuffer->m_commandBuffer, 0, 1, &scissor);
+			scissor.extent = oi.pSwapChain->m_extent;
+			vkCmdSetScissor(oi.pCommandBuffer->m_commandBuffer, 0, 1, &scissor);
 			
-			vkCmdBindPipeline(a_krObjectInfo.pCommandBuffer->m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
+			vkCmdBindPipeline(oi.pCommandBuffer->m_commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, m_pipeline);
 		}
 
 	} // namespace vulkan

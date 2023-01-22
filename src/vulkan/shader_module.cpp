@@ -32,8 +32,8 @@ namespace dragonbyte_engine
 
 		} // namespace default_shaders
 
-		ShaderModule::ShaderModule(std::string a_shaderFile, const ObjectInfo& a_krObjectInfo) :
-			m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
+		ShaderModule::ShaderModule(std::string a_shaderFile) :
+			m_krLogicalDevice{ *oi.pLogicalDevice }
 		{
 			// get the compiled shader
 			m_shaderCode = FileEngine::read_file(a_shaderFile);
@@ -44,7 +44,7 @@ namespace dragonbyte_engine
 			createInfo.codeSize = m_shaderCode.size();
 			createInfo.pCode = reinterpret_cast<const uint32_t*>(m_shaderCode.data());
 
-			VkResult res = vkCreateShaderModule(a_krObjectInfo.pLogicalDevice->m_device, &createInfo, nullptr, &m_shaderModule);
+			VkResult res = vkCreateShaderModule(oi.pLogicalDevice->m_device, &createInfo, nullptr, &m_shaderModule);
 			if (res != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to create shader module");

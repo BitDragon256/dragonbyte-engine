@@ -22,7 +22,7 @@ namespace dragonbyte_engine
 
 		public:
 
-			SwapChain(const ObjectInfo& a_krObjectInfo);
+			SwapChain();
 			~SwapChain();
 
 			std::vector<VkImage> m_images;
@@ -32,7 +32,7 @@ namespace dragonbyte_engine
 			VkFormat m_imageFormat;
 			VkSwapchainKHR m_swapChain;
 			
-			uint32_t acquire_next_image(const ObjectInfo& a_krObjectInfo);
+			uint32_t acquire_next_image();
 
 		private:
 

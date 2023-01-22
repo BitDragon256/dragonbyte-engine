@@ -16,15 +16,15 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		SwapChain::SwapChain(const ObjectInfo& a_krObjectInfo) : m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
+		SwapChain::SwapChain() : m_krLogicalDevice{ *oi.pLogicalDevice }
 		{
 			// retrieve things the swapchain must support
-			SwapChainSupportDetails swapChainSupport = query_swapchain_support(a_krObjectInfo.pPhysicalDevice->m_physicalDevice, *a_krObjectInfo.pSurface);
+			SwapChainSupportDetails swapChainSupport = query_swapchain_support(oi.pPhysicalDevice->m_physicalDevice, *oi.pSurface);
 		
 			// choose the best surface-format, present-mode and extent
 			VkSurfaceFormatKHR surfaceFormat = choose_swap_surface_format(swapChainSupport.formats);
 			VkPresentModeKHR presentMode = choose_swap_present_mode(swapChainSupport.presentModes);
-			VkExtent2D extent = choose_swap_extent(swapChainSupport.capabilities, *a_krObjectInfo.pWindow);
+			VkExtent2D extent = choose_swap_extent(swapChainSupport.capabilities, *oi.pWindow);
 
 			// choose a good image count
 			uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
@@ -36,7 +36,7 @@ namespace dragonbyte_engine
 			// fill out the create info struct
 			VkSwapchainCreateInfoKHR createInfo = {};
 			createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-			createInfo.surface = a_krObjectInfo.pSurface->m_surface;
+			createInfo.surface = oi.pSurface->m_surface;
 
 			createInfo.minImageCount = imageCount;
 			createInfo.imageFormat = surfaceFormat.format;
@@ -46,7 +46,7 @@ namespace dragonbyte_engine
 			createInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 
 			// retrieve the queue family and set the sharing-mode accordingly
-			QueueFamilyIndices indices = find_queue_families(a_krObjectInfo.pPhysicalDevice->m_physicalDevice, *a_krObjectInfo.pSurface);
+			QueueFamilyIndices indices = find_queue_families(oi.pPhysicalDevice->m_physicalDevice, *oi.pSurface);
 			uint32_t queueFamilyIndices[] = { indices.graphicsFamily.value(), indices.presentFamily.value() };
 
 			if (indices.graphicsFamily != indices.presentFamily)
@@ -70,16 +70,16 @@ namespace dragonbyte_engine
 			createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 			// create the swapchain handle
-			VkResult res = vkCreateSwapchainKHR(a_krObjectInfo.pLogicalDevice->m_device, &createInfo, nullptr, &m_swapChain);
+			VkResult res = vkCreateSwapchainKHR(oi.pLogicalDevice->m_device, &createInfo, nullptr, &m_swapChain);
 			if (res != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to create swapchain");
 			}
 
 			// save the image handles of the swapchain
-			vkGetSwapchainImagesKHR(a_krObjectInfo.pLogicalDevice->m_device, m_swapChain, &imageCount, nullptr);
+			vkGetSwapchainImagesKHR(oi.pLogicalDevice->m_device, m_swapChain, &imageCount, nullptr);
 			m_images.resize(imageCount);
-			vkGetSwapchainImagesKHR(a_krObjectInfo.pLogicalDevice->m_device, m_swapChain, &imageCount, m_images.data());
+			vkGetSwapchainImagesKHR(oi.pLogicalDevice->m_device, m_swapChain, &imageCount, m_images.data());
 		
 			// save some stuff
 			m_imageFormat = surfaceFormat.format;
@@ -94,10 +94,10 @@ namespace dragonbyte_engine
 			vkDestroySwapchainKHR(m_krLogicalDevice.m_device, m_swapChain, nullptr);
 		}
 
-		uint32_t SwapChain::acquire_next_image(const ObjectInfo& a_krObjectInfo)
+		uint32_t SwapChain::acquire_next_image()
 		{
 			uint32_t imageIndex;
-			vkAcquireNextImageKHR(m_krLogicalDevice.m_device, m_swapChain, UINT64_MAX, a_krObjectInfo.pSyncHandler->m_imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+			vkAcquireNextImageKHR(m_krLogicalDevice.m_device, m_swapChain, UINT64_MAX, oi.pSyncHandler->m_imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
 		
 			return imageIndex;
 		}

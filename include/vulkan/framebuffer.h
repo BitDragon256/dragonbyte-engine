@@ -19,7 +19,6 @@ namespace dragonbyte_engine
 		{
 		public:
 
-			Framebuffer(const ObjectInfo& a_krObjectInfo);
 			Framebuffer();
 			~Framebuffer();
 
@@ -36,7 +35,7 @@ namespace dragonbyte_engine
 		{
 		public:
 
-			FramebufferHandler(const ObjectInfo& a_krObjectInfo);
+			FramebufferHandler();
 			~FramebufferHandler();
 
 			Framebuffer& get(size_t index);

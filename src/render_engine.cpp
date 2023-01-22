@@ -25,7 +25,7 @@
 #include "vulkan/vertex_buffer.h"
 
 namespace dragonbyte_engine
-{
+{	
 
 	RenderEngine::RenderEngine(const RenderEngineConfig& a_kConfig) :
 		m_config(a_kConfig)
@@ -137,7 +137,7 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Create Surface" << '\n';
 
-		vulkan::oi.pSurface = std::make_shared<vulkan::Surface>(vulkan::oi);
+		vulkan::oi.pSurface = std::make_shared<vulkan::Surface>();
 	}
 	void RenderEngine::create_instance()
 	{
@@ -149,67 +149,67 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Get Physical Device" << '\n';
 
-		vulkan::oi.pPhysicalDevice = std::make_shared<vulkan::PhysicalDevice>(vulkan::oi);
+		vulkan::oi.pPhysicalDevice = std::make_shared<vulkan::PhysicalDevice>();
 	}
 	void RenderEngine::create_device()
 	{
 		std::cout << "Create Logical Device" << '\n';
 
-		vulkan::oi.pLogicalDevice = std::make_shared<vulkan::LogicalDevice>(vulkan::oi);
+		vulkan::oi.pLogicalDevice = std::make_shared<vulkan::LogicalDevice>();
 	}
 	void RenderEngine::create_swap_chain()
 	{
 		std::cout << "Create Swapchain" << '\n';
 
-		vulkan::oi.pSwapChain = std::make_shared<vulkan::SwapChain>(vulkan::oi);
+		vulkan::oi.pSwapChain = std::make_shared<vulkan::SwapChain>();
 	}
 	void RenderEngine::create_graphics_pipeline()
 	{
 		std::cout << "Create Graphics Pipeline" << '\n';
 
-		vulkan::oi.pGraphicsPipeline = std::make_shared<vulkan::GraphicsPipeline>(vulkan::oi);
+		vulkan::oi.pGraphicsPipeline = std::make_shared<vulkan::GraphicsPipeline>();
 	}
 	void RenderEngine::create_debug_messenger()
 	{
 		std::cout << "Create Debug Messenger" << '\n';
 
-		vulkan::oi.pDebugMessenger = std::make_shared<vulkan::DebugMessenger>(vulkan::oi);
+		vulkan::oi.pDebugMessenger = std::make_shared<vulkan::DebugMessenger>();
 	}
 	void RenderEngine::create_render_pass()
 	{
 		std::cout << "Create Render Pass" << '\n';
 
-		vulkan::oi.pRenderPass = std::make_shared<vulkan::RenderPass>(vulkan::oi);
+		vulkan::oi.pRenderPass = std::make_shared<vulkan::RenderPass>();
 	}
 	void RenderEngine::create_framebuffer()
 	{
 		std::cout << "Create Framebuffers" << '\n';
 
-		vulkan::oi.pFramebufferHandler = std::make_shared<vulkan::FramebufferHandler>(vulkan::oi);
+		vulkan::oi.pFramebufferHandler = std::make_shared<vulkan::FramebufferHandler>();
 	}
 	void RenderEngine::create_command_pool()
 	{
 		std::cout << "Create Command Pool" << '\n';
 		
-		vulkan::oi.pCommandPool = std::make_shared<vulkan::CommandPool>(vulkan::oi);
+		vulkan::oi.pCommandPool = std::make_shared<vulkan::CommandPool>(vulkan::CommandPoolQueueType::Graphics);
 	}
 	void RenderEngine::create_command_buffer()
 	{
 		std::cout << "Create Command Buffer" << '\n';
 		
-		vulkan::oi.pCommandBuffer = std::make_shared<vulkan::CommandBuffer>(vulkan::oi);
+		vulkan::oi.pCommandBuffer = std::make_shared<vulkan::CommandBuffer>();
 	}
 	void RenderEngine::create_sync_objects()
 	{
 		std::cout << "Create Sync Objects" << '\n';
 		
-		vulkan::oi.pSyncHandler = std::make_shared<vulkan::SyncHandler>(vulkan::oi);
+		vulkan::oi.pSyncHandler = std::make_shared<vulkan::SyncHandler>();
 	}
 	void RenderEngine::create_vertex_buffer()
 	{
 		std::cout << "Create Vertex Buffer" << '\n';
 		
-		vulkan::oi.pVertexBuffer = std::make_shared<vulkan::VertexBuffer>(vulkan::oi);
+		vulkan::oi.pVertexBuffer = std::make_shared<vulkan::VertexBuffer>();
 	}
 	
 	void RenderEngine::draw_frame()
@@ -217,7 +217,7 @@ namespace dragonbyte_engine
 		vkWaitForFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence, VK_TRUE, UINT64_MAX);
 		vkResetFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence);
 	
-		uint32_t imageIndex = vulkan::oi.pSwapChain->acquire_next_image(vulkan::oi);
+		uint32_t imageIndex = vulkan::oi.pSwapChain->acquire_next_image();
 		
 		record_command_buffer(imageIndex);
 		submit_command_buffer();
@@ -228,10 +228,10 @@ namespace dragonbyte_engine
 	{
 		vulkan::oi.pCommandBuffer->begin_recording(a_imageIndex);
 	
-		vulkan::oi.pRenderPass->begin(vulkan::oi, a_imageIndex);
-		vulkan::oi.pGraphicsPipeline->bind(vulkan::oi);
+		vulkan::oi.pRenderPass->begin(a_imageIndex);
+		vulkan::oi.pGraphicsPipeline->bind();
 		
-		vulkan::oi.pVertexBuffer->bind(vulkan::oi);
+		vulkan::oi.pVertexBuffer->bind();
 		
 		vkCmdDraw(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pVertexBuffer->m_vertices.size()), 1, 0, 0);
 		

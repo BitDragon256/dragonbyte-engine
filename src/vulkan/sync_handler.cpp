@@ -13,8 +13,8 @@ namespace dragonbyte_engine
     namespace vulkan
     {
         
-        SyncHandler::SyncHandler(const ObjectInfo& a_krObjectInfo) :
-            m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
+        SyncHandler::SyncHandler() :
+            m_krLogicalDevice{ *oi.pLogicalDevice }
         {
             VkSemaphoreCreateInfo semInfo = {};
             semInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;

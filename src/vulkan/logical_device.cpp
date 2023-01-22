@@ -12,12 +12,12 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		LogicalDevice::LogicalDevice(const ObjectInfo& a_krObjectInfo)
+		LogicalDevice::LogicalDevice()
 		{
-			QueueFamilyIndices indices = find_queue_families(a_krObjectInfo.pPhysicalDevice->m_physicalDevice, *a_krObjectInfo.pSurface);
+			QueueFamilyIndices indices = find_queue_families(oi.pPhysicalDevice->m_physicalDevice, *oi.pSurface);
 
 			std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-			std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value(), indices.computeFamily.value(), indices.transferFamily.value() };
+			std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };//, indices.computeFamily.value(), indices.transferFamily.value() };
 
 			float queuePriority = 1.f;
 
@@ -36,14 +36,14 @@ namespace dragonbyte_engine
 			deviceCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
 			deviceCreateInfo.pQueueCreateInfos = queueCreateInfos.data();
 			deviceCreateInfo.queueCreateInfoCount = static_cast<uint32_t>(queueCreateInfos.size());
-			deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(a_krObjectInfo.pPhysicalDevice->s_kDeviceExtensions.size());
-			deviceCreateInfo.ppEnabledExtensionNames = a_krObjectInfo.pPhysicalDevice->s_kDeviceExtensions.data();
+			deviceCreateInfo.enabledExtensionCount = static_cast<uint32_t>(oi.pPhysicalDevice->s_kDeviceExtensions.size());
+			deviceCreateInfo.ppEnabledExtensionNames = oi.pPhysicalDevice->s_kDeviceExtensions.data();
 
 			VkPhysicalDeviceFeatures enabledPhysicalDeviceFeatures{}; // all to VK_FALSE
 			deviceCreateInfo.pEnabledFeatures = &enabledPhysicalDeviceFeatures;
 			// deviceCreateInfo.pEnabledFeatures = &a_rPhysicalDevice.m_physicalDeviceFeatures; // all supported features enabled
 			
-			VkResult res = vkCreateDevice(a_krObjectInfo.pPhysicalDevice->m_physicalDevice, &deviceCreateInfo, nullptr, &m_device);
+			VkResult res = vkCreateDevice(oi.pPhysicalDevice->m_physicalDevice, &deviceCreateInfo, nullptr, &m_device);
 			if (res != VK_SUCCESS)
 				throw std::runtime_error("Failed to create logical device");
 

@@ -11,15 +11,15 @@ namespace dragonbyte_engine
     namespace vulkan
     {
     
-        CommandBuffer::CommandBuffer(const ObjectInfo& a_krObjectInfo)
+        CommandBuffer::CommandBuffer()
         {
             VkCommandBufferAllocateInfo bufferInfo = {};
             bufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-            bufferInfo.commandPool = a_krObjectInfo.pCommandPool->m_commandPool;
+            bufferInfo.commandPool = oi.pCommandPool->m_commandPool;
             bufferInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
             bufferInfo.commandBufferCount = 1;
             
-            VkResult res = vkAllocateCommandBuffers(a_krObjectInfo.pLogicalDevice->m_device, &bufferInfo, &m_commandBuffer);
+            VkResult res = vkAllocateCommandBuffers(oi.pLogicalDevice->m_device, &bufferInfo, &m_commandBuffer);
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to allocate Command buffer");
         }

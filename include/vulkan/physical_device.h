@@ -19,7 +19,7 @@ namespace dragonbyte_engine
 		{
 		public:
 
-			PhysicalDevice(const ObjectInfo& a_krObjectInfo);
+			PhysicalDevice();
 
 			VkPhysicalDevice m_physicalDevice;
 			VkPhysicalDeviceFeatures m_physicalDeviceFeatures;

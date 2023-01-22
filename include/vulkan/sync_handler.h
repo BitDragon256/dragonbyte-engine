@@ -16,7 +16,7 @@ namespace dragonbyte_engine
             
         public:
         
-            SyncHandler(const ObjectInfo& a_krObjectInfo);
+            SyncHandler();
             ~SyncHandler();
             
             VkSemaphore m_imageAvailableSemaphore;

@@ -13,14 +13,14 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		PhysicalDevice::PhysicalDevice(const ObjectInfo& a_krObjectInfo) :
-			m_pSurface{ a_krObjectInfo.pSurface }
+		PhysicalDevice::PhysicalDevice() :
+			m_pSurface{ oi.pSurface }
 		{
 			// get accessible physical devices
 			uint32_t physicalDeviceCount;
-			vkEnumeratePhysicalDevices(a_krObjectInfo.pInstance->m_instance, &physicalDeviceCount, nullptr);
+			vkEnumeratePhysicalDevices(oi.pInstance->m_instance, &physicalDeviceCount, nullptr);
 			std::vector<VkPhysicalDevice> physicalDevices{ physicalDeviceCount };
-			VkResult res = vkEnumeratePhysicalDevices(a_krObjectInfo.pInstance->m_instance, &physicalDeviceCount, physicalDevices.data());
+			VkResult res = vkEnumeratePhysicalDevices(oi.pInstance->m_instance, &physicalDeviceCount, physicalDevices.data());
 
 			if (res != VK_SUCCESS || physicalDeviceCount == 0)
 				throw std::runtime_error("Failed physical device enumeration");

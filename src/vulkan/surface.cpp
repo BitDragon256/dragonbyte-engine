@@ -13,10 +13,10 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		Surface::Surface(const ObjectInfo& a_krObjectInfo) :
-			m_pInstance(a_krObjectInfo.pInstance), m_pWindow(a_krObjectInfo.pWindow)
+		Surface::Surface() :
+			m_pInstance(oi.pInstance), m_pWindow(oi.pWindow)
 		{
-			VkResult res = glfwCreateWindowSurface(a_krObjectInfo.pInstance->m_instance, a_krObjectInfo.pWindow->m_pGlfwWindow, nullptr, &m_surface);
+			VkResult res = glfwCreateWindowSurface(oi.pInstance->m_instance, oi.pWindow->m_pGlfwWindow, nullptr, &m_surface);
 			if (res != VK_SUCCESS)
 			{
 				throw std::runtime_error("Failed to create surface");

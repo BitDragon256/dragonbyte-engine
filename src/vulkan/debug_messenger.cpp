@@ -27,8 +27,8 @@ namespace dragonbyte_engine
             }
         }
 
-        DebugMessenger::DebugMessenger(const ObjectInfo& a_krObjectInfo) :
-            m_krInstance{ *a_krObjectInfo.pInstance }
+        DebugMessenger::DebugMessenger() :
+            m_krInstance{ *oi.pInstance }
         {
             if (!validation_layers::kEnable)
                 return;
@@ -37,7 +37,7 @@ namespace dragonbyte_engine
             populate_create_info(createInfo);
             
 
-            VkResult res = CreateDebugUtilsMessengerEXT(a_krObjectInfo.pInstance->m_instance, &createInfo, nullptr, &m_debugMessenger);
+            VkResult res = CreateDebugUtilsMessengerEXT(oi.pInstance->m_instance, &createInfo, nullptr, &m_debugMessenger);
             if (res != VK_SUCCESS)
             {
                 throw std::runtime_error("Failed to create debug messenger");

@@ -18,7 +18,7 @@ namespace dragonbyte_engine
 		{
 		public:
 
-			Surface(const ObjectInfo& a_krObjectInfo);
+			Surface();
 			~Surface();
 
 			VkSurfaceKHR m_surface;

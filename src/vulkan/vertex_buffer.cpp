@@ -15,12 +15,12 @@ namespace dragonbyte_engine
     namespace vulkan
     {
         
-        VertexBuffer::VertexBuffer(ObjectInfo a_krObjectInfo) :
-            m_pLogicalDevice{ a_krObjectInfo.pLogicalDevice }
+        VertexBuffer::VertexBuffer() :
+            m_pLogicalDevice{ oi.pLogicalDevice }
         {
             m_vertices = kTestTriVertices;
         
-            VkDevice device = a_krObjectInfo.pLogicalDevice->m_device;
+            VkDevice device = oi.pLogicalDevice->m_device;
         
             VkBufferCreateInfo bufferInfo = {};
             bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
@@ -39,7 +39,7 @@ namespace dragonbyte_engine
             VkMemoryAllocateInfo allocInfo{};
             allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
             allocInfo.allocationSize = memRequirements.size;
-            allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, *a_krObjectInfo.pPhysicalDevice);
+            allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, *oi.pPhysicalDevice);
         
             res = vkAllocateMemory(device, &allocInfo, nullptr, &m_deviceMemory);
             if (res != VK_SUCCESS)
@@ -59,11 +59,11 @@ namespace dragonbyte_engine
             vkFreeMemory(m_pLogicalDevice.lock()->m_device, m_deviceMemory, nullptr);
         }
         
-        void VertexBuffer::bind(const ObjectInfo& a_krObjectInfo)
+        void VertexBuffer::bind()
         {
             VkBuffer vertexBuffers[] = { m_vertexBuffer };
             VkDeviceSize offsets[] = { 0 };
-            vkCmdBindVertexBuffers(a_krObjectInfo.pCommandBuffer->m_commandBuffer, 0, 1, vertexBuffers, offsets);
+            vkCmdBindVertexBuffers(oi.pCommandBuffer->m_commandBuffer, 0, 1, vertexBuffers, offsets);
         }
         
     } // namespace vulkan
