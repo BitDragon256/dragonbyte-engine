@@ -6,12 +6,7 @@ namespace dragonbyte_engine
     namespace vulkan
     {
         
-        VkVertexInputBindingDescription Vertex::get_binding_desc()
-        {
-            VkVertexInputBindingDescription bindingDesc = {};
-            
-            return bindingDesc;
-        }
+        
         
     } // namespace vulkan
     

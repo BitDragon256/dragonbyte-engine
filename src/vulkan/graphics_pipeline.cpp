@@ -7,6 +7,7 @@
 #include "vulkan/command_buffer.h"
 #include "vulkan/render_pass.h"
 #include "vulkan/swapchain.h"
+#include "vulkan/vertex.h"
 
 namespace dragonbyte_engine
 {
@@ -61,12 +62,15 @@ namespace dragonbyte_engine
 			dynamicState.pDynamicStates = dynamicStates.data();
 
 			// vertex input stuff
+			auto bindingDescription = Vertex::get_binding_desc();
+			auto attributeDescriptions = Vertex::get_attribute_desc();
+			
 			VkPipelineVertexInputStateCreateInfo vertexInputInfo = {};
 			vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-			vertexInputInfo.vertexBindingDescriptionCount = 0;
-			vertexInputInfo.pVertexBindingDescriptions = nullptr; // Optional
-			vertexInputInfo.vertexAttributeDescriptionCount = 0;
-			vertexInputInfo.pVertexAttributeDescriptions = nullptr; // Optional
+			vertexInputInfo.vertexBindingDescriptionCount = 1;
+			vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
+			vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
+			vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
 
 			// vertex assembly stuff
 			VkPipelineInputAssemblyStateCreateInfo inputAssembly = {};

@@ -1,23 +1,18 @@
 #pragma once
 
+#include <array>
 #include <vector>
 
 #include <glm/glm.hpp>
 #include <vulkan/vulkan.h>
+
+#include "vulkan/vertex.h"
 
 namespace dragonbyte_engine
 {
 
     namespace vulkan
     {
-        
-        typedef struct
-        {
-            glm::vec2 pos;
-            glm::vec3 color;
-            
-            static VkVertexInputBindingDescription get_binding_desc();
-        } Vertex;
         
         class VertexBuffer
         {
