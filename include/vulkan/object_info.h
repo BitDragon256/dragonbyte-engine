@@ -32,6 +32,7 @@ namespace dragonbyte_engine
 		class Surface;
 		class SwapChain;
 		class SyncHandler;
+		class VertexBuffer;
 		class Window;
 
 		struct ObjectInfo
@@ -51,10 +52,13 @@ namespace dragonbyte_engine
 			std::shared_ptr<Surface> pSurface;
 			std::shared_ptr<SwapChain> pSwapChain;
 			std::shared_ptr<SyncHandler> pSyncHandler;
+			std::shared_ptr<VertexBuffer> pVertexBuffer;
 			std::shared_ptr<Window> pWindow;
 
 			void reset();
 		};
+		
+		ObjectInfo oi;
 
 	} // namespace vulkan
 

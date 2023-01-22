@@ -95,6 +95,10 @@ namespace dragonbyte_engine
 
 				if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 					indices.graphicsFamily = i;
+				if (queueFamily.queueFlags & VK_QUEUE_COMPUTE_BIT)
+					indices.computeFamily = i;
+				if ((queueFamily.queueFlags & VK_QUEUE_TRANSFER_BIT) && !indices.graphicsFamily.has_value())
+					indices.transferFamily = i;
 
 				if (presentSupport)
 					indices.presentFamily = i;

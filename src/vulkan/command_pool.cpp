@@ -11,24 +11,45 @@ namespace dragonbyte_engine
     namespace vulkan
     {
 
-        CommandPool::CommandPool(const ObjectInfo& a_krObjectInfo) :
-            m_krLogicalDevice{ *a_krObjectInfo.pLogicalDevice }
+        CommandPool::CommandPool(const ObjectInfo& a_krObjectInfo, CommandPoolQueueType a_queueType) :
+            m_pLogicalDevice{ a_krObjectInfo.pLogicalDevice }, m_queueType(a_queueType)
         {
             QueueFamilyIndices queueFamilyIndices = find_queue_families(a_krObjectInfo.pPhysicalDevice->m_physicalDevice, *a_krObjectInfo.pSurface);
 
             VkCommandPoolCreateInfo cmdPoolInfo = {};
             cmdPoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
             cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-            cmdPoolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
             
-            VkResult res = vkCreateCommandPool(m_krLogicalDevice.m_device, &cmdPoolInfo, nullptr, &m_commandPool);
+            uint32_t queueFamilyIndex;
+            
+            switch (a_queueType)
+            {
+                case Graphics:
+                    queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
+                    break;
+                case Compute:
+                    queueFamilyIndex = queueFamilyIndices.computeFamily.value();
+                    break;
+                case Transfer:
+                    queueFamilyIndex = queueFamilyIndices.transferFamily.value();
+                    break;
+                default:
+                    throw std::runtime_error("No valid Queue Type for Command Pool");
+            }
+            cmdPoolInfo.queueFamilyIndex = queueFamilyIndex;
+            
+            VkResult res = vkCreateCommandPool(m_pLogicalDevice.lock()->m_device, &cmdPoolInfo, nullptr, &m_commandPool);
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to create Command Pool");
         }
-
         CommandPool::~CommandPool()
         {
-            vkDestroyCommandPool(m_krLogicalDevice.m_device, m_commandPool, nullptr);
+            vkDestroyCommandPool(m_pLogicalDevice.lock()->m_device, m_commandPool, nullptr);
+        }
+
+        CommandPoolHandler::CommandPoolHandler()
+        {
+        
         }
 
     }; // namespace vulkan

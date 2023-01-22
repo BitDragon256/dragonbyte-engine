@@ -40,6 +40,8 @@ namespace dragonbyte_engine
 		{
 			std::optional<uint32_t> graphicsFamily;
 			std::optional<uint32_t> presentFamily;
+			std::optional<uint32_t> transferFamily;
+			std::optional<uint32_t> computeFamily;
 
 			bool is_complete();
 		};

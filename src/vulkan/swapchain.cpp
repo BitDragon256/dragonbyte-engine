@@ -146,7 +146,7 @@ namespace dragonbyte_engine
 		{
 			for (const auto& krAvailableFormat : a_krAvailableFormats)
 			{
-				if (krAvailableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && krAvailableFormat.colorSpace == VK_COLORSPACE_SRGB_NONLINEAR_KHR)
+				if (krAvailableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && krAvailableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
 				{
 					return krAvailableFormat;
 				}

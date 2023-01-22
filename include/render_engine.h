@@ -51,9 +51,7 @@ namespace dragonbyte_engine
 		bool should_close_window();
 
 	private:
-
-		vulkan::ObjectInfo m_vkObjectInfo;
-
+	
 		void setup_vulkan();
 
 		void create_window();
@@ -70,6 +68,7 @@ namespace dragonbyte_engine
 		void create_command_pool();
 		void create_command_buffer();
 		void create_sync_objects();
+		void create_vertex_buffer();
 		
 		void draw_frame();
 		void record_command_buffer(uint32_t imageIndex);
