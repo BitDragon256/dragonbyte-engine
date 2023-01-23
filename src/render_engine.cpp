@@ -42,7 +42,7 @@ namespace dragonbyte_engine
 	
 		vulkan::oi.pRenderPass.reset();
 		vulkan::oi.pCommandBuffer.reset();
-		vulkan::oi.pCommandPool.reset();
+		vulkan::oi.pCommandPoolHandler.reset();
 		vulkan::oi.pSyncHandler.reset();
 		vulkan::oi.pGraphicsPipeline.reset();
 		vulkan::oi.pFramebufferHandler.reset();
@@ -108,7 +108,7 @@ namespace dragonbyte_engine
 			create_graphics_pipeline();
 			
 			create_framebuffer();
-			create_command_pool();
+			create_command_pool_handler();
 			create_vertex_buffer();
 			create_command_buffer();
 			
@@ -187,11 +187,11 @@ namespace dragonbyte_engine
 
 		vulkan::oi.pFramebufferHandler = std::make_shared<vulkan::FramebufferHandler>();
 	}
-	void RenderEngine::create_command_pool()
+	void RenderEngine::create_command_pool_handler()
 	{
-		std::cout << "Create Command Pool" << '\n';
+		std::cout << "Create Command Pool Handler" << '\n';
 		
-		vulkan::oi.pCommandPool = std::make_shared<vulkan::CommandPool>(vulkan::CommandPoolQueueType::Graphics);
+		vulkan::oi.pCommandPoolHandler = std::make_shared<vulkan::CommandPoolHandler>();
 	}
 	void RenderEngine::create_command_buffer()
 	{

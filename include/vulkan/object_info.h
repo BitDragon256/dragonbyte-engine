@@ -4,24 +4,13 @@
 
 #include <vulkan/vulkan.h>
 
-//#include "debug_messenger.h"
-//#include "framebuffer.h"
-//#include "graphics_pipeline.h"
-//#include "instance.h"
-//#include "logical_device.h"
-//#include "physical_device.h"
-//#include "render_pass.h"
-//#include "surface.h"
-//#include "swapchain.h"
-//#include "window.h"
-
 namespace dragonbyte_engine
 {
 
 	namespace vulkan
 	{
 		class CommandBuffer;
-		class CommandPool;
+		class CommandPoolHandler;
 		class DebugMessenger;
 		class FramebufferHandler;
 		class GraphicsPipeline;
@@ -42,7 +31,7 @@ namespace dragonbyte_engine
 
 			std::shared_ptr<class DebugMessenger> pDebugMessenger;
 			std::shared_ptr<CommandBuffer> pCommandBuffer;
-			std::shared_ptr<CommandPool> pCommandPool;
+			std::shared_ptr<CommandPoolHandler> pCommandPoolHandler;
 			std::shared_ptr<FramebufferHandler> pFramebufferHandler;
 			std::shared_ptr<GraphicsPipeline> pGraphicsPipeline;
 			std::shared_ptr<Instance> pInstance;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include <memory>
 
 #include <vulkan/vulkan.h>
@@ -15,19 +16,25 @@ namespace dragonbyte_engine
         enum CommandPoolQueueType {
             Graphics = 0, Compute = 1, Transfer = 2
         };
+        #define CP_GRAPHICS CommandPoolQueueType::Graphics
+        #define CP_COMPUTE CommandPoolQueueType::Compute
+        #define CP_TRANSFER CommandPoolQueueType::Transfer
 
         class CommandPool
         {
         public:
 
-            CommandPool(CommandPoolQueueType a_queueType);
+            CommandPool();
             ~CommandPool();
+            
+            void create(CommandPoolQueueType a_queueType);
+            void destroy();
 
             VkCommandPool m_commandPool;
             
         private:
             
-            const CommandPoolQueueType m_queueType;
+            CommandPoolQueueType m_queueType;
             std::weak_ptr<LogicalDevice> m_pLogicalDevice;
 
         };
@@ -41,8 +48,9 @@ namespace dragonbyte_engine
             
             CommandPool* get_command_pool(CommandPoolQueueType a_queueType);
             
-            
         private:
+        
+            std::vector<CommandPool> m_commandPools;
             
         };
 

@@ -11,9 +11,22 @@ namespace dragonbyte_engine
     namespace vulkan
     {
 
-        CommandPool::CommandPool(CommandPoolQueueType a_queueType) :
-            m_pLogicalDevice{ oi.pLogicalDevice }, m_queueType(a_queueType)
+        CommandPool::CommandPool()
         {
+            
+        }
+        CommandPool::~CommandPool()
+        {
+            vkDestroyCommandPool(m_pLogicalDevice.lock()->m_device, m_commandPool, nullptr);
+        }
+    
+        void CommandPool::create(CommandPoolQueueType a_queueType)
+        {
+            std::cout << "Create Command Pool" << std::endl;
+        
+            m_pLogicalDevice = oi.pLogicalDevice;
+            m_queueType = a_queueType;
+        
             QueueFamilyIndices queueFamilyIndices = find_queue_families(oi.pPhysicalDevice->m_physicalDevice, *oi.pSurface);
 
             VkCommandPoolCreateInfo cmdPoolInfo = {};
@@ -21,20 +34,33 @@ namespace dragonbyte_engine
             cmdPoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
             
             uint32_t queueFamilyIndex;
+            std::string err = ", requested ";
             
             switch (a_queueType)
             {
                 case Graphics:
-                    queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
-                    break;
+                    if (queueFamilyIndices.graphicsFamily.has_value())
+                    {
+                        queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
+                        break;
+                    }
+                    err.append("graphics");
                 case Compute:
-                    queueFamilyIndex = queueFamilyIndices.computeFamily.value();
-                    break;
+                    if (queueFamilyIndices.computeFamily.has_value())
+                    {
+                        queueFamilyIndex = queueFamilyIndices.computeFamily.value();
+                        break;
+                    }
+                    err.append("compute");
                 case Transfer:
-                    queueFamilyIndex = queueFamilyIndices.transferFamily.value();
-                    break;
+                    if (queueFamilyIndices.transferFamily.has_value())
+                    {
+                        queueFamilyIndex = queueFamilyIndices.transferFamily.value();
+                        break;
+                    }
+                    err.append("transfer");
                 default:
-                    throw std::runtime_error("No valid Queue Type for Command Pool");
+                    throw std::runtime_error("No valid Queue for Command Pool" + err);
             }
             cmdPoolInfo.queueFamilyIndex = queueFamilyIndex;
             
@@ -42,14 +68,29 @@ namespace dragonbyte_engine
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to create Command Pool");
         }
-        CommandPool::~CommandPool()
-        {
-            vkDestroyCommandPool(m_pLogicalDevice.lock()->m_device, m_commandPool, nullptr);
-        }
 
         CommandPoolHandler::CommandPoolHandler()
         {
+            m_commandPools.resize(2);
+            m_commandPools[0].create(CP_GRAPHICS);
+            m_commandPools[1].create(CP_TRANSFER);
+        }
+        CommandPoolHandler::~CommandPoolHandler()
+        {
+            m_commandPools.clear();
+        }
         
+        CommandPool* CommandPoolHandler::get_command_pool(CommandPoolQueueType a_queueType)
+        {
+            switch (a_queueType)
+            {
+                case Graphics:
+                    return &m_commandPools[0];
+                case Transfer:
+                    return &m_commandPools[1];
+                default:
+                    return nullptr;
+            }
         }
 
     }; // namespace vulkan

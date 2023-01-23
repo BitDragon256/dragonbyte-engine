@@ -15,7 +15,7 @@ namespace dragonbyte_engine
         {
             VkCommandBufferAllocateInfo bufferInfo = {};
             bufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-            bufferInfo.commandPool = oi.pCommandPool->m_commandPool;
+            bufferInfo.commandPool = oi.pCommandPoolHandler->get_command_pool(CP_GRAPHICS)->m_commandPool;
             bufferInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
             bufferInfo.commandBufferCount = 1;
             
