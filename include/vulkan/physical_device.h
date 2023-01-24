@@ -47,6 +47,7 @@ namespace dragonbyte_engine
 		};
 
 		QueueFamilyIndices find_queue_families(const VkPhysicalDevice& a_rPhysicalDevice, const Surface& a_rSurface);
+		uint32_t* get_distinct_queue_families(QueueFamilyIndices a_familyIndices, VkSharingMode& a_rSharingMode, uint32_t& a_rDistinctCount);
 
 	} // namespace vulkan
 

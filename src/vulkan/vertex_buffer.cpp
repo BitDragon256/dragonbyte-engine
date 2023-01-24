@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include "vulkan/logical_device.h"
+#include "vulkan/physical_device.h"
 #include "vulkan/command_buffer.h"
 
 #include "vulkan/memory.h"
@@ -26,7 +27,16 @@ namespace dragonbyte_engine
             bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
             bufferInfo.size = sizeof(m_vertices[0]) * m_vertices.size();
             bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
-            bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+            
+            QueueFamilyIndices qfi = find_queue_families(oi.pPhysicalDevice->m_physicalDevice, *oi.pSurface);
+            
+            bufferInfo.sharingMode = VK_SHARING_MODE_CONCURRENT;
+            uint32_t distinctFamilyCount;
+            VkSharingMode sharingMode;
+            uint32_t* queueFamilyIndices = get_distinct_queue_families(qfi, sharingMode, distinctFamilyCount);
+            bufferInfo.queueFamilyIndexCount = 2;
+            
+            bufferInfo.pQueueFamilyIndices = queueFamilyIndices;
             
             VkResult res = vkCreateBuffer(device, &bufferInfo, nullptr, &m_vertexBuffer);
             if (res != VK_SUCCESS)

@@ -21,6 +21,7 @@ namespace dragonbyte_engine
 			VkDevice m_device;
 			VkQueue m_graphicsQueue;
 			VkQueue m_presentQueue;
+			VkQueue m_transferQueue;
 
 		private:
 
