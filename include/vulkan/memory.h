@@ -2,6 +2,7 @@
 
 #include <vulkan/vulkan.h>
 
+#include "object_engine.h"
 #include "physical_device.h"
 
 namespace dragonbyte_engine
@@ -10,9 +11,9 @@ namespace dragonbyte_engine
     namespace vulkan
     {
         
-        uint32_t findMemoryType(uint32_t a_typeFilter, VkMemoryPropertyFlags a_properties, const PhysicalDevice& a_krPhysicalDevice) {
+        uint32_t find_memory_type(uint32_t a_typeFilter, VkMemoryPropertyFlags a_properties) {
             VkPhysicalDeviceMemoryProperties memProperties;
-            vkGetPhysicalDeviceMemoryProperties(a_krPhysicalDevice.m_physicalDevice, &memProperties);
+            vkGetPhysicalDeviceMemoryProperties(oi.pPhysicalDevice->m_physicalDevice, &memProperties);
             
             for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
                 if ((a_typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & a_properties) == a_properties) {

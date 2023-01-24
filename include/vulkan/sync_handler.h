@@ -9,7 +9,7 @@ namespace dragonbyte_engine
 
     namespace vulkan
     {
-        class ObjectInfo;
+        struct ObjectInfo;
         
         class SyncHandler
         {

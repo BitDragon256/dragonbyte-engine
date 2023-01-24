@@ -11,7 +11,7 @@ namespace dragonbyte_engine
     namespace vulkan
     {
         
-        typedef struct
+        typedef struct Vertex
         {
             glm::vec2 pos;
             glm::vec3 color;

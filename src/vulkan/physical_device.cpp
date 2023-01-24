@@ -127,23 +127,17 @@ namespace dragonbyte_engine
 			if (distinctFamilies.size() > 1)
 			{
 				a_rSharingMode = VK_SHARING_MODE_CONCURRENT;
-				a_rDistinctCount = distinctFamilies.size();
+				a_rDistinctCount = static_cast<uint32_t>(distinctFamilies.size());
 				
-				uint32_t queueFamilies[distinctFamilies.size()];
-				auto it = distinctFamilies.begin();
-				int i = 0;
-				while (it != distinctFamilies.end())
-				{
-					queueFamilies[i] = *it;
-					it++;
-					i++;
-				}
-				return queueFamilies;
+				std::vector<uint32_t> queueFamilies;
+				queueFamilies.reserve(distinctFamilies.size());
+				std::copy(distinctFamilies.begin(), distinctFamilies.end(), std::back_inserter(queueFamilies));
+				return queueFamilies.data();
 			}
 			else
 				a_rSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 			
-			
+			return nullptr;
 		}
 
 	} // namespace vulkan

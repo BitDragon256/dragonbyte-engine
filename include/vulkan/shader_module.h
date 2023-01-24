@@ -25,7 +25,11 @@ namespace dragonbyte_engine
 				Vert = 0, Frag = 1
 			} const tShaderType;
 
+#ifdef _WIN32
+			const std::string kPathPrefix = "X:/Dev/CurvedSpaceGame/dragonbyte-engine/default_shaders/";
+#else
 			const std::string kPathPrefix = "/home/BitDragon256/Dev/TestProgram/dragonbyte-engine/default_shaders/";
+#endif
 			const std::string kVertShaderPathPostfix = ".vert.spv";
 			const std::string kFragShaderPathPostfix = ".frag.spv";
 
