@@ -9,6 +9,7 @@
 
 #include "object_info.h"
 #include "vertex.h"
+
 #include "buffer.h"
 
 namespace dragonbyte_engine
@@ -26,7 +27,7 @@ namespace dragonbyte_engine
         
             std::vector<Vertex> m_vertices;
             
-            Buffer<Vertex> m_buffer;
+            Buffer<int> m_buffer;
             
             void bind();
             

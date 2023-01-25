@@ -19,9 +19,9 @@ namespace dragonbyte_engine
         VertexBuffer::VertexBuffer() :
             m_pLogicalDevice{ oi.pLogicalDevice }
         {
-            m_vertices = kTestTriVertices;
-            m_buffer.create(m_vertices.size(), sizeof(Vertex), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-            m_buffer.copy_data(m_vertices);
+            //m_vertices = kTestTriVertices;
+            //m_buffer.create(m_vertices.size(), sizeof(Vertex), static_cast<VkBufferUsageFlags>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT), static_cast<VkMemoryPropertyFlags>(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT));
+            //m_buffer.copy_data(m_vertices);
         }
         VertexBuffer::~VertexBuffer()
         {
@@ -30,9 +30,9 @@ namespace dragonbyte_engine
         
         void VertexBuffer::bind()
         {
-            VkBuffer vertexBuffers[] = { m_buffer.m_buffer };
-            VkDeviceSize offsets[] = { 0 };
-            vkCmdBindVertexBuffers(oi.pCommandBuffer->m_commandBuffer, 0, 1, vertexBuffers, offsets);
+            //VkBuffer vertexBuffers[] = { m_buffer.m_buffer };
+            //VkDeviceSize offsets[] = { 0 };
+            //vkCmdBindVertexBuffers(oi.pCommandBuffer->m_commandBuffer, 0, 1, vertexBuffers, offsets);
         }
         
     } // namespace vulkan

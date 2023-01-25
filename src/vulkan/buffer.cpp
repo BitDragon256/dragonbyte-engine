@@ -13,12 +13,14 @@ namespace dragonbyte_engine
     namespace vulkan
     {
         
-        template<typename T> Buffer<T>::Buffer() :
+        template<typename T>
+        Buffer<T>::Buffer() :
             m_created{ false }
         {
 
         }
-        template<typename T> Buffer<T>::~Buffer()
+        template<typename T>
+        Buffer<T>::~Buffer()
         {
             destruct();
         }
