@@ -27,7 +27,7 @@ namespace dragonbyte_engine
         
             std::vector<Vertex> m_vertices;
             
-            Buffer<int> m_buffer;
+            Buffer<Vertex> m_buffer;
             
             void bind();
             
@@ -36,7 +36,7 @@ namespace dragonbyte_engine
             std::weak_ptr<LogicalDevice> m_pLogicalDevice;
         
             const std::vector<Vertex> kTestTriVertices = {
-                { { 0.0f, -0.5f }, { 1.f, 0.f, 0.f } },
+                { { 0.0f, -0.7f }, { 1.f, 0.f, 0.f } },
                 { { 0.5f, 0.5f  }, { 0.f, 1.f, 0.f } },
                 { { -0.5f, 0.5f }, { 0.f, 0.f, 1.f } }
             };
