@@ -11,11 +11,11 @@ namespace dragonbyte_engine
     namespace vulkan
     {
     
-        CommandBuffer::CommandBuffer()
+        CommandBuffer::CommandBuffer(CommandPoolQueueType a_queueType)
         {
             VkCommandBufferAllocateInfo bufferInfo = {};
             bufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-            bufferInfo.commandPool = oi.pCommandPoolHandler->get_command_pool(CP_GRAPHICS)->m_commandPool;
+            bufferInfo.commandPool = oi.pCommandPoolHandler->get_command_pool(a_queueType)->m_commandPool;
             bufferInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
             bufferInfo.commandBufferCount = 1;
             
@@ -25,16 +25,21 @@ namespace dragonbyte_engine
         }
         CommandBuffer::~CommandBuffer()
         {
-        
+            vkFreeCommandBuffers(
+                oi.pLogicalDevice->m_device,
+                oi.pCommandPoolHandler->get_command_pool(CP_GRAPHICS)->m_commandPool,
+                1,
+                &m_commandBuffer
+            );
         }
         
-        void CommandBuffer::begin_recording(const uint32_t a_kImageIndex)
+        void CommandBuffer::begin_recording(VkCommandBufferUsageFlags a_usage)
         {
             vkResetCommandBuffer(m_commandBuffer, 0);
         
             VkCommandBufferBeginInfo beginInfo = {};
             beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-            beginInfo.flags = 0;
+            beginInfo.flags = a_usage;
             beginInfo.pInheritanceInfo = nullptr;
             
             VkResult res = vkBeginCommandBuffer(m_commandBuffer, &beginInfo);

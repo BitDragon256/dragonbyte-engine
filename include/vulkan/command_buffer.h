@@ -14,10 +14,10 @@ namespace dragonbyte_engine
         {
         public:
             
-            CommandBuffer();
+            CommandBuffer(CommandPoolQueueType a_queueType);
             ~CommandBuffer();
             
-            void begin_recording(const uint32_t a_kImageIndex);
+            void begin_recording(VkCommandBufferUsageFlags a_usage);
             
             VkCommandBuffer m_commandBuffer;
             

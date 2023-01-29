@@ -20,8 +20,20 @@ namespace dragonbyte_engine
             m_pLogicalDevice{ oi.pLogicalDevice }
         {
             m_vertices = kTestTriVertices;
-            m_buffer.create(static_cast<uint64_t>(m_vertices.size()), sizeof(Vertex), static_cast<VkBufferUsageFlags>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT), static_cast<VkMemoryPropertyFlags>(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT));
-            m_buffer.copy_data(m_vertices);
+            m_buffer.create(
+                static_cast<uint64_t>(m_vertices.size()),
+                sizeof(Vertex),
+                VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
+                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+            );
+            
+            m_stagingBuffer.create(
+                static_cast<uint64_t>(m_vertices.size()),
+                sizeof(Vertex),
+                VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+                VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+            );
+            m_stagingBuffer.copy_data(m_vertices);
         }
         VertexBuffer::~VertexBuffer()
         {

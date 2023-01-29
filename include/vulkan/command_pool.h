@@ -14,11 +14,12 @@ namespace dragonbyte_engine
     {
 
         enum CommandPoolQueueType {
-            Graphics = 0, Compute = 1, Transfer = 2
+            Graphics = 0, Compute = 1, Transfer = 2, TempBuffers = 3
         };
         #define CP_GRAPHICS CommandPoolQueueType::Graphics
         #define CP_COMPUTE CommandPoolQueueType::Compute
         #define CP_TRANSFER CommandPoolQueueType::Transfer
+        #define CP_TEMP CommandPoolQueueType::TempBuffers;
 
         class CommandPool
         {

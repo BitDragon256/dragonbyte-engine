@@ -7,6 +7,7 @@
 #include "object_info.h"
 #include "logical_device.h"
 #include "memory.h"
+#include "command_buffer.h"
 
 namespace dragonbyte_engine
 {
@@ -45,6 +46,29 @@ namespace dragonbyte_engine
                 vkMapMemory(oi.pLogicalDevice->m_device, m_deviceMemory, 0, m_totalSize, 0, &pData);
                 memcpy(pData, a_rData.data(), (size_t)m_totalSize);
                 vkUnmapMemory(oi.pLogicalDevice->m_device, m_deviceMemory);
+            }
+            
+            void copy_from(Buffer<T>& a_rSrcBuffer)
+            {
+                CommandBuffer commandBuffer();
+                commandBuffer.begin_recording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
+                
+                VkBufferCopy copyRegion = {};
+                copyRegion.srcOffset = 0;
+                copyRegion.dstOffset = 0;
+                copyRegion.size = a_rSrcBuffer.m_totalSize;
+                
+                vkCmdCopyBuffer(commandBuffer, a_rSrcBuffer.m_buffer, m_buffer, 1, &copyRegion);
+            
+                vkEndCommandBuffer(commandBuffer);
+                
+                VkSubmitInfo submitInfo = {};
+                submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+                submitInfo.commandBufferCount = 1;
+                submitInfo.pCommandBuffers = &commandBuffer;
+                
+                vkQueueSubmit(oi.pLogicalDevice->m_transferQueue, 1, &submitInfo, VK_NULL_HANDLE);
+                vkQueueWaitIdle(oi.pLogicalDevice->m_transferQueue);
             }
 
         private:
