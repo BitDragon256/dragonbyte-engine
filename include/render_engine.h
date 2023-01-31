@@ -69,6 +69,7 @@ namespace dragonbyte_engine
 		void create_command_buffer();
 		void create_sync_objects();
 		void create_vertex_buffer();
+		void create_index_buffer();
 		
 		void draw_frame();
 		void record_command_buffer(uint32_t imageIndex);

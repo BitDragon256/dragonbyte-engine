@@ -14,6 +14,7 @@ namespace dragonbyte_engine
 		class DebugMessenger;
 		class FramebufferHandler;
 		class GraphicsPipeline;
+		class IndexBuffer;
 		class Instance;
 		class LogicalDevice;
 		class PhysicalDevice;
@@ -34,6 +35,7 @@ namespace dragonbyte_engine
 			std::shared_ptr<CommandPoolHandler> pCommandPoolHandler;
 			std::shared_ptr<FramebufferHandler> pFramebufferHandler;
 			std::shared_ptr<GraphicsPipeline> pGraphicsPipeline;
+			std::shared_ptr<IndexBuffer> pIndexBuffer;
 			std::shared_ptr<Instance> pInstance;
 			std::shared_ptr<LogicalDevice> pLogicalDevice;
 			std::shared_ptr<PhysicalDevice> pPhysicalDevice;

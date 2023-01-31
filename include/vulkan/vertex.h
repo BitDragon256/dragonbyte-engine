@@ -21,6 +21,7 @@ namespace dragonbyte_engine
         } Vertex;
 
         typedef uint16_t Index;
+#define INDEX_TYPE_VK VK_INDEX_TYPE_UINT16
         
     } // namespace vulkan
     

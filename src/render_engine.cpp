@@ -23,6 +23,7 @@
 #include "vulkan/command_buffer.h"
 #include "vulkan/sync_handler.h"
 #include "vulkan/vertex_buffer.h"
+#include "vulkan/index_buffer.h"
 
 namespace dragonbyte_engine
 {	
@@ -49,6 +50,7 @@ namespace dragonbyte_engine
 		vulkan::oi.pSwapChain.reset();
 		
 		vulkan::oi.pVertexBuffer.reset();
+		vulkan::oi.pIndexBuffer.reset();
 		
 		vulkan::oi.pLogicalDevice.reset();
 		vulkan::oi.pPhysicalDevice.reset();
@@ -109,7 +111,10 @@ namespace dragonbyte_engine
 			
 			create_framebuffer();
 			create_command_pool_handler();
+
 			create_vertex_buffer();
+			create_index_buffer();
+
 			create_command_buffer();
 			
 			create_sync_objects();
@@ -211,6 +216,12 @@ namespace dragonbyte_engine
 		
 		vulkan::oi.pVertexBuffer = std::make_shared<vulkan::VertexBuffer>();
 	}
+	void RenderEngine::create_index_buffer()
+	{
+		std::cout << "Create Index Buffer" << '\n';
+
+		vulkan::oi.pIndexBuffer = std::make_shared<vulkan::IndexBuffer>();
+	}
 	
 	void RenderEngine::draw_frame()
 	{
@@ -232,8 +243,10 @@ namespace dragonbyte_engine
 		vulkan::oi.pGraphicsPipeline->bind();
 		
 		vulkan::oi.pVertexBuffer->bind();
-		
-		vkCmdDraw(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pVertexBuffer->m_vertices.size()), 1, 0, 0);
+		vulkan::oi.pIndexBuffer->bind();
+
+		// vkCmdDraw(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pVertexBuffer->m_vertices.size()), 1, 0, 0);
+		vkCmdDrawIndexed(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pIndexBuffer->m_indices.size()), 1, 0, 0, 0);
 		
 		vkCmdEndRenderPass(vulkan::oi.pCommandBuffer->m_commandBuffer);
 		VkResult res = vkEndCommandBuffer(vulkan::oi.pCommandBuffer->m_commandBuffer);
