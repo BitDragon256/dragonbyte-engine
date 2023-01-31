@@ -89,6 +89,7 @@ namespace dragonbyte_engine
                 case Transfer:
                     return &m_commandPools[1];
                 default:
+                    throw std::runtime_error("No valid Command Pool Queue Type given");
                     return nullptr;
             }
         }

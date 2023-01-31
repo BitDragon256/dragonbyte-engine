@@ -7,7 +7,6 @@
 #include <glm/glm.hpp>
 #include <vulkan/vulkan.h>
 
-#include "object_info.h"
 #include "vertex.h"
 
 #include "buffer.h"
@@ -40,6 +39,16 @@ namespace dragonbyte_engine
                 { { 0.0f, -0.7f }, { 1.f, 0.f, 0.f } },
                 { { 0.5f, 0.5f  }, { 0.f, 1.f, 0.f } },
                 { { -0.5f, 0.5f }, { 0.f, 0.f, 1.f } }
+            };
+
+            const std::vector<Vertex> kTestSquareVertices = {
+                { { -0.5f, -0.5f }, { 1.0f, 0.0f, 0.0f } },
+                { {  0.5f, -0.5f }, { 0.0f, 1.0f, 0.0f } },
+                { {  0.5f,  0.5f }, { 0.0f, 0.0f, 1.0f } },
+                { { -0.5f,  0.5f }, { 1.0f, 1.0f, 1.0f } }
+            };
+            const std::vector<Index> kTestSquareIndices = {
+                0, 1, 2, 2, 3, 0
             };
             
         };

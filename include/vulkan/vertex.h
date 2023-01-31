@@ -19,6 +19,8 @@ namespace dragonbyte_engine
             static VkVertexInputBindingDescription get_binding_desc();
             static std::array<VkVertexInputAttributeDescription, 2> get_attribute_desc();
         } Vertex;
+
+        typedef uint16_t Index;
         
     } // namespace vulkan
     

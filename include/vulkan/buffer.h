@@ -53,7 +53,7 @@ namespace dragonbyte_engine
             
             void copy_from(Buffer<T>& a_rSrcBuffer)
             {
-                CommandBuffer commandBuffer{ CP_TEMP };
+                CommandBuffer commandBuffer{ CP_TRANSFER };
                 commandBuffer.begin_recording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
                 
                 VkBufferCopy copyRegion = {};
