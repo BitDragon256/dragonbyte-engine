@@ -11,7 +11,8 @@ namespace dragonbyte_engine
     namespace vulkan
     {
     
-        CommandBuffer::CommandBuffer(CommandPoolQueueType a_queueType)
+        CommandBuffer::CommandBuffer(CommandPoolQueueType a_queueType) :
+            m_queueType{ a_queueType }
         {
             VkCommandBufferAllocateInfo bufferInfo = {};
             bufferInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -27,7 +28,7 @@ namespace dragonbyte_engine
         {
             vkFreeCommandBuffers(
                 oi.pLogicalDevice->m_device,
-                oi.pCommandPoolHandler->get_command_pool(CP_GRAPHICS)->m_commandPool,
+                oi.pCommandPoolHandler->get_command_pool(m_queueType)->m_commandPool,
                 1,
                 &m_commandBuffer
             );
@@ -45,6 +46,10 @@ namespace dragonbyte_engine
             VkResult res = vkBeginCommandBuffer(m_commandBuffer, &beginInfo);
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to begin Command Buffer Recording");
+        }
+        void CommandBuffer::end_recording()
+        {
+            vkEndCommandBuffer(m_commandBuffer);
         }
     
     }; // namespace vulkan

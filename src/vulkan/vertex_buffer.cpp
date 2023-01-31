@@ -34,6 +34,10 @@ namespace dragonbyte_engine
                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
             );
             m_stagingBuffer.copy_data(m_vertices);
+            
+            m_buffer.copy_from(m_stagingBuffer);
+            
+            m_stagingBuffer.destruct();
         }
         VertexBuffer::~VertexBuffer()
         {

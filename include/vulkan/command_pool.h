@@ -13,13 +13,13 @@ namespace dragonbyte_engine
     namespace vulkan
     {
 
-        enum CommandPoolQueueType {
+        typedef enum eCommandPoolQueueType {
             Graphics = 0, Compute = 1, Transfer = 2, TempBuffers = 3
-        };
+        } CommandPoolQueueType;
         #define CP_GRAPHICS CommandPoolQueueType::Graphics
         #define CP_COMPUTE CommandPoolQueueType::Compute
         #define CP_TRANSFER CommandPoolQueueType::Transfer
-        #define CP_TEMP CommandPoolQueueType::TempBuffers;
+        #define CP_TEMP CommandPoolQueueType::TempBuffers
 
         class CommandPool
         {

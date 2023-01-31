@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 #include <vector>
 
 #include <vulkan/vulkan.h>
@@ -8,6 +10,7 @@
 #include "logical_device.h"
 #include "memory.h"
 #include "command_buffer.h"
+#include "command_pool.h"
 
 namespace dragonbyte_engine
 {
@@ -44,13 +47,13 @@ namespace dragonbyte_engine
             {
                 void* pData;
                 vkMapMemory(oi.pLogicalDevice->m_device, m_deviceMemory, 0, m_totalSize, 0, &pData);
-                memcpy(pData, a_rData.data(), (size_t)m_totalSize);
+                memcpy(pData, a_rData.data(), (size_t) m_totalSize);
                 vkUnmapMemory(oi.pLogicalDevice->m_device, m_deviceMemory);
             }
             
             void copy_from(Buffer<T>& a_rSrcBuffer)
             {
-                CommandBuffer commandBuffer();
+                CommandBuffer commandBuffer{ CP_TEMP };
                 commandBuffer.begin_recording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
                 
                 VkBufferCopy copyRegion = {};
@@ -58,17 +61,24 @@ namespace dragonbyte_engine
                 copyRegion.dstOffset = 0;
                 copyRegion.size = a_rSrcBuffer.m_totalSize;
                 
-                vkCmdCopyBuffer(commandBuffer, a_rSrcBuffer.m_buffer, m_buffer, 1, &copyRegion);
+                vkCmdCopyBuffer(commandBuffer.m_commandBuffer, a_rSrcBuffer.m_buffer, m_buffer, 1, &copyRegion);
             
-                vkEndCommandBuffer(commandBuffer);
+                commandBuffer.end_recording();
                 
                 VkSubmitInfo submitInfo = {};
                 submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
                 submitInfo.commandBufferCount = 1;
-                submitInfo.pCommandBuffers = &commandBuffer;
+                submitInfo.pCommandBuffers = &commandBuffer.m_commandBuffer;
                 
                 vkQueueSubmit(oi.pLogicalDevice->m_transferQueue, 1, &submitInfo, VK_NULL_HANDLE);
                 vkQueueWaitIdle(oi.pLogicalDevice->m_transferQueue);
+            }
+            void destruct()
+            {
+                vkDestroyBuffer(oi.pLogicalDevice->m_device, m_buffer, nullptr);
+                vkFreeMemory(oi.pLogicalDevice->m_device, m_deviceMemory, nullptr);
+
+                m_created = false;
             }
 
         private:
@@ -108,13 +118,6 @@ namespace dragonbyte_engine
                     throw std::runtime_error("Failed to allocate Buffer Memory");
 
                 vkBindBufferMemory(oi.pLogicalDevice->m_device, m_buffer, m_deviceMemory, 0);
-            }
-            void destruct()
-            {
-                vkDestroyBuffer(oi.pLogicalDevice->m_device, m_buffer, nullptr);
-                vkFreeMemory(oi.pLogicalDevice->m_device, m_deviceMemory, nullptr);
-
-                m_created = false;
             }
 
         };

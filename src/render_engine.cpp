@@ -197,7 +197,7 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Create Command Buffer" << '\n';
 		
-		vulkan::oi.pCommandBuffer = std::make_shared<vulkan::CommandBuffer>();
+		vulkan::oi.pCommandBuffer = std::make_shared<vulkan::CommandBuffer>(vulkan::CommandPoolQueueType::Graphics);
 	}
 	void RenderEngine::create_sync_objects()
 	{

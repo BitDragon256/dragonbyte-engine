@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.2)
 
 file(GLOB_RECURSE SOURCE_FILES_ENGINE "src/*.cpp")
 file(GLOB_RECURSE HEADER_FILES_ENGINE "include/*.h")
