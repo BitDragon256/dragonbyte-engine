@@ -27,7 +27,7 @@ namespace dragonbyte_engine
             void create();
             void destruct();
             
-            VkDescriptorSetLayout m_descriptorSet;
+            VkDescriptorSetLayout m_descriptorSetLayout;
             
         private:
             
