@@ -41,6 +41,11 @@ namespace dragonbyte_engine
 	{
 		vkWaitForFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence, VK_TRUE, UINT64_MAX);
 	
+		std::cout << "Starting destruction" <<'\n';
+		
+		vulkan::oi.pVertexBuffer.reset();
+		vulkan::oi.pIndexBuffer.reset();
+		
 		vulkan::oi.pRenderPass.reset();
 		vulkan::oi.pCommandBuffer.reset();
 		vulkan::oi.pCommandPoolHandler.reset();
@@ -48,9 +53,6 @@ namespace dragonbyte_engine
 		vulkan::oi.pGraphicsPipeline.reset();
 		vulkan::oi.pFramebufferHandler.reset();
 		vulkan::oi.pSwapChain.reset();
-		
-		vulkan::oi.pVertexBuffer.reset();
-		vulkan::oi.pIndexBuffer.reset();
 		
 		vulkan::oi.pLogicalDevice.reset();
 		vulkan::oi.pPhysicalDevice.reset();

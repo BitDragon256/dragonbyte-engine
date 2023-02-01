@@ -75,10 +75,13 @@ namespace dragonbyte_engine
             }
             void destruct()
             {
-                vkDestroyBuffer(oi.pLogicalDevice->m_device, m_buffer, nullptr);
-                vkFreeMemory(oi.pLogicalDevice->m_device, m_deviceMemory, nullptr);
+                if (m_created)
+                {
+                    vkDestroyBuffer(oi.pLogicalDevice->m_device, m_buffer, nullptr);
+                    vkFreeMemory(oi.pLogicalDevice->m_device, m_deviceMemory, nullptr);
 
-                m_created = false;
+                    m_created = false;
+                }
             }
 
         private:
