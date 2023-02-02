@@ -23,6 +23,7 @@ namespace dragonbyte_engine
 		class SwapChain;
 		class SyncHandler;
 		class VertexBuffer;
+		class Allocator;
 		class Window;
 
 		struct ObjectInfo
@@ -44,6 +45,7 @@ namespace dragonbyte_engine
 			std::shared_ptr<SwapChain> pSwapChain;
 			std::shared_ptr<SyncHandler> pSyncHandler;
 			std::shared_ptr<VertexBuffer> pVertexBuffer;
+			std::shared_ptr<Allocator> pAllocator;
 			std::shared_ptr<Window> pWindow;
 
 			void reset();
