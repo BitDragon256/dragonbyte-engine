@@ -5,5 +5,5 @@
 	path = external/simpleini
 	url = https://github.com/brofield/simpleini.git
 [submodule "VulkanMemoryAllocator"]
-	path = VulkanMemoryAllocator
+	path = external/VulkanMemoryAllocator
 	url = https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator
