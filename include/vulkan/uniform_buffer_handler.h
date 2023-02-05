@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "buffer.h"
-#include "descriptor_set.h"
+#include "descriptor_set_handler.h"
 
 namespace dragonbyte_engine
 {

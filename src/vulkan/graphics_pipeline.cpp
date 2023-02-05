@@ -5,7 +5,7 @@
 #include "vulkan/object_info.h"
 
 #include "vulkan/command_buffer.h"
-#include "vulkan/descriptor_set.h"
+#include "vulkan/descriptor_set_handler.h"
 #include "vulkan/render_pass.h"
 #include "vulkan/swapchain.h"
 #include "vulkan/vertex.h"
@@ -115,7 +115,7 @@ namespace dragonbyte_engine
 
 			rasterizer.lineWidth = 1.0f;
 
-			rasterizer.cullMode = VK_CULL_MODE_BACK_BIT;
+			rasterizer.cullMode = VK_CULL_MODE_NONE;
 			rasterizer.frontFace = VK_FRONT_FACE_CLOCKWISE;
 
 			rasterizer.depthBiasEnable = VK_FALSE;
@@ -174,7 +174,7 @@ namespace dragonbyte_engine
 			VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = 1;
-			pipelineLayoutInfo.pSetLayouts = &oi.pDescriptorSet->m_descriptorSetLayout;
+			pipelineLayoutInfo.pSetLayouts = &oi.pDescriptorSetHandler->m_descriptorSetLayout;
 			pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
 			pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 

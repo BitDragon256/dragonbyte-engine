@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <vulkan/vulkan.h>
 #include <glm/glm.hpp>
 
@@ -16,18 +18,23 @@ namespace dragonbyte_engine
             glm::mat4 proj;
         };
         
-        class DescriptorSet
+        class DescriptorSetHandler
         {
             
         public:
             
-            DescriptorSet();
-            ~DescriptorSet();
-            
-            void create();
-            void destruct();
+            DescriptorSetHandler();
+            ~DescriptorSetHandler();
             
             VkDescriptorSetLayout m_descriptorSetLayout;
+            std::vector<VkDescriptorSet> m_descriptorSets;
+
+            void create();
+            void create_descriptor_set();
+            void destruct();
+
+            void bind(uint32_t frame);
+            
             
         private:
             

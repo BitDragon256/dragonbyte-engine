@@ -30,7 +30,8 @@
 #include "vulkan/vertex_buffer.h"
 #include "vulkan/index_buffer.h"
 #include "vulkan/uniform_buffer_handler.h"
-#include "vulkan/descriptor_set.h"
+#include "vulkan/descriptor_set_handler.h"
+#include "vulkan/descriptor_pool.h"
 
 namespace dragonbyte_engine
 {	
@@ -62,7 +63,8 @@ namespace dragonbyte_engine
 		vulkan::oi.pSwapChain.reset();
 
 		vulkan::oi.pUniformBufferHandler.reset();
-		vulkan::oi.pDescriptorSet.reset();
+		vulkan::oi.pDescriptorPool.reset();
+		vulkan::oi.pDescriptorSetHandler.reset();
 		
 		vulkan::oi.pLogicalDevice.reset();
 		vulkan::oi.pPhysicalDevice.reset();
@@ -121,7 +123,7 @@ namespace dragonbyte_engine
 
 			create_swap_chain();
 			create_render_pass();
-			create_descriptor_set();
+			create_descriptor_set_layout();
 			create_graphics_pipeline();
 			
 			create_framebuffer();
@@ -132,6 +134,8 @@ namespace dragonbyte_engine
 			create_vertex_buffer();
 			create_index_buffer();
 			create_uniform_buffer_handler();
+			create_descriptor_pool();
+			create_descriptor_set_handler();
 
 			create_command_buffer();
 			
@@ -246,17 +250,30 @@ namespace dragonbyte_engine
 		
 		vulkan::oi.pAllocator = std::make_shared<vulkan::Allocator>();
 	}
-	void RenderEngine::create_descriptor_set()
+	void RenderEngine::create_descriptor_set_handler()
 	{
 		std::cout << "Create Descriptor Set" << '\n';
 
-		vulkan::oi.pDescriptorSet = std::make_shared<vulkan::DescriptorSet>();
+		vulkan::oi.pDescriptorSetHandler->create();
 	}
 	void RenderEngine::create_uniform_buffer_handler()
 	{
 		std::cout << "Create Uniform Buffer Handler" << '\n';
 		
 		vulkan::oi.pUniformBufferHandler = std::make_shared<vulkan::UniformBufferHandler>();
+	}
+	void RenderEngine::create_descriptor_pool()
+	{
+		std::cout << "Create Descriptor Pool" << '\n';
+
+		vulkan::oi.pDescriptorPool = std::make_shared<vulkan::DescriptorPool>();
+	}
+	void RenderEngine::create_descriptor_set_layout()
+	{
+		std::cout << "Create Descriptor Set Layout" << '\n';
+
+		vulkan::oi.pDescriptorSetHandler = std::make_shared<vulkan::DescriptorSetHandler>();
+		vulkan::oi.pDescriptorSetHandler->create_descriptor_set();
 	}
 	
 	void RenderEngine::draw_frame()
@@ -297,6 +314,8 @@ namespace dragonbyte_engine
 		
 		vulkan::oi.pVertexBuffer->bind();
 		vulkan::oi.pIndexBuffer->bind();
+
+		vulkan::oi.pDescriptorSetHandler->bind(a_imageIndex);
 
 		// vkCmdDraw(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pVertexBuffer->m_vertices.size()), 1, 0, 0);
 		vkCmdDrawIndexed(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pIndexBuffer->m_indices.size()), 1, 0, 0, 0);
