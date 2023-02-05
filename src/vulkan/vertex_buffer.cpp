@@ -29,6 +29,7 @@ namespace dragonbyte_engine
                 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
             );
             
+            /*
             m_stagingBuffer.create(
                 static_cast<uint64_t>(m_vertices.size()),
                 sizeof(Vertex),
@@ -40,6 +41,7 @@ namespace dragonbyte_engine
             m_buffer.copy_from(m_stagingBuffer);
             
             m_stagingBuffer.destruct();
+            */
         }
         VertexBuffer::~VertexBuffer()
         {

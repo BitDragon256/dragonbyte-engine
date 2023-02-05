@@ -113,6 +113,8 @@ namespace dragonbyte_engine
 			
 			create_framebuffer();
 			create_command_pool_handler();
+			
+			create_allocator();
 
 			create_vertex_buffer();
 			create_index_buffer();
@@ -223,6 +225,12 @@ namespace dragonbyte_engine
 		std::cout << "Create Index Buffer" << '\n';
 
 		vulkan::oi.pIndexBuffer = std::make_shared<vulkan::IndexBuffer>();
+	}
+	void RenderEngine::create_allocator()
+	{
+		std::cout << "Create VMA Allocator" << '\n';
+		
+		vulkan::oi.pAllocator = std::make_shared<vulkan::Allocator>();
 	}
 	
 	void RenderEngine::draw_frame()

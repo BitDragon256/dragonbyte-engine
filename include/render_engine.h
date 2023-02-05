@@ -68,6 +68,7 @@ namespace dragonbyte_engine
 		void create_command_pool_handler();
 		void create_command_buffer();
 		void create_sync_objects();
+		void create_allocator();
 		void create_vertex_buffer();
 		void create_index_buffer();
 		

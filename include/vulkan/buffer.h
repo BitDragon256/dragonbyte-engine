@@ -5,12 +5,16 @@
 #include <vector>
 
 #include <vulkan/vulkan.h>
+#include <vk_mem_alloc.h>
 
 #include "object_info.h"
 #include "logical_device.h"
 #include "memory.h"
 #include "command_buffer.h"
 #include "command_pool.h"
+#include "allocator.h"
+
+#define USE_VMA
 
 namespace dragonbyte_engine
 {
@@ -77,8 +81,16 @@ namespace dragonbyte_engine
             {
                 if (m_created)
                 {
+#ifdef USE_VMA
+                    vmaDestroyBuffer(
+                        oi.pAllocator->m_allocator,
+                        m_buffer,
+                        m_allocation
+                    );
+#else
                     vkDestroyBuffer(oi.pLogicalDevice->m_device, m_buffer, nullptr);
                     vkFreeMemory(oi.pLogicalDevice->m_device, m_deviceMemory, nullptr);
+#endif
 
                     m_created = false;
                 }
@@ -91,6 +103,8 @@ namespace dragonbyte_engine
             VkDeviceSize m_totalSize;
 
             bool m_created;
+            
+            VmaAllocation m_allocation;
 
             void create_buffer(VkBufferUsageFlags a_usage)
             {
@@ -102,12 +116,31 @@ namespace dragonbyte_engine
                 bufferInfo.usage = a_usage;
                 bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
+#ifdef USE_VMA
+                
+                VmaAllocationCreateInfo vmaAllocInfo = {};
+                vmaAllocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+                VkResult res = vmaCreateBuffer(
+                    oi.pAllocator->m_allocator,
+                    &bufferInfo,
+                    &vmaAllocInfo,
+                    &m_buffer,
+                    &m_allocation,
+                    nullptr
+                );
+                
+#else          
                 VkResult res = vkCreateBuffer(oi.pLogicalDevice->m_device, &bufferInfo, nullptr, &m_buffer);
+#endif
                 if (res != VK_SUCCESS)
                     throw std::runtime_error("Failed to create Buffer");
+                    
             }
             void allocate_memory(VkMemoryPropertyFlags a_properties)
             {
+#ifdef USE_VMA
+
+#else
                 VkMemoryRequirements memReq;
                 vkGetBufferMemoryRequirements(oi.pLogicalDevice->m_device, m_buffer, &memReq);
 
@@ -121,6 +154,7 @@ namespace dragonbyte_engine
                     throw std::runtime_error("Failed to allocate Buffer Memory");
 
                 vkBindBufferMemory(oi.pLogicalDevice->m_device, m_buffer, m_deviceMemory, 0);
+#endif
             }
 
         };
