@@ -1,9 +1,14 @@
 #include "render_engine.h"
 
+#include <chrono>
 #include <iostream>
 #include <stdexcept>
 
 #include <GLFW/glfw3.h>
+
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "tools.h"
 #include "vulkan/validation_layers.h"
@@ -24,6 +29,8 @@
 #include "vulkan/sync_handler.h"
 #include "vulkan/vertex_buffer.h"
 #include "vulkan/index_buffer.h"
+#include "vulkan/uniform_buffer_handler.h"
+#include "vulkan/descriptor_set.h"
 
 namespace dragonbyte_engine
 {	
@@ -53,6 +60,9 @@ namespace dragonbyte_engine
 		vulkan::oi.pGraphicsPipeline.reset();
 		vulkan::oi.pFramebufferHandler.reset();
 		vulkan::oi.pSwapChain.reset();
+
+		vulkan::oi.pUniformBufferHandler.reset();
+		vulkan::oi.pDescriptorSet.reset();
 		
 		vulkan::oi.pLogicalDevice.reset();
 		vulkan::oi.pPhysicalDevice.reset();
@@ -70,6 +80,8 @@ namespace dragonbyte_engine
 		vulkan::oi.pWindow->tick();
 
 		draw_frame();
+
+		vulkan::oi.pVertexBuffer->reload();
 
 		// render_models();
 		// render_particles();
@@ -109,6 +121,7 @@ namespace dragonbyte_engine
 
 			create_swap_chain();
 			create_render_pass();
+			create_descriptor_set();
 			create_graphics_pipeline();
 			
 			create_framebuffer();
@@ -118,6 +131,7 @@ namespace dragonbyte_engine
 
 			create_vertex_buffer();
 			create_index_buffer();
+			create_uniform_buffer_handler();
 
 			create_command_buffer();
 			
@@ -232,6 +246,18 @@ namespace dragonbyte_engine
 		
 		vulkan::oi.pAllocator = std::make_shared<vulkan::Allocator>();
 	}
+	void RenderEngine::create_descriptor_set()
+	{
+		std::cout << "Create Descriptor Set" << '\n';
+
+		vulkan::oi.pDescriptorSet = std::make_shared<vulkan::DescriptorSet>();
+	}
+	void RenderEngine::create_uniform_buffer_handler()
+	{
+		std::cout << "Create Uniform Buffer Handler" << '\n';
+		
+		vulkan::oi.pUniformBufferHandler = std::make_shared<vulkan::UniformBufferHandler>();
+	}
 	
 	void RenderEngine::draw_frame()
 	{
@@ -239,11 +265,28 @@ namespace dragonbyte_engine
 		vkResetFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence);
 	
 		uint32_t imageIndex = vulkan::oi.pSwapChain->acquire_next_image();
+
+		update_uniform_buffer_handler(imageIndex);
 		
 		record_command_buffer(imageIndex);
 		submit_command_buffer();
 		
 		present(imageIndex);
+	}
+	void RenderEngine::update_uniform_buffer_handler(uint32_t a_currentImage)
+	{
+		static auto startTime = std::chrono::high_resolution_clock::now();
+
+		auto currentTime = std::chrono::high_resolution_clock::now();
+		float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
+		vulkan::UniformBufferObject ubo = {};
+		ubo.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
+		ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		ubo.proj = glm::perspective(glm::radians(45.0f), vulkan::oi.pSwapChain->m_extent.width / (float)vulkan::oi.pSwapChain->m_extent.height, 0.1f, 10.0f);
+		ubo.proj[1][1] *= -1;
+
+		vulkan::oi.pUniformBufferHandler->push_data(a_currentImage, ubo);
 	}
 	void RenderEngine::record_command_buffer(uint32_t a_imageIndex)
 	{

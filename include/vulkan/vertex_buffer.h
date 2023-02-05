@@ -30,6 +30,9 @@ namespace dragonbyte_engine
             Buffer<Vertex> m_stagingBuffer;
             
             void bind();
+            void reload();
+
+            bool m_hasChanged;
             
         private:
         

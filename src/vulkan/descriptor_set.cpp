@@ -18,7 +18,7 @@ namespace dragonbyte_engine
         }
         DescriptorSet::~DescriptorSet()
         {
-        
+            vkDestroyDescriptorSetLayout(oi.pLogicalDevice->m_device, m_descriptorSetLayout, nullptr);
         }
         
         void DescriptorSet::create()

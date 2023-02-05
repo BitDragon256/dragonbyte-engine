@@ -5,6 +5,7 @@
 #include "vulkan/object_info.h"
 
 #include "vulkan/command_buffer.h"
+#include "vulkan/descriptor_set.h"
 #include "vulkan/render_pass.h"
 #include "vulkan/swapchain.h"
 #include "vulkan/vertex.h"
@@ -172,8 +173,8 @@ namespace dragonbyte_engine
 			// pipeline layout creation
 			VkPipelineLayoutCreateInfo pipelineLayoutInfo = {};
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-			pipelineLayoutInfo.setLayoutCount = 0; // Optional
-			pipelineLayoutInfo.pSetLayouts = nullptr; // Optional
+			pipelineLayoutInfo.setLayoutCount = 1;
+			pipelineLayoutInfo.pSetLayouts = &oi.pDescriptorSet->m_descriptorSetLayout;
 			pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
 			pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
 

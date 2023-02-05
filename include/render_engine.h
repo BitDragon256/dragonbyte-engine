@@ -71,8 +71,11 @@ namespace dragonbyte_engine
 		void create_allocator();
 		void create_vertex_buffer();
 		void create_index_buffer();
+		void create_descriptor_set();
+		void create_uniform_buffer_handler();
 		
 		void draw_frame();
+		void update_uniform_buffer_handler(uint32_t currentImage);
 		void record_command_buffer(uint32_t imageIndex);
 		void submit_command_buffer();
 		void present(uint32_t imageIndex);

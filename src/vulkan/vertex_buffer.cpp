@@ -25,27 +25,24 @@ namespace dragonbyte_engine
             m_buffer.create(
                 static_cast<uint64_t>(m_vertices.size()),
                 sizeof(Vertex),
+                false,
                 VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                 VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
             );
             
-            /*
             m_stagingBuffer.create(
                 static_cast<uint64_t>(m_vertices.size()),
                 sizeof(Vertex),
+                false,
                 VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
             );
 
-            m_stagingBuffer.copy_data(m_vertices);
-            m_buffer.copy_from(m_stagingBuffer);
-            
-            m_stagingBuffer.destruct();
-            */
+            reload();
         }
         VertexBuffer::~VertexBuffer()
         {
-            
+
         }
         
         void VertexBuffer::bind()
@@ -53,6 +50,12 @@ namespace dragonbyte_engine
             VkBuffer vertexBuffers[] = { m_buffer.m_buffer };
             VkDeviceSize offsets[] = { 0 };
             vkCmdBindVertexBuffers(oi.pCommandBuffer->m_commandBuffer, 0, 1, vertexBuffers, offsets);
+        }
+
+        void VertexBuffer::reload()
+        {
+            m_stagingBuffer.copy_data(m_vertices);
+            m_buffer.copy_from(m_stagingBuffer);
         }
         
     } // namespace vulkan

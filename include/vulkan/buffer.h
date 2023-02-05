@@ -14,7 +14,7 @@
 #include "command_pool.h"
 #include "allocator.h"
 
-#define USE_VMA
+// #define USE_VMA
 
 namespace dragonbyte_engine
 {
@@ -33,7 +33,7 @@ namespace dragonbyte_engine
             VkBuffer m_buffer;
             VkDeviceMemory m_deviceMemory;
 
-            void create(uint64_t a_count, uint32_t a_stride, VkBufferUsageFlags a_usage, VkMemoryPropertyFlags a_properties)
+            void create(uint64_t a_count, uint32_t a_stride, bool a_alwaysMapped, VkBufferUsageFlags a_usage, VkMemoryPropertyFlags a_properties)
             {
                 if (m_created)
                     destruct();
@@ -45,14 +45,27 @@ namespace dragonbyte_engine
                 create_buffer(a_usage);
                 allocate_memory(a_properties);
 
+                m_alwaysMapped = a_alwaysMapped;
+                if (m_alwaysMapped)
+                {
+                    vkMapMemory(oi.pLogicalDevice->m_device, m_deviceMemory, 0, m_totalSize, 0, &m_mappedMemory);
+                }
+
                 m_created = true;
             }
             void copy_data(std::vector<T>& a_rData)
             {
-                void* pData;
-                vkMapMemory(oi.pLogicalDevice->m_device, m_deviceMemory, 0, m_totalSize, 0, &pData);
-                memcpy(pData, a_rData.data(), (size_t) m_totalSize);
-                vkUnmapMemory(oi.pLogicalDevice->m_device, m_deviceMemory);
+                if (m_alwaysMapped)
+                {
+                    memcpy(m_mappedMemory, a_rData.data(), (size_t)m_totalSize);
+                }
+                else
+                {
+                    void* pData;
+                    vkMapMemory(oi.pLogicalDevice->m_device, m_deviceMemory, 0, m_totalSize, 0, &pData);
+                    memcpy(pData, a_rData.data(), (size_t)m_totalSize);
+                    vkUnmapMemory(oi.pLogicalDevice->m_device, m_deviceMemory);
+                }
             }
             
             void copy_from(Buffer<T>& a_rSrcBuffer)
@@ -88,6 +101,12 @@ namespace dragonbyte_engine
                         m_allocation
                     );
 #else
+                    if (m_alwaysMapped)
+                    {
+                        m_alwaysMapped = false;
+                        vkUnmapMemory(oi.pLogicalDevice->m_device, m_deviceMemory);
+                    }
+
                     vkDestroyBuffer(oi.pLogicalDevice->m_device, m_buffer, nullptr);
                     vkFreeMemory(oi.pLogicalDevice->m_device, m_deviceMemory, nullptr);
 #endif
@@ -103,6 +122,8 @@ namespace dragonbyte_engine
             VkDeviceSize m_totalSize;
 
             bool m_created;
+            bool m_alwaysMapped;
+            void* m_mappedMemory;
             
             VmaAllocation m_allocation;
 
@@ -119,7 +140,7 @@ namespace dragonbyte_engine
 #ifdef USE_VMA
                 
                 VmaAllocationCreateInfo vmaAllocInfo = {};
-                vmaAllocInfo.usage = VMA_MEMORY_USAGE_CPU_TO_GPU;
+                vmaAllocInfo.usage = VMA_MEMORY_USAGE_AUTO;
                 VkResult res = vmaCreateBuffer(
                     oi.pAllocator->m_allocator,
                     &bufferInfo,

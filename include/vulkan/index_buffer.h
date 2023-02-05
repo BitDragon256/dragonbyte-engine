@@ -26,6 +26,9 @@ namespace dragonbyte_engine
             Buffer<Index> m_stagingBuffer;
 
             void bind();
+            void reload();
+
+            bool m_hasChanged;
 
         private:
 

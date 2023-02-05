@@ -9,9 +9,11 @@ namespace dragonbyte_engine
 
 	namespace vulkan
 	{
+		class Allocator;
 		class CommandBuffer;
 		class CommandPoolHandler;
 		class DebugMessenger;
+		class DescriptorSet;
 		class FramebufferHandler;
 		class GraphicsPipeline;
 		class IndexBuffer;
@@ -22,8 +24,8 @@ namespace dragonbyte_engine
 		class Surface;
 		class SwapChain;
 		class SyncHandler;
+		class UniformBufferHandler;
 		class VertexBuffer;
-		class Allocator;
 		class Window;
 
 		struct ObjectInfo
@@ -31,7 +33,9 @@ namespace dragonbyte_engine
 			ObjectInfo();
 			~ObjectInfo();
 
-			std::shared_ptr<class DebugMessenger> pDebugMessenger;
+			std::shared_ptr<class Allocator> pAllocator;
+			std::shared_ptr<DebugMessenger> pDebugMessenger;
+			std::shared_ptr<DescriptorSet> pDescriptorSet;
 			std::shared_ptr<CommandBuffer> pCommandBuffer;
 			std::shared_ptr<CommandPoolHandler> pCommandPoolHandler;
 			std::shared_ptr<FramebufferHandler> pFramebufferHandler;
@@ -44,8 +48,8 @@ namespace dragonbyte_engine
 			std::shared_ptr<Surface> pSurface;
 			std::shared_ptr<SwapChain> pSwapChain;
 			std::shared_ptr<SyncHandler> pSyncHandler;
+			std::shared_ptr<UniformBufferHandler> pUniformBufferHandler;
 			std::shared_ptr<VertexBuffer> pVertexBuffer;
-			std::shared_ptr<Allocator> pAllocator;
 			std::shared_ptr<Window> pWindow;
 
 			void reset();
