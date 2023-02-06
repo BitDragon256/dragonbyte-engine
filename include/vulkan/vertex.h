@@ -13,7 +13,7 @@ namespace dragonbyte_engine
         
         typedef struct Vertex
         {
-            glm::vec2 pos;
+            glm::vec3 pos;
             glm::vec3 color;
             
             static VkVertexInputBindingDescription get_binding_desc();

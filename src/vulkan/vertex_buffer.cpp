@@ -21,7 +21,7 @@ namespace dragonbyte_engine
         VertexBuffer::VertexBuffer() :
             m_pLogicalDevice{ oi.pLogicalDevice }
         {
-            m_vertices = kTestSquareVertices;
+            m_vertices = kTest2SquareVertices;
             m_buffer.create(
                 static_cast<uint64_t>(m_vertices.size()),
                 sizeof(Vertex),

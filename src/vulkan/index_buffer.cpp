@@ -11,7 +11,7 @@ namespace dragonbyte_engine
 		IndexBuffer::IndexBuffer() :
             m_pLogicalDevice { oi.pLogicalDevice }
         {
-            m_indices = kTestSquareIndices;
+            m_indices = kTest2SquareIndices;
 
             m_buffer.create(
                 static_cast<uint64_t>(m_indices.size()),
