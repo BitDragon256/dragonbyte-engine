@@ -1,7 +1,9 @@
 #include "vulkan/memory.h"
 
 #include "vulkan/object_info.h"
+
 #include "vulkan/physical_device.h"
+#include "vulkan/logical_device.h"
 
 namespace dragonbyte_engine
 {
@@ -20,6 +22,28 @@ namespace dragonbyte_engine
             }
 
             throw std::runtime_error("Failed to find suitable memory type");
+        }
+        
+        void allocate_memory(VkMemoryRequirements a_memoryRequirements, VkDeviceMemory* a_pDeviceMemory, VkMemoryPropertyFlags a_properties)
+        {
+            VkMemoryAllocateInfo allocInfo = {};
+            allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+            allocInfo.allocationSize = a_memoryRequirements.size;
+            allocInfo.memoryTypeIndex = find_memory_type(a_memoryRequirements.memoryTypeBits, a_properties);
+            
+            VkResult res = vkAllocateMemory(oi.pLogicalDevice->m_device, &allocInfo, nullptr, a_pDeviceMemory);
+            if (res != VK_SUCCESS)
+                throw std::runtime_error("Failed to allocate Image");
+        }
+        void allocate_buffer()
+        {
+            
+        }
+        void allocate_image(VkImage a_image, VkDeviceMemory* a_pMemory, VkMemoryPropertyFlags a_properties)
+        {
+            VkMemoryRequirements memReqs;
+            vkGetImageMemoryRequirements(oi.pLogicalDevice->m_device, a_image, &memReqs);
+            allocate_memory(memReqs, a_pMemory, a_properties);
         }
 
 	} // namespace vulkan
