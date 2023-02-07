@@ -33,6 +33,7 @@
 #include "vulkan/uniform_buffer_handler.h"
 #include "vulkan/descriptor_set_handler.h"
 #include "vulkan/descriptor_pool.h"
+#include "vulkan/depth_handler.h"
 
 namespace dragonbyte_engine
 {	
@@ -127,6 +128,7 @@ namespace dragonbyte_engine
 			create_descriptor_set_layout();
 			create_graphics_pipeline();
 			
+			create_depth_handler();
 			create_framebuffer();
 			create_command_pool_handler();
 			
@@ -275,6 +277,12 @@ namespace dragonbyte_engine
 
 		vulkan::oi.pDescriptorSetHandler = std::make_shared<vulkan::DescriptorSetHandler>();
 		vulkan::oi.pDescriptorSetHandler->create_descriptor_set();
+	}
+	void RenderEngine::create_depth_handler()
+	{
+		std::cout << "Create Depth Handler" << '\n';
+
+		vulkan::oi.pDepthHandler = std::make_shared<vulkan::DepthHandler>();
 	}
 	
 	void RenderEngine::draw_frame()
