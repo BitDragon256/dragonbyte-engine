@@ -17,11 +17,11 @@ namespace dragonbyte_engine
             VkImageView m_imageView;
             VkDeviceMemory m_memory;
             
-            void create(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties);
+            void create(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImageAspectFlags aspectFlags);
         
         private:
             void create_image(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties);
-            void create_image_view(VkFormat format);
+            void create_image_view(VkFormat format, VkImageAspectFlags aspectFlags);
             
         };
         
