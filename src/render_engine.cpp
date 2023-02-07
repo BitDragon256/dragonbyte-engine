@@ -62,6 +62,7 @@ namespace dragonbyte_engine
 		vulkan::oi.pSyncHandler.reset();
 		vulkan::oi.pGraphicsPipeline.reset();
 		vulkan::oi.pFramebufferHandler.reset();
+		vulkan::oi.pDepthHandler.reset();
 		vulkan::oi.pSwapChain.reset();
 
 		vulkan::oi.pUniformBufferHandler.reset();

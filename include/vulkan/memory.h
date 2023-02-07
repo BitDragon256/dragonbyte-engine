@@ -10,7 +10,7 @@ namespace dragonbyte_engine
         
         uint32_t find_memory_type(uint32_t a_typeFilter, VkMemoryPropertyFlags a_properties);
         void allocate_memory();
-        void allocate_image(VkImage image, VkDeviceMemory* memory);
+        void allocate_image(VkImage image, VkDeviceMemory* memory, VkMemoryPropertyFlags a_properties);
         
     } // namespace vulkan
     

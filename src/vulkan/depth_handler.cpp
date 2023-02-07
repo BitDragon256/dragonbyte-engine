@@ -26,6 +26,10 @@ namespace dragonbyte_engine
                 VK_IMAGE_ASPECT_DEPTH_BIT
             );
         }
+        DepthHandler::~DepthHandler()
+        {
+
+        }
         
         VkFormat find_supported_format(const std::vector<VkFormat>& a_krCandidates, VkImageTiling a_tiling, VkFormatFeatureFlags a_features)
         {

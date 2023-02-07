@@ -12,10 +12,24 @@ namespace dragonbyte_engine
     namespace vulkan
     {
         
+        Image::Image()
+        {
+
+        }
+        Image::~Image()
+        {
+            destruct();
+        }
         void Image::create(uint32_t a_width, uint32_t a_height, VkFormat a_format, VkImageTiling a_tiling, VkImageUsageFlags a_usage, VkMemoryPropertyFlags a_properties, VkImageAspectFlags a_aspectFlags)
         {
             create_image(a_width, a_height, a_format, a_tiling, a_usage, a_properties);
             create_image_view(a_format, a_aspectFlags);
+        }
+        void Image::destruct()
+        {
+            vkDestroyImageView(oi.pLogicalDevice->m_device, m_imageView, nullptr);
+            vkDestroyImage(oi.pLogicalDevice->m_device, m_image, nullptr);
+            vkFreeMemory(oi.pLogicalDevice->m_device, m_memory, nullptr);
         }
         
         void Image::create_image(uint32_t a_width, uint32_t a_height, VkFormat a_format, VkImageTiling a_tiling, VkImageUsageFlags a_usage, VkMemoryPropertyFlags a_properties)
@@ -40,7 +54,7 @@ namespace dragonbyte_engine
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to create Image");
                 
-            allocate_image(m_image, &m_memory);
+            allocate_image(m_image, &m_memory, a_properties);
             
             vkBindImageMemory(oi.pLogicalDevice->m_device, m_image, m_memory, 0);
         }
@@ -51,7 +65,7 @@ namespace dragonbyte_engine
             viewInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
             viewInfo.image = m_image;
             viewInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
-            viewInfo.format = VK_FORMAT_R8G8B8A8_SRGB;
+            viewInfo.format = a_format;
             viewInfo.subresourceRange.aspectMask = a_aspectFlags;
             viewInfo.subresourceRange.baseMipLevel = 0;
             viewInfo.subresourceRange.levelCount = 1;
