@@ -18,6 +18,11 @@ namespace dragonbyte_engine
             VkDeviceMemory m_memory;
             
             void create(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties);
+        
+        private:
+            void create_image(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties);
+            void create_image_view(VkFormat format);
+            
         };
         
     } // namespace vulkan
