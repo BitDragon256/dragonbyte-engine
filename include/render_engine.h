@@ -75,6 +75,7 @@ namespace dragonbyte_engine
 		void create_uniform_buffer_handler();
 		void create_descriptor_pool();
 		void create_descriptor_set_layout();
+		void create_depth_handler();
 
 		void draw_frame();
 		void update_uniform_buffer_handler(uint32_t currentImage);

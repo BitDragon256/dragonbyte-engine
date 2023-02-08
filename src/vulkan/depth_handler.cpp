@@ -22,8 +22,13 @@ namespace dragonbyte_engine
                 format,
                 VK_IMAGE_TILING_OPTIMAL,
                 VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
-                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
+                VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
+                VK_IMAGE_ASPECT_DEPTH_BIT
             );
+        }
+        DepthHandler::~DepthHandler()
+        {
+
         }
         
         VkFormat find_supported_format(const std::vector<VkFormat>& a_krCandidates, VkImageTiling a_tiling, VkFormatFeatureFlags a_features)

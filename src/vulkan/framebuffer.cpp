@@ -1,9 +1,12 @@
 #include "vulkan/framebuffer.h"
 
+#include <array>
+
 #include "vulkan/object_info.h"
 
 #include "vulkan/render_pass.h"
 #include "vulkan/swapchain.h"
+#include "vulkan/depth_handler.h"
 
 namespace dragonbyte_engine
 {
@@ -14,15 +17,16 @@ namespace dragonbyte_engine
 		Framebuffer::Framebuffer() :
 			m_pLogicalDevice{ oi.pLogicalDevice }
 		{
-			VkImageView attachments[] = {
-				oi.pSwapChain->m_imageViews[s_swapchainImageIndex]
+			std::array<VkImageView, 2> attachments = {
+				oi.pSwapChain->m_imageViews[s_swapchainImageIndex],
+				oi.pDepthHandler->m_image.m_imageView
 			};
 
 			VkFramebufferCreateInfo framebufferInfo = {};
 			framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
 			framebufferInfo.renderPass = oi.pRenderPass->m_renderPass;
-			framebufferInfo.attachmentCount = 1;
-			framebufferInfo.pAttachments = attachments;
+			framebufferInfo.attachmentCount = static_cast<uint32_t>(attachments.size());
+			framebufferInfo.pAttachments = attachments.data();
 			framebufferInfo.width = oi.pSwapChain->m_extent.width;
 			framebufferInfo.height = oi.pSwapChain->m_extent.height;
 			framebufferInfo.layers = 1;

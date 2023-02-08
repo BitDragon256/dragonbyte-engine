@@ -13,6 +13,7 @@ namespace dragonbyte_engine
 		class CommandBuffer;
 		class CommandPoolHandler;
 		class DebugMessenger;
+		class DepthHandler;
 		class DescriptorPool;
 		class DescriptorSetHandler;
 		class FramebufferHandler;
@@ -36,6 +37,7 @@ namespace dragonbyte_engine
 
 			std::shared_ptr<class Allocator> pAllocator;
 			std::shared_ptr<DebugMessenger> pDebugMessenger;
+			std::shared_ptr<DepthHandler> pDepthHandler;
 			std::shared_ptr<DescriptorSetHandler> pDescriptorSetHandler;
 			std::shared_ptr<DescriptorPool> pDescriptorPool;
 			std::shared_ptr<CommandBuffer> pCommandBuffer;
