@@ -34,6 +34,7 @@
 #include "vulkan/descriptor_set_handler.h"
 #include "vulkan/descriptor_pool.h"
 #include "vulkan/depth_handler.h"
+#include "vulkan/mvp_buffer_handler.h"
 
 #include "mesh.h"
 
@@ -279,7 +280,7 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Create Descriptor Set" << '\n';
 
-		vulkan::oi.pDescriptorSetHandler->create();
+		vulkan::oi.pDescriptorSetHandler->create(vulkan::oi.pMVPBufferHandler->get_buffers(), sizeof(vulkan::MVP));
 	}
 	void RenderEngine::create_uniform_buffer_handler()
 	{
@@ -298,13 +299,19 @@ namespace dragonbyte_engine
 		std::cout << "Create Descriptor Set Layout" << '\n';
 
 		vulkan::oi.pDescriptorSetHandler = std::make_shared<vulkan::DescriptorSetHandler>();
-		vulkan::oi.pDescriptorSetHandler->create_descriptor_set();
+		vulkan::oi.pDescriptorSetHandler->create_descriptor_set(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
 	}
 	void RenderEngine::create_depth_handler()
 	{
 		std::cout << "Create Depth Handler" << '\n';
 
 		vulkan::oi.pDepthHandler = std::make_shared<vulkan::DepthHandler>();
+	}
+	void RenderEngine::create_mvp_buffer_handler()
+	{
+		std::cout << "Create MVP Buffer Handler" << '\n';
+
+		vulkan::oi.pMVPBufferHandler = std::make_shared<vulkan::MVPBufferHandler>();
 	}
 	
 	void RenderEngine::draw_frame()
@@ -335,6 +342,12 @@ namespace dragonbyte_engine
 		ubo.proj[1][1] *= -1;
 
 		vulkan::oi.pUniformBufferHandler->push_data(a_currentImage, ubo);
+	}
+	void RenderEngine::update_storage_buffer_handler(uint32_t a_currentImage)
+	{
+
+
+		vulkan::oi.pMVPBufferHandler->push_data(a_currentImage);
 	}
 	void RenderEngine::record_command_buffer(uint32_t a_imageIndex)
 	{

@@ -29,8 +29,8 @@ namespace dragonbyte_engine
             VkDescriptorSetLayout m_descriptorSetLayout;
             std::vector<VkDescriptorSet> m_descriptorSets;
 
-            void create();
-            void create_descriptor_set();
+            void create(std::vector<VkBuffer> buffers, VkDeviceSize elementSize);
+            void create_descriptor_set(VkDescriptorType descriptorType, VkShaderStageFlags stageFlags);
             void destruct();
 
             void bind(uint32_t frame);
@@ -38,6 +38,8 @@ namespace dragonbyte_engine
             
         private:
             
+            VkDescriptorType m_descriptorType;
+
         };
         
     } // namespace vulkan
