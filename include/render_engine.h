@@ -30,6 +30,7 @@ namespace dragonbyte_engine
 	};
 
 	// namespace vulkan { struct ObjectInfo; }
+	class Mesh;
 
 	class RenderEngine : Engine
 	{
@@ -49,6 +50,8 @@ namespace dragonbyte_engine
 		void animation_tick();
 		
 		bool should_close_window();
+
+		void set_static_meshes(std::vector<Mesh&> meshes);
 
 	private:
 	

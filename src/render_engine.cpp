@@ -35,6 +35,8 @@
 #include "vulkan/descriptor_pool.h"
 #include "vulkan/depth_handler.h"
 
+#include "mesh.h"
+
 namespace dragonbyte_engine
 {	
 
@@ -108,6 +110,25 @@ namespace dragonbyte_engine
 	{
 		if (!m_config.renderGui)
 			return;
+	}
+
+	void RenderEngine::set_static_meshes(std::vector<Mesh&> a_meshes)
+	{
+		for (Mesh& mesh : a_meshes)
+		{
+			vulkan::oi.pVertexBuffer->m_vertices.insert(
+				vulkan::oi.pVertexBuffer->m_vertices.end(),
+				mesh.vertices().begin(),
+				mesh.vertices().end()
+			);
+			vulkan::oi.pIndexBuffer->m_indices.insert(
+				vulkan::oi.pIndexBuffer->m_indices.end(),
+				mesh.indices().begin(),
+				mesh.indices().end()
+			);
+		}
+		vulkan::oi.pVertexBuffer->reload();
+		vulkan::oi.pIndexBuffer->reload();
 	}
 
 	void RenderEngine::setup_vulkan()

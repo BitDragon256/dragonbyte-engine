@@ -31,6 +31,9 @@ namespace dragonbyte_engine
 		
 	} Transform;
     
+    class Rigidbody;
+    class Mesh;
+
     class GameObject
     {
     public:
@@ -38,8 +41,8 @@ namespace dragonbyte_engine
         Transform m_transform;
         std::vector<Component> m_components;
         
-        void get_rigidbody();
-        void get_mesh();
+        Rigidbody& get_rigidbody();
+        Mesh& get_mesh();
         
         void add_component(const Component& copy_component);
         template<class T> void add_component();
