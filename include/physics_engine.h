@@ -17,10 +17,4 @@ namespace dragonbyte_engine
 
 	};
 
-	// 
-	class Rigidbody : Component
-	{
-
-	};
-
 } // namespace dragonbyte_engine

@@ -7,6 +7,7 @@ namespace dragonbyte_engine
 	{
 	public:
 	
+		Vec3() : x{0}, y{0}, z{0} {}
 		Vec3(double x, double y, double z) : x{x}, y{y}, z{z} {}
 		double x, y, z;
 		
@@ -18,11 +19,30 @@ namespace dragonbyte_engine
 		{
 			return *this + a_krOther;
 		}
-	};
-
-	class Vec2
-	{
-
+		Vec3 operator-(const Vec3& a_krOther)
+		{
+			return { x - a_krOther.x, y - a_krOther.y, z - a_krOther.z };
+		}
+		Vec3 operator-=(const Vec3& a_krOther)
+		{
+			return *this - a_krOther;
+		}
+		Vec3 operator*(const float scalar)
+		{
+			return { x * scalar, y * scalar, z * scalar };
+		}
+		Vec3 operator+=(const float scalar)
+		{
+			return *this * scalar;
+		}
+		Vec3 operator/(const float scalar)
+		{
+			return { x / scalar, y / scalar, z / scalar };
+		}
+		Vec3 operator/=(const float scalar)
+		{
+			return *this / scalar;
+		}
 	};
 
 	class Quaternion

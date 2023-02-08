@@ -39,7 +39,9 @@ namespace dragonbyte_engine
             };
             const std::vector<Index> kTest2SquareIndices = {
                 0, 1, 2, 2, 3, 0,
-                4, 5, 6, 6, 7, 4
+                4, 5, 6, 6, 7, 4,
+                8, 9, 10, 9, 10, 11,
+                12, 13, 14, 13, 14, 15
             };
 
 		};

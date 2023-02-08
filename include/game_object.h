@@ -16,12 +16,14 @@ namespace dragonbyte_engine
     
 	typedef struct Transform
 	{
-		Position position;
-		Scale scale;
-		Rotation rotation;
+    public:
+
+		Position m_position;
+		Scale m_scale;
+		Rotation m_rotation;
 		
-		std::vector<Transform*> children;
-		Transform* parent;
+		std::vector<Transform*> m_children;
+		Transform* m_parent;
 		
 		Position global_position();
 		Scale global_scale();
