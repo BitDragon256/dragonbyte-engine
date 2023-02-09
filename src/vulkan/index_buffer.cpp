@@ -43,6 +43,11 @@ namespace dragonbyte_engine
         {
             vkCmdBindIndexBuffer(oi.pCommandBuffer->m_commandBuffer, m_buffer.m_buffer, 0, INDEX_TYPE_VK);
         }
+        void IndexBuffer::reload()
+        {
+            m_stagingBuffer.copy_data(m_indices);
+            m_buffer.copy_from(m_stagingBuffer);
+        }
 
 	} // namespace vulkan
 

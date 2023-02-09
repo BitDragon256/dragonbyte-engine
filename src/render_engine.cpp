@@ -113,10 +113,12 @@ namespace dragonbyte_engine
 			return;
 	}
 
-	void RenderEngine::set_static_meshes(std::vector<Mesh&> a_meshes)
+	void RenderEngine::set_static_meshes(std::vector<Mesh*> a_meshes)
 	{
-		for (Mesh& mesh : a_meshes)
+		//for (Mesh& mesh : a_meshes)
+		for (size_t i = 0; i < a_meshes.size(); i++)
 		{
+			Mesh mesh = *a_meshes[i];
 			vulkan::oi.pVertexBuffer->m_vertices.insert(
 				vulkan::oi.pVertexBuffer->m_vertices.end(),
 				mesh.vertices().begin(),

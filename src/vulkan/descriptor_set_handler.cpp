@@ -17,7 +17,6 @@ namespace dragonbyte_engine
     {
         
         DescriptorSetHandler::DescriptorSetHandler()
-
         {
             
         }

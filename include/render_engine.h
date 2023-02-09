@@ -51,7 +51,7 @@ namespace dragonbyte_engine
 		
 		bool should_close_window();
 
-		void set_static_meshes(std::vector<Mesh&> meshes);
+		void set_static_meshes(std::vector<Mesh*> meshes);
 
 	private:
 	
