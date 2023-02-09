@@ -28,6 +28,8 @@ namespace dragonbyte_engine
 		Rotation global_rotation();
 		
 	} Transform;
+	
+	class Mesh;
     
     class GameObject
     {
@@ -36,8 +38,10 @@ namespace dragonbyte_engine
         Transform m_transform;
         std::vector<Component> m_components;
         
+        float m_boundingBox;
+        
         void get_rigidbody();
-        void get_mesh();
+        Mesh& get_mesh();
         
         void add_component(const Component& copy_component);
         template<class T> void add_component();

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <math.h>
+
 namespace dragonbyte_engine
 {
 
@@ -9,6 +11,11 @@ namespace dragonbyte_engine
 	
 		Vec3(double x, double y, double z) : x{x}, y{y}, z{z} {}
 		double x, y, z;
+		
+		static float distance(Vec3 a, Vec3 b)
+		{
+			return sqrt(a.x*b.x + a.y*b.y + a.z*b.z);
+		}
 		
 		Vec3 operator+(const Vec3& a_krOther)
 		{
