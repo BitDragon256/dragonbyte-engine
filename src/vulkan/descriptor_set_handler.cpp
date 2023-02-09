@@ -17,6 +17,7 @@ namespace dragonbyte_engine
     {
         
         DescriptorSetHandler::DescriptorSetHandler()
+
         {
             
         }
@@ -25,7 +26,7 @@ namespace dragonbyte_engine
             destruct();
         }
         
-        void DescriptorSetHandler::create()
+        void DescriptorSetHandler::create(std::vector<VkBuffer> a_buffers, VkDeviceSize a_elementSize)
         {
             const size_t imageCount = oi.pSwapChain->m_images.size();
 
@@ -44,9 +45,11 @@ namespace dragonbyte_engine
 
             for (size_t i = 0; i < imageCount; i++) {
                 VkDescriptorBufferInfo bufferInfo = {};
-                bufferInfo.buffer = oi.pUniformBufferHandler->m_buffers[i].m_buffer;
+                //bufferInfo.buffer = oi.pUniformBufferHandler->m_buffers[i].m_buffer;
+                bufferInfo.buffer = a_buffers[i];
                 bufferInfo.offset = 0;
-                bufferInfo.range = sizeof(UniformBufferObject);
+                //bufferInfo.range = sizeof(UniformBufferObject);
+                bufferInfo.range = a_elementSize;
 
                 VkWriteDescriptorSet descriptorWrite = {};
                 descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
@@ -54,7 +57,8 @@ namespace dragonbyte_engine
                 descriptorWrite.dstBinding = 0;
                 descriptorWrite.dstArrayElement = 0;
 
-                descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+                //descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+                descriptorWrite.descriptorType = m_descriptorType;
                 descriptorWrite.descriptorCount = 1;
 
                 descriptorWrite.pBufferInfo = &bufferInfo;
@@ -64,20 +68,25 @@ namespace dragonbyte_engine
                 vkUpdateDescriptorSets(oi.pLogicalDevice->m_device, 1, &descriptorWrite, 0, nullptr);
             }
         }
-        void DescriptorSetHandler::create_descriptor_set()
+        void DescriptorSetHandler::create_descriptor_set(VkDescriptorType a_descriptorType, VkShaderStageFlags a_stageFlags)
         {
-            VkDescriptorSetLayoutBinding uboLayoutBinding = {};
-            uboLayoutBinding.binding = 0;
-            uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-            uboLayoutBinding.descriptorCount = 1;
+            m_descriptorType = a_descriptorType;
 
-            uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-            uboLayoutBinding.pImmutableSamplers = nullptr;
+            VkDescriptorSetLayoutBinding layoutBinding = {};
+            layoutBinding.binding = 0;
+            //layoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            layoutBinding.descriptorType = a_descriptorType;
+            layoutBinding.descriptorCount = 1;
+
+            //layoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
+            layoutBinding.stageFlags = a_stageFlags;
+
+            layoutBinding.pImmutableSamplers = nullptr;
 
             VkDescriptorSetLayoutCreateInfo layoutInfo = {};
             layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
             layoutInfo.bindingCount = 1;
-            layoutInfo.pBindings = &uboLayoutBinding;
+            layoutInfo.pBindings = &layoutBinding;
 
             VkResult res = vkCreateDescriptorSetLayout(oi.pLogicalDevice->m_device, &layoutInfo, nullptr, &m_descriptorSetLayout);
             if (res != VK_SUCCESS)

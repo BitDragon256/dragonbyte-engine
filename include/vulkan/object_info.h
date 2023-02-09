@@ -21,6 +21,7 @@ namespace dragonbyte_engine
 		class IndexBuffer;
 		class Instance;
 		class LogicalDevice;
+		class MVPBufferHandler;
 		class PhysicalDevice;
 		class RenderPass;
 		class Surface;
@@ -47,6 +48,7 @@ namespace dragonbyte_engine
 			std::shared_ptr<IndexBuffer> pIndexBuffer;
 			std::shared_ptr<Instance> pInstance;
 			std::shared_ptr<LogicalDevice> pLogicalDevice;
+			std::shared_ptr<MVPBufferHandler> pMVPBufferHandler;
 			std::shared_ptr<PhysicalDevice> pPhysicalDevice;
 			std::shared_ptr<RenderPass> pRenderPass;
 			std::shared_ptr<Surface> pSurface;

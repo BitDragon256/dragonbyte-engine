@@ -8,6 +8,7 @@ namespace dragonbyte_engine
 {
 
 	class GameObject;
+	class Mesh;
 
 	class ObjectEngine : Engine
 	{
@@ -17,6 +18,8 @@ namespace dragonbyte_engine
 		void fixed_tick();
 		
 		std::vector<GameObject> m_gameObjects;
+
+		std::vector<Mesh&> get_meshes();
 
 	};
 

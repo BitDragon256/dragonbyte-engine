@@ -16,6 +16,8 @@ namespace dragonbyte_engine
 {
 	class GameClock;
 
+	class PhysicsEngine;
+
 	class Overseer
 	{
 	public:
@@ -56,4 +58,5 @@ namespace dragonbyte_engine
 		bool should_end_game();
 
 	};
+
 } // namespace dragonbyte_engine
