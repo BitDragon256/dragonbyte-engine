@@ -13,10 +13,10 @@ namespace dragonbyte_engine
 	namespace vulkan
 	{
 
-		DescriptorPool::DescriptorPool()
+		DescriptorPool::DescriptorPool(VkDescriptorType a_descriptorType)
 		{
 			VkDescriptorPoolSize poolSize = {};
-			poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+			poolSize.type = a_descriptorType;
 			poolSize.descriptorCount = static_cast<uint32_t>(oi.pSwapChain->m_images.size());
 
 			VkDescriptorPoolCreateInfo poolInfo = {};

@@ -29,8 +29,8 @@ namespace dragonbyte_engine
             VkDescriptorSetLayout m_descriptorSetLayout;
             std::vector<VkDescriptorSet> m_descriptorSets;
 
-            void create(std::vector<VkBuffer> buffers, VkDeviceSize elementSize);
-            void create_descriptor_set(VkDescriptorType descriptorType, VkShaderStageFlags stageFlags);
+            void create_sets(std::vector<VkBuffer> buffers, VkDeviceSize elementSize);
+            void create_layout(VkDescriptorType descriptorType, VkShaderStageFlags stageFlags);
             void destruct();
 
             void bind(uint32_t frame);

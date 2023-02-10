@@ -25,7 +25,7 @@ namespace dragonbyte_engine
             destruct();
         }
         
-        void DescriptorSetHandler::create(std::vector<VkBuffer> a_buffers, VkDeviceSize a_elementSize)
+        void DescriptorSetHandler::create_sets(std::vector<VkBuffer> a_buffers, VkDeviceSize a_elementSize)
         {
             const size_t imageCount = oi.pSwapChain->m_images.size();
 
@@ -67,7 +67,7 @@ namespace dragonbyte_engine
                 vkUpdateDescriptorSets(oi.pLogicalDevice->m_device, 1, &descriptorWrite, 0, nullptr);
             }
         }
-        void DescriptorSetHandler::create_descriptor_set(VkDescriptorType a_descriptorType, VkShaderStageFlags a_stageFlags)
+        void DescriptorSetHandler::create_layout(VkDescriptorType a_descriptorType, VkShaderStageFlags a_stageFlags)
         {
             m_descriptorType = a_descriptorType;
 

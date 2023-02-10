@@ -11,7 +11,7 @@ namespace dragonbyte_engine
 		class DescriptorPool
 		{
 		public:
-			DescriptorPool();
+			DescriptorPool(VkDescriptorType descriptorType);
 			~DescriptorPool();
 
 			VkDescriptorPool m_descriptorPool;

@@ -87,7 +87,15 @@ namespace dragonbyte_engine
 	{
 		vulkan::oi.pWindow->tick();
 
-		draw_frame();
+		try
+		{
+			draw_frame();
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << '\n';
+		}
+		
 
 		vulkan::oi.pVertexBuffer->reload();
 
@@ -161,7 +169,8 @@ namespace dragonbyte_engine
 
 			create_vertex_buffer();
 			create_index_buffer();
-			create_uniform_buffer_handler();
+			//create_uniform_buffer_handler();
+			create_mvp_buffer_handler();
 			create_descriptor_pool();
 			create_descriptor_set_handler();
 
@@ -282,7 +291,20 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Create Descriptor Set" << '\n';
 
-		vulkan::oi.pDescriptorSetHandler->create(vulkan::oi.pMVPBufferHandler->get_buffers(), sizeof(vulkan::MVP));
+		vulkan::oi.pDescriptorSetHandler->create_sets(vulkan::oi.pMVPBufferHandler->get_buffers(), sizeof(vulkan::MVP));
+	}
+	void RenderEngine::create_descriptor_pool()
+	{
+		std::cout << "Create Descriptor Pool" << '\n';
+
+		vulkan::oi.pDescriptorPool = std::make_shared<vulkan::DescriptorPool>(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER);
+	}
+	void RenderEngine::create_descriptor_set_layout()
+	{
+		std::cout << "Create Descriptor Set Layout" << '\n';
+
+		vulkan::oi.pDescriptorSetHandler = std::make_shared<vulkan::DescriptorSetHandler>();
+		vulkan::oi.pDescriptorSetHandler->create_layout(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
 	}
 	void RenderEngine::create_uniform_buffer_handler()
 	{
@@ -290,30 +312,17 @@ namespace dragonbyte_engine
 		
 		vulkan::oi.pUniformBufferHandler = std::make_shared<vulkan::UniformBufferHandler>();
 	}
-	void RenderEngine::create_descriptor_pool()
+	void RenderEngine::create_mvp_buffer_handler()
 	{
-		std::cout << "Create Descriptor Pool" << '\n';
+		std::cout << "Create MVP Buffer Handler" << '\n';
 
-		vulkan::oi.pDescriptorPool = std::make_shared<vulkan::DescriptorPool>();
-	}
-	void RenderEngine::create_descriptor_set_layout()
-	{
-		std::cout << "Create Descriptor Set Layout" << '\n';
-
-		vulkan::oi.pDescriptorSetHandler = std::make_shared<vulkan::DescriptorSetHandler>();
-		vulkan::oi.pDescriptorSetHandler->create_descriptor_set(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, VK_SHADER_STAGE_VERTEX_BIT);
+		vulkan::oi.pMVPBufferHandler = std::make_shared<vulkan::MVPBufferHandler>();
 	}
 	void RenderEngine::create_depth_handler()
 	{
 		std::cout << "Create Depth Handler" << '\n';
 
 		vulkan::oi.pDepthHandler = std::make_shared<vulkan::DepthHandler>();
-	}
-	void RenderEngine::create_mvp_buffer_handler()
-	{
-		std::cout << "Create MVP Buffer Handler" << '\n';
-
-		vulkan::oi.pMVPBufferHandler = std::make_shared<vulkan::MVPBufferHandler>();
 	}
 	
 	void RenderEngine::draw_frame()
@@ -323,7 +332,8 @@ namespace dragonbyte_engine
 	
 		uint32_t imageIndex = vulkan::oi.pSwapChain->acquire_next_image();
 
-		update_uniform_buffer_handler(imageIndex);
+		//update_uniform_buffer_handler(imageIndex);
+		update_storage_buffer_handler(imageIndex);
 		
 		record_command_buffer(imageIndex);
 		submit_command_buffer();
@@ -332,6 +342,9 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::update_uniform_buffer_handler(uint32_t a_currentImage)
 	{
+		if (!vulkan::oi.pUniformBufferHandler)
+			throw std::runtime_error("Trying to update Uniform Buffer Handler, but it doesn't exist");
+	
 		static auto startTime = std::chrono::high_resolution_clock::now();
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
@@ -347,7 +360,8 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::update_storage_buffer_handler(uint32_t a_currentImage)
 	{
-
+		if (!vulkan::oi.pMVPBufferHandler)
+			throw std::runtime_error("Trying to update MVP Buffer Handler, but it doesn't exist");
 
 		vulkan::oi.pMVPBufferHandler->push_data(a_currentImage);
 	}
