@@ -17,6 +17,8 @@ namespace dragonbyte_engine
 	class GameClock;
 
 	class PhysicsEngine;
+	class RenderEngine;
+	class ObjectEngine;
 
 	class Overseer
 	{

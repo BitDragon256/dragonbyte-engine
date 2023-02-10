@@ -4,6 +4,8 @@
 
 #include "engine.h"
 
+#include "component.h"
+
 namespace dragonbyte_engine
 {
 

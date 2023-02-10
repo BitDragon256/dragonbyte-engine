@@ -15,7 +15,7 @@ namespace dragonbyte_engine
 		
 		static float distance(Vec3 a, Vec3 b)
 		{
-			return sqrt(a.x*b.x + a.y*b.y + a.z*b.z);
+			return static_cast<float>(sqrt(a.x * b.x + a.y * b.y + a.z * b.z));
 		}
 		
 		Vec3 operator+(const Vec3& a_krOther)
