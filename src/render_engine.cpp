@@ -35,6 +35,7 @@
 #include "vulkan/descriptor_pool.h"
 #include "vulkan/depth_handler.h"
 #include "vulkan/mvp_buffer_handler.h"
+#include "vulkan/mesh_handler.h"
 
 #include "mesh.h"
 
@@ -177,6 +178,9 @@ namespace dragonbyte_engine
 			create_command_buffer();
 			
 			create_sync_objects();
+
+			create_mesh_handler();
+			fill_default_meshes();
 		}
 		catch (const std::exception& e)
 		{
@@ -325,6 +329,20 @@ namespace dragonbyte_engine
 
 		vulkan::oi.pDepthHandler = std::make_shared<vulkan::DepthHandler>();
 	}
+	void RenderEngine::create_mesh_handler()
+	{
+		std::cout << "Create Mesh Handler" << '\n';
+
+		vulkan::oi.pMeshHandler = std::make_shared<vulkan::MeshHandler>();
+	}
+
+	void RenderEngine::fill_default_meshes()
+	{
+		Mesh mesh;
+		mesh.set_mesh(vulkan::VertexBuffer::kTestCubeVertices, vulkan::IndexBuffer::kTestCubeIndices);
+
+		vulkan::oi.pMeshHandler->add_mesh(mesh, 10);
+	}
 	
 	void RenderEngine::draw_frame()
 	{
@@ -392,8 +410,9 @@ namespace dragonbyte_engine
 		vulkan::oi.pDescriptorSetHandler->bind(a_imageIndex);
 
 		// vkCmdDraw(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pVertexBuffer->m_vertices.size()), 1, 0, 0);
-		vkCmdDrawIndexed(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pIndexBuffer->m_indices.size()), 1, 0, 0, 0);
-		
+		//vkCmdDrawIndexed(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pIndexBuffer->m_indices.size()), 1, 0, 0, 0);
+		vulkan::oi.pMeshHandler->draw_all_meshes();
+
 		vkCmdEndRenderPass(vulkan::oi.pCommandBuffer->m_commandBuffer);
 		VkResult res = vkEndCommandBuffer(vulkan::oi.pCommandBuffer->m_commandBuffer);
 		if (res != VK_SUCCESS)

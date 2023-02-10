@@ -67,11 +67,11 @@ namespace dragonbyte_engine
 
 	void Mesh::change_vertices()
 	{
-		m_rVertexBuffer.m_hasChanged = true;
+		vulkan::oi.pVertexBuffer->m_hasChanged = true;
 	}
 	void Mesh::change_indices()
 	{
-		m_rIndexBuffer.m_hasChanged = true;
+		vulkan::oi.pIndexBuffer->m_hasChanged = true;
 	}
 
 } // namespace dragonbyte_engine

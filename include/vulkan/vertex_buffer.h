@@ -34,57 +34,15 @@ namespace dragonbyte_engine
 
             bool m_hasChanged;
             
+            static const std::vector<Vertex> kTestTriVertices;
+            static const std::vector<Vertex> kTestSquareVertices;
+            static const std::vector<Vertex> kTest2SquareVertices;
+            static const std::vector<Vertex> kTestCubeVertices;
+
         private:
         
             std::weak_ptr<LogicalDevice> m_pLogicalDevice;
         
-            const std::vector<Vertex> kTestTriVertices = {
-                { {  0.0f, -0.5f, 0.0f }, { 1.f, 0.f, 0.f } },
-                { {  0.5f,  0.5f, 0.0f }, { 0.f, 1.f, 0.f } },
-                { { -0.5f,  0.5f, 0.0f }, { 0.f, 0.f, 1.f } }
-            };
-
-            const std::vector<Vertex> kTestSquareVertices = {
-                { { -0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f } },
-                { {  0.5f, -0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f } },
-                { {  0.5f,  0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f } },
-                { { -0.5f,  0.5f, 0.0f }, { 1.0f, 1.0f, 1.0f } }
-            };
-            
-            const std::vector<Vertex> kTest2SquareVertices = {
-                { { -0.5f, -0.5f, 0.3f }, { 1.0f, 0.0f, 0.0f }},
-                { {  0.5f, -0.5f, 0.3f }, { 0.0f, 1.0f, 0.0f }},
-                { {  0.5f,  0.5f, 0.3f }, { 0.0f, 0.0f, 1.0f }},
-                { { -0.5f,  0.5f, 0.3f }, { 1.0f, 1.0f, 1.0f }},
-
-                { { -0.5f, -0.5f, -0.4f }, { 1.0f, 0.0f, 0.0f }},
-                { {  0.5f, -0.5f, -0.4f }, { 0.0f, 1.0f, 0.0f }},
-                { {  0.5f,  0.5f, -0.4f }, { 0.0f, 0.0f, 1.0f }},
-                { { -0.5f,  0.5f, -0.4f }, { 1.0f, 1.0f, 1.0f }},
-
-                { { -1.0f, -0.5f,  0.3f }, { 1.0f, 0.0f, 0.0f }},
-                { { -1.0f,  0.5f,  0.3f }, { 0.0f, 1.0f, 0.0f }},
-                { { -1.0f, -0.5f, -0.4f }, { 0.0f, 0.0f, 1.0f }},
-                { { -1.0f,  0.5f, -0.4f }, { 1.0f, 1.0f, 1.0f }},
-
-                { { 1.0f, -0.5f,  0.3f }, { 1.0f, 0.0f, 0.0f }},
-                { { 1.0f,  0.5f,  0.3f }, { 0.0f, 1.0f, 0.0f }},
-                { { 1.0f, -0.5f, -0.4f }, { 0.0f, 0.0f, 1.0f }},
-                { { 1.0f,  0.5f, -0.4f }, { 1.0f, 1.0f, 1.0f }}
-
-            };
-
-            const std::vector<Vertex> kTestCubeVertices = {
-                { {  0.5f,  0.5f,  0.5f }, { 1.0f, 1.0f, 1.0f } },
-                { {  0.5f, -0.5f,  0.5f }, { 1.0f, 1.0f, 1.0f } },
-                { {  0.5f,  0.5f, -0.5f }, { 1.0f, 1.0f, 1.0f } },
-                { {  0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f, 1.0f } },
-                { { -0.5f,  0.5f,  0.5f }, { 1.0f, 1.0f, 1.0f } },
-                { { -0.5f, -0.5f,  0.5f }, { 1.0f, 1.0f, 1.0f } },
-                { { -0.5f,  0.5f, -0.5f }, { 1.0f, 1.0f, 1.0f } },
-                { { -0.5f, -0.5f, -0.5f }, { 1.0f, 1.0f, 1.0f } },
-            };
-            
         };
         
     } // namespace vulkan

@@ -80,6 +80,7 @@ namespace dragonbyte_engine
 		void create_descriptor_pool();
 		void create_descriptor_set_layout();
 		void create_depth_handler();
+		void create_mesh_handler();
 
 		void draw_frame();
 		void update_uniform_buffer_handler(uint32_t currentImage);
@@ -87,6 +88,8 @@ namespace dragonbyte_engine
 		void record_command_buffer(uint32_t imageIndex);
 		void submit_command_buffer();
 		void present(uint32_t imageIndex);
+
+		void fill_default_meshes();
 
 	};
 

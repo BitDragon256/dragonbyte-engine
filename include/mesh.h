@@ -33,9 +33,6 @@ namespace dragonbyte_engine
 		std::vector<vulkan::Vertex> m_vertices;
 		std::vector<vulkan::Index> m_indices;
 
-		vulkan::VertexBuffer& m_rVertexBuffer;
-		vulkan::IndexBuffer& m_rIndexBuffer;
-
 		void change_vertices();
 		void change_indices();
 
