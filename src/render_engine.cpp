@@ -317,6 +317,7 @@ namespace dragonbyte_engine
 		std::cout << "Create MVP Buffer Handler" << '\n';
 
 		vulkan::oi.pMVPBufferHandler = std::make_shared<vulkan::MVPBufferHandler>();
+		vulkan::oi.pMVPBufferHandler->m_mvps.push_back({});
 	}
 	void RenderEngine::create_depth_handler()
 	{
@@ -362,6 +363,19 @@ namespace dragonbyte_engine
 	{
 		if (!vulkan::oi.pMVPBufferHandler)
 			throw std::runtime_error("Trying to update MVP Buffer Handler, but it doesn't exist");
+
+		static auto startTime = std::chrono::high_resolution_clock::now();
+
+		auto currentTime = std::chrono::high_resolution_clock::now();
+		float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+
+		vulkan::MVP mvp = {};
+		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
+		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		mvp.proj = glm::perspective(glm::radians(45.0f), vulkan::oi.pSwapChain->m_extent.width / (float)vulkan::oi.pSwapChain->m_extent.height, 0.1f, 10.0f);
+		mvp.proj[1][1] *= -1;
+
+		vulkan::oi.pMVPBufferHandler->m_mvps[0] = mvp;
 
 		vulkan::oi.pMVPBufferHandler->push_data(a_currentImage);
 	}
