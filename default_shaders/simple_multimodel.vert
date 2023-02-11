@@ -13,9 +13,15 @@ layout(std140, set = 0, binding = 0) readonly buffer ObjectBuffer {
 	ObjectData objects[];
 } objectBuffer;
 
+layout(push_constant) uniform ViewProjectionData
+{
+	mat4 view;
+	mat4 projection;
+} viewProjectionData;
+
 void main()
 {
 	ObjectData objectData = objectBuffer.objects[gl_InstanceIndex];
-	gl_Position = objectData.model * vec4(inPos, 1.0);
+	gl_Position = viewProjectionData.projection * viewProjectionData.view * objectData.model * vec4(inPos, 1.0);
 	fragColor = inColor;
 }
