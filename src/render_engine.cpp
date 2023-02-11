@@ -70,6 +70,8 @@ namespace dragonbyte_engine
 		vulkan::oi.pSwapChain.reset();
 
 		vulkan::oi.pUniformBufferHandler.reset();
+		vulkan::oi.pMVPBufferHandler.reset();
+
 		vulkan::oi.pDescriptorPool.reset();
 		vulkan::oi.pDescriptorSetHandler.reset();
 		
@@ -321,7 +323,9 @@ namespace dragonbyte_engine
 		std::cout << "Create MVP Buffer Handler" << '\n';
 
 		vulkan::oi.pMVPBufferHandler = std::make_shared<vulkan::MVPBufferHandler>();
-		vulkan::oi.pMVPBufferHandler->m_mvps.push_back({});
+
+		for (int i = 0; i < 10; i++)
+			vulkan::oi.pMVPBufferHandler->m_mvps.push_back({});
 	}
 	void RenderEngine::create_depth_handler()
 	{
@@ -393,7 +397,11 @@ namespace dragonbyte_engine
 		mvp.proj = glm::perspective(glm::radians(45.0f), vulkan::oi.pSwapChain->m_extent.width / (float)vulkan::oi.pSwapChain->m_extent.height, 0.1f, 10.0f);
 		mvp.proj[1][1] *= -1;
 
-		vulkan::oi.pMVPBufferHandler->m_mvps[0] = mvp;
+		for (int i = 0; i < 10; i++)
+		{
+			vulkan::oi.pMVPBufferHandler->m_mvps[i] = mvp;
+			vulkan::oi.pMVPBufferHandler->m_mvps[i].model = glm::translate(mvp.model, glm::vec3(0, i, 0));
+		}
 
 		vulkan::oi.pMVPBufferHandler->push_data(a_currentImage);
 	}

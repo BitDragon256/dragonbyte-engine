@@ -6,6 +6,8 @@
 #include "buffer.h"
 #include "vertex.h"
 
+#define DGB_INDEX_BUFFER_MAX_SIZE 3000
+
 namespace dragonbyte_engine
 {
 	
@@ -28,11 +30,15 @@ namespace dragonbyte_engine
             void bind();
             void reload();
 
+            void insert(std::vector<Index> indices);
+
             bool m_hasChanged;
 
             static const std::vector<Index> kTestSquareIndices;
             static const std::vector<Index> kTest2SquareIndices;
             static const std::vector<Index> kTestCubeIndices;
+
+            size_t m_bufferEnd;
 
         private:
 

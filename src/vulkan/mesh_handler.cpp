@@ -21,16 +21,16 @@ namespace dragonbyte_engine
 			m_meshes.push_back(a_rMesh);
 			m_bufferData.push_back(
 				{
-					oi.pIndexBuffer->m_indices.size(),
-					a_rMesh.indices().size(),
+					static_cast<uint32_t>(oi.pIndexBuffer->m_bufferEnd),
+					static_cast<uint32_t>(a_rMesh.indices().size()),
 					m_totalInstances,
 					a_instanceCount
 				}
 			);
 
 			m_totalInstances += a_instanceCount;
-			oi.pIndexBuffer->m_indices.insert(oi.pIndexBuffer->m_indices.end(), a_rMesh.indices().begin(), a_rMesh.indices().end());
-			oi.pVertexBuffer->m_vertices.insert(oi.pVertexBuffer->m_vertices.end(), a_rMesh.vertices().begin(), a_rMesh.vertices().end());
+			oi.pIndexBuffer->insert(a_rMesh.indices());
+			oi.pVertexBuffer->insert(a_rMesh.vertices());
 		}
 		void MeshHandler::draw_all_meshes()
 		{

@@ -19,9 +19,11 @@ namespace dragonbyte_engine
     {
         
         VertexBuffer::VertexBuffer() :
-            m_pLogicalDevice{ oi.pLogicalDevice }
+            m_pLogicalDevice{ oi.pLogicalDevice }, m_bufferEnd{ 0 }
         {
-            m_vertices = kTestCubeVertices;
+            //m_vertices = kTestCubeVertices;
+            m_vertices = std::vector<Vertex>(DGB_VERTEX_BUFFER_MAX_SIZE);
+            
             m_buffer.create(
                 static_cast<uint64_t>(m_vertices.size()),
                 sizeof(Vertex),
@@ -57,18 +59,30 @@ namespace dragonbyte_engine
             m_stagingBuffer.copy_data(m_vertices);
             m_buffer.copy_from(m_stagingBuffer);
         }
-        std::vector<Vertex> kTestTriVertices = {
+
+        void VertexBuffer::insert(std::vector<Vertex> a_vertices)
+        {
+            if (a_vertices.size() + m_bufferEnd >= DGB_VERTEX_BUFFER_MAX_SIZE)
+                throw std::runtime_error("Buffer size exceeded");
+
+            m_vertices.insert(m_vertices.begin() + m_bufferEnd, a_vertices.begin(), a_vertices.end());
+            m_bufferEnd += a_vertices.size();
+
+            reload();
+        }
+
+        const std::vector<Vertex> VertexBuffer::kTestTriVertices = {
                 { {  0.0f, -0.5f, 0.0f }, { 1.f, 0.f, 0.f } },
                 { {  0.5f,  0.5f, 0.0f }, { 0.f, 1.f, 0.f } },
                 { { -0.5f,  0.5f, 0.0f }, { 0.f, 0.f, 1.f } }
         };
-        std::vector<Vertex> kTestSquareVertices = {
+        const std::vector<Vertex> VertexBuffer::kTestSquareVertices = {
             { { -0.5f, -0.5f, 0.0f }, { 1.0f, 0.0f, 0.0f } },
             { {  0.5f, -0.5f, 0.0f }, { 0.0f, 1.0f, 0.0f } },
             { {  0.5f,  0.5f, 0.0f }, { 0.0f, 0.0f, 1.0f } },
             { { -0.5f,  0.5f, 0.0f }, { 1.0f, 1.0f, 1.0f } }
         };
-        std::vector<Vertex> kTest2SquareVertices = {
+        const std::vector<Vertex> VertexBuffer::kTest2SquareVertices = {
             { { -0.5f, -0.5f, 0.3f }, { 1.0f, 0.0f, 0.0f }},
             { {  0.5f, -0.5f, 0.3f }, { 0.0f, 1.0f, 0.0f }},
             { {  0.5f,  0.5f, 0.3f }, { 0.0f, 0.0f, 1.0f }},
@@ -90,7 +104,7 @@ namespace dragonbyte_engine
             { { 1.0f,  0.5f, -0.4f }, { 1.0f, 1.0f, 1.0f }}
 
         };
-        std::vector<Vertex> kTestCubeVertices = {
+        const std::vector<Vertex> VertexBuffer::kTestCubeVertices = {
                 { {  0.5f,  0.5f,  0.5f }, { 1.0f, 1.0f, 1.0f } },
                 { {  0.5f, -0.5f,  0.5f }, { 1.0f, 1.0f, 1.0f } },
                 { {  0.5f,  0.5f, -0.5f }, { 1.0f, 1.0f, 1.0f } },

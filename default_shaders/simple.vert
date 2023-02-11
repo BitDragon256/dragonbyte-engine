@@ -25,7 +25,7 @@ layout(std140, set = 0, binding = 0) readonly buffer ObjectBuffer {
 
 void main()
 {
-	ObjectData mvp = objectBuffer.objects[0];
+	ObjectData mvp = objectBuffer.objects[gl_InstanceIndex];
 	gl_Position = mvp.proj * mvp.view * mvp.model * vec4(inPos, 1.0);
 	fragColor = inColor;
 }

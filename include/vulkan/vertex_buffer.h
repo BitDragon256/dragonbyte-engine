@@ -11,6 +11,8 @@
 
 #include "buffer.h"
 
+#define DGB_VERTEX_BUFFER_MAX_SIZE 3000
+
 namespace dragonbyte_engine
 {
 
@@ -32,6 +34,8 @@ namespace dragonbyte_engine
             void bind();
             void reload();
 
+            void insert(std::vector<Vertex> vertices);
+
             bool m_hasChanged;
             
             static const std::vector<Vertex> kTestTriVertices;
@@ -40,10 +44,13 @@ namespace dragonbyte_engine
             static const std::vector<Vertex> kTestCubeVertices;
 
         private:
+
+            size_t m_bufferEnd;
         
             std::weak_ptr<LogicalDevice> m_pLogicalDevice;
         
         };
+
         
     } // namespace vulkan
     
