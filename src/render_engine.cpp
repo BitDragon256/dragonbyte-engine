@@ -400,7 +400,7 @@ namespace dragonbyte_engine
 		for (int i = 0; i < 10; i++)
 		{
 			vulkan::oi.pMVPBufferHandler->m_mvps[i] = mvp;
-			vulkan::oi.pMVPBufferHandler->m_mvps[i].model = glm::translate(mvp.model, glm::vec3(0, i, 0));
+			vulkan::oi.pMVPBufferHandler->m_mvps[i].model = glm::translate(mvp.model, glm::vec3(0, static_cast<float>(i), 0));
 		}
 
 		vulkan::oi.pMVPBufferHandler->push_data(a_currentImage);

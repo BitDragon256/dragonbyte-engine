@@ -30,6 +30,14 @@ namespace dragonbyte_engine
 
 		void MVPBufferHandler::push_data(uint32_t a_frame)
 		{
+			m_mvps[2].model[3][3] = 2;
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+					std::cout << m_mvps[2].model[i][j] << " ";
+				std::cout << '\n';
+			}
+			
 			m_buffers[a_frame].copy_data(m_mvps);
 		}
 		std::vector<VkBuffer> MVPBufferHandler::get_buffers()
