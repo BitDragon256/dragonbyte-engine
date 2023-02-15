@@ -55,6 +55,10 @@ namespace dragonbyte_engine
 	class Quaternion
 	{
 	public:
+
+		Quaternion();
+		Quaternion(float x, float y, float z);
+		Quaternion(float i, float j, float k, float w);
 		
 		Quaternion operator+(const Quaternion& a_krOther)
 		{

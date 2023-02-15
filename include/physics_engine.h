@@ -1,15 +1,16 @@
 #pragma once
 
-#include "engine.h"
 #include "component.h"
 
 namespace dragonbyte_engine
 {
-	class PhysicsEngine : public Engine
+	class PhysicsEngine
 	{
 	public:
 
-		void tick() override;
+		float gravity;
+
+		void tick();
 
 	private:
 

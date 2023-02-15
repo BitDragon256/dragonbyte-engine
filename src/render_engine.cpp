@@ -36,6 +36,7 @@
 #include "vulkan/depth_handler.h"
 #include "vulkan/mvp_buffer_handler.h"
 #include "vulkan/mesh_handler.h"
+#include "vulkan/vp_handler.h"
 
 #include "mesh.h"
 
@@ -339,6 +340,12 @@ namespace dragonbyte_engine
 
 		vulkan::oi.pMeshHandler = std::make_shared<vulkan::MeshHandler>();
 	}
+	void RenderEngine::create_view_projection_handler()
+	{
+		std::cout << "Create View Projection Handler" << '\n';
+
+		vulkan::oi.pViewProjectionHandler = std::make_shared<vulkan::ViewProjectionHandler>();
+	}
 
 	void RenderEngine::fill_default_meshes()
 	{
@@ -392,7 +399,7 @@ namespace dragonbyte_engine
 		float time = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
 
 		vulkan::MVP mvp = {};
-		mvp.model = glm::rotate(glm::mat4(1.0f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
+		mvp.model = glm::identity<glm::mat4>();//glm::rotate(glm::mat4(1.0f), time * glm::radians(90.f), glm::vec3(0.f, 0.f, 1.f));
 		mvp.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 		mvp.proj = glm::perspective(glm::radians(45.0f), vulkan::oi.pSwapChain->m_extent.width / (float)vulkan::oi.pSwapChain->m_extent.height, 0.1f, 10.0f);
 		mvp.proj[1][1] *= -1;
@@ -400,7 +407,7 @@ namespace dragonbyte_engine
 		for (int i = 0; i < 10; i++)
 		{
 			vulkan::oi.pMVPBufferHandler->m_mvps[i] = mvp;
-			vulkan::oi.pMVPBufferHandler->m_mvps[i].model = glm::translate(mvp.model, glm::vec3(0, static_cast<float>(i), 0));
+			//vulkan::oi.pMVPBufferHandler->m_mvps[i].model = glm::translate(mvp.model, glm::vec3(0, static_cast<float>(i), 0));
 		}
 
 		vulkan::oi.pMVPBufferHandler->push_data(a_currentImage);

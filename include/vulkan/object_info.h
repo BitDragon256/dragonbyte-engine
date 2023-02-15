@@ -30,6 +30,7 @@ namespace dragonbyte_engine
 		class SyncHandler;
 		class UniformBufferHandler;
 		class VertexBuffer;
+		class ViewProjectionHandler;
 		class Window;
 
 		struct ObjectInfo
@@ -58,6 +59,7 @@ namespace dragonbyte_engine
 			std::shared_ptr<SyncHandler> pSyncHandler;
 			std::shared_ptr<UniformBufferHandler> pUniformBufferHandler;
 			std::shared_ptr<VertexBuffer> pVertexBuffer;
+			std::shared_ptr<ViewProjectionHandler> pViewProjectionHandler;
 			std::shared_ptr<Window> pWindow;
 
 			void reset();

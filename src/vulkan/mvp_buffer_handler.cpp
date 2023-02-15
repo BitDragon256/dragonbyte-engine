@@ -15,7 +15,7 @@ namespace dragonbyte_engine
 			for (size_t i = 0; i < m_buffers.size(); i++)
 			{
 				m_buffers[i].create(
-					1,
+					10,
 					sizeof(MVP),
 					true,
 					VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
@@ -30,13 +30,13 @@ namespace dragonbyte_engine
 
 		void MVPBufferHandler::push_data(uint32_t a_frame)
 		{
-			m_mvps[2].model[3][3] = 2;
-			for (int i = 0; i < 4; i++)
+			m_mvps[0].model[3][1] = 1;
+			/*for (int i = 0; i < 4; i++)
 			{
 				for (int j = 0; j < 4; j++)
 					std::cout << m_mvps[2].model[i][j] << " ";
 				std::cout << '\n';
-			}
+			}*/
 			
 			m_buffers[a_frame].copy_data(m_mvps);
 		}
