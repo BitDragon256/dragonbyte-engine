@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "component.h"
+
 #include "vulkan/vertex.h"
 
 #include "vulkan/vertex_buffer.h"
@@ -10,9 +12,11 @@
 namespace dragonbyte_engine
 {
 
-	class Mesh
+	class Mesh : Component
 	{
 	public:
+
+		Mesh();
 
 		const std::vector<vulkan::Vertex>& vertices();
 		const std::vector<vulkan::Index>& indices();

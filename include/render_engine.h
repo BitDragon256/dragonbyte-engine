@@ -5,8 +5,7 @@
 
 #include <vulkan/vulkan.h>
 
-#include "engine.h"
-
+#include "default_components/camera.h"
 #include "vulkan/object_info.h"
 
 namespace dragonbyte_engine
@@ -32,7 +31,7 @@ namespace dragonbyte_engine
 	// namespace vulkan { struct ObjectInfo; }
 	class Mesh;
 
-	class RenderEngine : Engine
+	class RenderEngine
 	{
 	public:
 
@@ -41,7 +40,7 @@ namespace dragonbyte_engine
 
 		RenderEngineConfig m_config;
 
-		void tick() override;
+		void tick();
 
 		void render_particles();
 		void render_models();
@@ -52,6 +51,7 @@ namespace dragonbyte_engine
 		bool should_close_window();
 
 		void set_static_meshes(std::vector<Mesh*> meshes);
+		void set_camera(Camera camera);
 
 	private:
 	
@@ -91,6 +91,8 @@ namespace dragonbyte_engine
 		void present(uint32_t imageIndex);
 
 		void fill_default_meshes();
+		
+		Camera* m_pCamera;
 
 	};
 

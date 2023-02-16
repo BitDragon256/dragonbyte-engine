@@ -1,10 +1,11 @@
 #pragma once
 
-#include "engine.h"
+//#include "engine.h"
+//#include "dragonbyte_engine.h"
 
-#include "physics_engine.h"
-#include "render_engine.h"
-#include "object_engine.h"
+//#include "physics_engine.h"
+//#include "render_engine.h"
+//#include "object_engine.h"
 #include "ai_engine.h"
 #include "file_engine.h"
 #include "audio_engine.h"
@@ -19,6 +20,8 @@ namespace dragonbyte_engine
 	class PhysicsEngine;
 	class RenderEngine;
 	class ObjectEngine;
+	
+	struct EngineConfig;
 
 	class Overseer
 	{
@@ -37,7 +40,9 @@ namespace dragonbyte_engine
 		AudioEngine* m_pAudioEngine;
 		InputEngine* m_pInputEngine;
 
-
+		// init game
+		void init_game(EngineConfig config);
+		
 		// start game
 		void run_game();
 
@@ -52,8 +57,6 @@ namespace dragonbyte_engine
 
 		// game loop
 		GameClock* m_pGameClock;
-
-		void init_game();
 		void game_loop();
 		void end_game();
 

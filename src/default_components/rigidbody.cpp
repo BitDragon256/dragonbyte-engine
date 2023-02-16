@@ -42,12 +42,12 @@ namespace dragonbyte_engine
 
 		m_velocity = m_lastPosition - m_position;
 
-		m_velocity += m_acceleration * m_rGameClock.m_deltaTime;
+		m_velocity += m_acceleration * m_pGameClock->m_deltaTime;
 	}
 	void Rigidbody::law_of_momentum()
 	{
-		m_position += m_velocity * m_rGameClock.m_deltaTime;
-		m_globalPosition += m_velocity * m_rGameClock.m_deltaTime;
+		m_position += m_velocity * m_pGameClock->m_deltaTime;
+		m_globalPosition += m_velocity * m_pGameClock->m_deltaTime;
 	}
 	Velocity Rigidbody::calc_impact()
 	{
@@ -60,12 +60,12 @@ namespace dragonbyte_engine
 
 	void Rigidbody::retrieve_position()
 	{
-		m_position = m_rGameObject.m_transform.m_position;
-		m_globalPosition = m_rGameObject.m_transform.global_position();
+		m_position = m_pGameObject->m_transform.m_position;
+		m_globalPosition = m_pGameObject->m_transform.global_position();
 	}
 	void Rigidbody::apply_position()
 	{
-		m_rGameObject.m_transform.m_position = m_position;
+		m_pGameObject->m_transform.m_position = m_position;
 
 		m_lastPosition = m_position;
 	}

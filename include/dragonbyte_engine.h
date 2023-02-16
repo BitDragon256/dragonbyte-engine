@@ -3,8 +3,9 @@
 #include <string>
 
 #include "overseer.h"
-#include "game_object.h"
+// #include "game_object.h"
 #include "scene.h"
+#include "mathematics.h"
 
 namespace dragonbyte_engine
 {
@@ -28,6 +29,9 @@ namespace dragonbyte_engine
 		WindowConfig window;
 		PhysicsConfig physics;
 	};
+	
+	//class Overseer;
+	//class Scene;
 
 	class DragonbyteEngine
 	{
@@ -39,7 +43,7 @@ namespace dragonbyte_engine
 		void start_game();
 
 		void add_scene(std::string name);
-		Scene& select_scene(std::string name);
+		Scene* select_scene(std::string name);
 
 		Overseer m_overseer;
 	};

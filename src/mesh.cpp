@@ -14,6 +14,11 @@ namespace dragonbyte_engine
 		return m_indices;
 	}
 
+	Mesh::Mesh()
+	{
+	
+	}
+
 	void Mesh::set_mesh(const std::vector<vulkan::Vertex>& a_krVertices, const std::vector<vulkan::Index>& a_krIndices)
 	{
 		set_vertices(a_krVertices);

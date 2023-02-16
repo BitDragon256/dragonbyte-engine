@@ -1,6 +1,7 @@
 #include "game_object.h"
 
 #include "component.h"
+#include "mesh.h"
 
 namespace dragonbyte_engine
 {
@@ -46,5 +47,10 @@ namespace dragonbyte_engine
             m_components[i].tick();
         }
     }
+    Mesh* GameObject::get_mesh()
+    {
+        return dynamic_cast<Mesh*>(&m_components[m_meshIndex]);
+    }
+    
     
 } // namespace dragonbyte_engine

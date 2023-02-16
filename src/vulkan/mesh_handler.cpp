@@ -39,10 +39,10 @@ namespace dragonbyte_engine
 				vkCmdDrawIndexed(
 					vulkan::oi.pCommandBuffer->m_commandBuffer,
 					m_bufferData[i].indexCount,
-					10,//m_bufferData[i].instanceCount,
-					0,//m_bufferData[i].indexStart,
+					m_bufferData[i].instanceCount,
+					m_bufferData[i].indexStart,
 					0,
-					0//m_bufferData[i].instanceStart
+					m_bufferData[i].instanceStart
 				);
 			}
 		}

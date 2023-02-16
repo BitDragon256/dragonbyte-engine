@@ -3,6 +3,11 @@
 #include <iostream>
 
 #include "game_clock.h"
+#include "dragonbyte_engine.h"
+#include "object_engine.h"
+#include "physics_engine.h"
+#include "render_engine.h"
+#include "mathematics.h"
 
 namespace dragonbyte_engine
 {
@@ -32,10 +37,6 @@ namespace dragonbyte_engine
 	// called from outside to start up / represents the whole game cycle
 	void Overseer::run_game()
 	{
-		std::cerr << "Initialization Start" << '\n';
-		init_game();
-		std::cerr << "Initialized" << '\n';
-
 		std::cerr << "Loop Start" << '\n';
 		game_loop();
 		std::cerr << "Loop End" << '\n';
@@ -46,11 +47,11 @@ namespace dragonbyte_engine
 	}
 
 	// initializes all pieces of the game engine and starts them up
-	void Overseer::init_game()
+	void Overseer::init_game(EngineConfig a_config)
 	{
 		GameClockConfig clockConfig = {};
 		clockConfig.physicsFps = 50.f;
-		clockConfig.targetFps = 100000.f;
+		clockConfig.targetFps = a_config.targetFps;
 		clockConfig.pOverseer = this;
 
 		m_pGameClock = new GameClock(clockConfig);
@@ -72,8 +73,8 @@ namespace dragonbyte_engine
 		renderEngineConfig.renderParticles = true;
 		renderEngineConfig.renderGui = true;
 		renderEngineConfig.renderType = RenderType::Rasterization;
-		renderEngineConfig.windowHeight = 500;
-		renderEngineConfig.windowWidth = 800;
+		renderEngineConfig.windowHeight = a_config.window.height;
+		renderEngineConfig.windowWidth = a_config.window.width;
 
 		m_pRenderEngine = new RenderEngine(renderEngineConfig);
 

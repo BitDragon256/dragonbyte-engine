@@ -74,6 +74,9 @@ namespace dragonbyte_engine
 			VkShaderStageFlags m_stages;
 
 		};
+		
+		template<class T>
+		size_t PushConstantRange<T>::s_totalRangeSize = 0;
 
 	} // namespace vulkan
 

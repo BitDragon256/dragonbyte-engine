@@ -352,7 +352,8 @@ namespace dragonbyte_engine
 		Mesh mesh;
 		mesh.set_mesh(vulkan::VertexBuffer::kTestCubeVertices, vulkan::IndexBuffer::kTestCubeIndices);
 
-		vulkan::oi.pMeshHandler->add_mesh(mesh, 10);
+		vulkan::oi.pMeshHandler->add_mesh(mesh, 1);
+		vulkan::oi.pMeshHandler->add_mesh(mesh, 1);
 	}
 	
 	void RenderEngine::draw_frame()

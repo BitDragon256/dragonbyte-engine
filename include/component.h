@@ -11,16 +11,18 @@ namespace dragonbyte_engine
 	{
 	public:
 
+		Component()
+		{}
 		Component(GameObject& a_krGameObject, GameClock& a_krGameClock) :
-			m_rGameObject{ a_krGameObject }, m_rGameClock{ a_krGameClock }
+			m_pGameObject{ &a_krGameObject }, m_pGameClock{ &a_krGameClock }
 		{
 
 		}
 
-		GameObject& m_rGameObject;
-		GameClock& m_rGameClock;
+		GameObject* m_pGameObject;
+		GameClock* m_pGameClock;
 		
-		virtual void tick() = 0;
+		virtual void tick();
 		
 	};
 

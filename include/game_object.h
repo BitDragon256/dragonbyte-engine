@@ -43,15 +43,15 @@ namespace dragonbyte_engine
         
         float m_boundingBox;
         
-        Rigidbody& get_rigidbody();
-        Mesh& get_mesh();
+        Rigidbody* get_rigidbody();
+        Mesh* get_mesh();
         
         void add_component(const Component& copy_component);
         template<class T> void add_component();
         template<class T> void add_component(const T& copy_component);
         
-        template<class T> T& get_component();
-        template<class T> void get_component(T& component);
+        template<class T> T* get_component();
+        template<class T> void get_component(T* component);
         
         void tick();
     

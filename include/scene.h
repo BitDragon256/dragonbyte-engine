@@ -1,19 +1,22 @@
 #pragma once
 
 #include <string>
+#include "game_object.h"
 
 namespace dragonbyte_engine
 {
 
-	class GameObject;
+	typedef Transform Scene;
 
-	class Scene
-	{
-	public:
-		Scene();
+	//class GameObject;
 
-		GameObject& add_object(std::string name);
-		GameObject& add_object(GameObject object);
-	};
+	// class Scene
+	// {
+	// public:
+	// 	Scene();
+
+	// 	GameObject& add_object(std::string name);
+	// 	GameObject& add_object(GameObject object);
+	// };
 
 } // namespace dragonbyte_engine
