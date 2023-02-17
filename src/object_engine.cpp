@@ -34,7 +34,7 @@ namespace dragonbyte_engine
 	}
 	GameObject_ptr ObjectEngine::add_game_object(std::string name)
 	{
-		
+		return nullptr;
 	}
 
 } // namespace dragonbyte_engine

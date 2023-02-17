@@ -22,7 +22,7 @@ namespace dragonbyte_engine
 		GameObject* m_pGameObject;
 		GameClock* m_pGameClock;
 		
-		virtual void tick();
+		virtual void tick() {};
 		
 	};
 
