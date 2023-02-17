@@ -14,7 +14,7 @@ namespace dragonbyte_engine
     typedef Vec3 Scale;
     typedef Quaternion Rotation;
     
-	typedef struct Transform
+	typedef class Transform
 	{
     public:
 
@@ -25,6 +25,7 @@ namespace dragonbyte_engine
 		std::vector<Transform*> m_children;
 		Transform* m_parent;
 		
+        void add_child(Transform* transform);
 		Position global_position();
 		Scale global_scale();
 		Rotation global_rotation();

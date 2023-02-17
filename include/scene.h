@@ -6,17 +6,20 @@
 namespace dragonbyte_engine
 {
 
-	typedef Transform Scene;
+	class GameObject;
+	class Overseer;
 
-	//class GameObject;
+	class Scene
+	{
+	public:
+		Scene();
 
-	// class Scene
-	// {
-	// public:
-	// 	Scene();
+		GameObject* add_object(std::string name);
+		GameObject* add_object(GameObject object);
 
-	// 	GameObject& add_object(std::string name);
-	// 	GameObject& add_object(GameObject object);
-	// };
+	private:
+		Transform m_root;
+		Overseer* m_pOverseer;
+	};
 
 } // namespace dragonbyte_engine

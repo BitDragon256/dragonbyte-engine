@@ -173,7 +173,7 @@ namespace dragonbyte_engine
 
 			create_vertex_buffer();
 			create_index_buffer();
-			//create_uniform_buffer_handler();
+			// create_uniform_buffer_handler();
 			create_mvp_buffer_handler();
 			create_descriptor_pool();
 			create_descriptor_set_handler();
@@ -183,7 +183,7 @@ namespace dragonbyte_engine
 			create_sync_objects();
 
 			create_mesh_handler();
-			fill_default_meshes();
+			// fill_default_meshes();
 		}
 		catch (const std::exception& e)
 		{

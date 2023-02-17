@@ -1,8 +1,11 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
+#include "ptr_types.h"
 #include "component.h"
+#include "scene.h"
 
 namespace dragonbyte_engine
 {
@@ -10,8 +13,6 @@ namespace dragonbyte_engine
 	class GameObject;
 	class Transform;
 	class Mesh;
-	
-	typedef Transform Scene;
 
 	class ObjectEngine
 	{
@@ -25,6 +26,7 @@ namespace dragonbyte_engine
 
 		size_t get_mesh_count();
 		void get_meshes(Mesh** meshes);
+		GameObject_ptr add_game_object(std::string name);
 
 	};
 

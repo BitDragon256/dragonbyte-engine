@@ -32,5 +32,9 @@ namespace dragonbyte_engine
 			a_ppMeshes[i] = m_gameObjects[i].get_mesh();
 		}
 	}
+	GameObject_ptr ObjectEngine::add_game_object(std::string name)
+	{
+		
+	}
 
 } // namespace dragonbyte_engine

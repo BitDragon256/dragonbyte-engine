@@ -6,6 +6,10 @@
 namespace dragonbyte_engine
 {
     
+    void Transform::add_child(Transform* a_kpTransform)
+    {
+        m_children.push_back(a_kpTransform);
+    }
     Position Transform::global_position()
     {   
         Transform* t = this;

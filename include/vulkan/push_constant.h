@@ -53,8 +53,8 @@ namespace dragonbyte_engine
 						oi.pCommandBuffer->m_commandBuffer,
 						oi.pGraphicsPipeline->m_pipelineLayout,
 						m_stages,
-						m_rangeBegin,
-						m_rangeSize,
+						static_cast<uint32_t>(m_rangeBegin),
+						static_cast<uint32_t>(m_rangeSize),
 						m_data.data()
 					);
 				}
