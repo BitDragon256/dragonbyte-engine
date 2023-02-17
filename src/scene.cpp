@@ -13,7 +13,7 @@ namespace dragonbyte_engine
 
 	}
 
-	GameObject* Scene::add_object(std::string name)
+	GameObject_ptr Scene::add_object(std::string name)
 	{
 		GameObject_ptr obj = m_pOverseer->m_pObjectEngine->add_game_object(name);
 		m_root.add_child(&obj->m_transform);

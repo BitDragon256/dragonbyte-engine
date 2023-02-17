@@ -2,6 +2,7 @@
 
 #include <string>
 #include "game_object.h"
+#include "ptr_types.h"
 
 namespace dragonbyte_engine
 {
@@ -14,8 +15,8 @@ namespace dragonbyte_engine
 	public:
 		Scene();
 
-		GameObject* add_object(std::string name);
-		GameObject* add_object(GameObject object);
+		GameObject_ptr add_object(std::string name);
+		GameObject_ptr add_object(GameObject object);
 
 	private:
 		Transform m_root;

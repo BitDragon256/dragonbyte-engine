@@ -6,6 +6,7 @@
 // #include "game_object.h"
 #include "scene.h"
 #include "mathematics.h"
+#include "ptr_types.h"
 
 namespace dragonbyte_engine
 {
@@ -43,7 +44,7 @@ namespace dragonbyte_engine
 		void start_game();
 
 		void add_scene(std::string name);
-		Scene* select_scene(std::string name);
+		Scene_ptr select_scene(std::string name);
 
 		Overseer m_overseer;
 	};
