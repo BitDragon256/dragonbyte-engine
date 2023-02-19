@@ -21,7 +21,7 @@ namespace dragonbyte_engine
 
 		void fixed_tick();
 		
-		Scene root;
+		Scene m_root;
 		std::vector<GameObject> m_gameObjects;
 
 		size_t get_mesh_count();

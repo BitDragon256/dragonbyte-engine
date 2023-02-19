@@ -48,7 +48,10 @@ namespace dragonbyte_engine
         Mesh* get_mesh();
         
         void add_component(const Component& copy_component);
-        template<class T> void add_component();
+        template<class T> void add_component()
+        {
+            m_components.push_back((Component) T{});
+        }
         template<class T> void add_component(const T& copy_component);
         
         template<class T> T* get_component();

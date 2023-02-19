@@ -1,4 +1,5 @@
 #include "dragonbyte_engine.h"
+#include "object_engine.h"
 
 namespace dragonbyte_engine
 {
@@ -18,6 +19,10 @@ namespace dragonbyte_engine
 	void DragonbyteEngine::start_game()
 	{
 		m_overseer.run_game();
+	}
+	Scene_ptr DragonbyteEngine::select_scene(std::string a_name)
+	{
+		return get_ptr(m_overseer.m_pObjectEngine->m_root);
 	}
 
 } // namespace dragonbyte_engine
