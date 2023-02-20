@@ -17,6 +17,8 @@ namespace dragonbyte_engine
 	class ObjectEngine
 	{
 	public:
+		ObjectEngine(Overseer& rOverseer);
+
 		void tick();
 
 		void fixed_tick();
@@ -24,9 +26,8 @@ namespace dragonbyte_engine
 		Scene m_root;
 		std::vector<GameObject> m_gameObjects;
 
-		size_t get_mesh_count();
-		void get_meshes(Mesh** meshes);
-		GameObject_ptr add_game_object(std::string name);
+		void get_meshes(std::vector<Mesh*>& rMeshes);
+		GameObject& add_game_object(std::string name);
 
 	};
 

@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+#include <memory>
 #include <vector>
 
 #include "mathematics.h"
@@ -9,6 +10,7 @@
 namespace dragonbyte_engine
 {
     class Component;
+    class GameObject;
     
     typedef Vec3 Position;
     typedef Vec3 Scale;
@@ -17,15 +19,21 @@ namespace dragonbyte_engine
 	typedef class Transform
 	{
     public:
+        Transform(const GameObject& rThis);
 
 		Position m_position;
 		Scale m_scale;
 		Rotation m_rotation;
+
+        const GameObject* m_pGameObject;
 		
 		std::vector<Transform*> m_children;
-		Transform* m_parent;
+        Transform* m_parent;
 		
-        void add_child(Transform* transform);
+        void add_child(Transform& rTransform);
+        GameObject& add_child(GameObject& rGameObject);
+        void set_parent(Transform& rTransform);
+        void set_parent(GameObject& rGameObject);
 		Position global_position();
 		Scale global_scale();
 		Rotation global_rotation();
@@ -39,13 +47,18 @@ namespace dragonbyte_engine
     {
     public:
         
+        GameObject();
+        GameObject(GameObject& parent);
+        GameObject(const GameObject& copy);
+        GameObject& operator=(const GameObject& other);
+
         Transform m_transform;
         std::vector<Component> m_components;
         
         float m_boundingBox;
         
-        Rigidbody* get_rigidbody();
-        Mesh* get_mesh();
+        Rigidbody& get_rigidbody();
+        Mesh& get_mesh();
         
         void add_component(const Component& copy_component);
         template<class T> void add_component()

@@ -2,7 +2,7 @@
 
 #include "component.h"
 
-class CTimeMove : dragonbyte_engine::Component
+class CTimeMove : public dragonbyte_engine::Component
 {
 public:
 	void tick() override;

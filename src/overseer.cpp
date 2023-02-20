@@ -57,13 +57,13 @@ namespace dragonbyte_engine
 		m_pGameClock = new GameClock(clockConfig);
 
 		// TODO initialize File Engine
-		m_pFileEngine = new FileEngine();
+		m_pFileEngine = new FileEngine{  };
 
 		// TODO initialize Object Engine
-		m_pObjectEngine = new ObjectEngine();
+		m_pObjectEngine = new ObjectEngine{ *this };
 
 		// initialize Physics Engine
-		m_pPhysicsEngine = new PhysicsEngine();
+		m_pPhysicsEngine = new PhysicsEngine{  };
 
 		// initialize Render Engine
 		RenderEngineConfig renderEngineConfig {};

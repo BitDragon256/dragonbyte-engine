@@ -13,10 +13,10 @@ namespace dragonbyte_engine
 	class Scene
 	{
 	public:
-		Scene();
+		Scene(Overseer& rOverseer);
 
-		GameObject_ptr add_object(std::string name);
-		GameObject_ptr add_object(GameObject object);
+		GameObject& add_object(std::string name);
+		GameObject& add_object(GameObject object);
 
 	private:
 		Transform m_root;

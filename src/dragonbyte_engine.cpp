@@ -20,9 +20,9 @@ namespace dragonbyte_engine
 	{
 		m_overseer.run_game();
 	}
-	Scene_ptr DragonbyteEngine::select_scene(std::string a_name)
+	Scene& DragonbyteEngine::select_scene(std::string a_name)
 	{
-		return get_ptr(m_overseer.m_pObjectEngine->m_root);
+		return m_overseer.m_pObjectEngine->m_root;
 	}
 
 } // namespace dragonbyte_engine

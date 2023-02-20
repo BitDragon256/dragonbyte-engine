@@ -44,7 +44,7 @@ namespace dragonbyte_engine
 		void start_game();
 
 		void add_scene(std::string name);
-		Scene_ptr select_scene(std::string name);
+		Scene& select_scene(std::string name);
 
 		Overseer m_overseer;
 	};
