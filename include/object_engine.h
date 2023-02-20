@@ -28,6 +28,7 @@ namespace dragonbyte_engine
 
 		void get_meshes(std::vector<Mesh*>& rMeshes);
 		GameObject& add_game_object(std::string name);
+		GameObject& last_game_object();
 
 	};
 

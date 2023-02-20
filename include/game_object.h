@@ -11,10 +11,24 @@ namespace dragonbyte_engine
 {
     class Component;
     class GameObject;
+    class Transform;
     
     typedef Vec3 Position;
     typedef Vec3 Scale;
     typedef Quaternion Rotation;
+
+    typedef struct TransformNode
+    {
+        TransformNode(Transform* pTransform);
+
+        TransformNode* pParent;
+        std::vector<TransformNode*> children;
+
+        Transform* pTransform;
+
+        void add_child(TransformNode* pNode);
+        void set_parent(TransformNode* pNode);
+    } TransformNode;
     
 	typedef class Transform
 	{
@@ -27,8 +41,7 @@ namespace dragonbyte_engine
 
         const GameObject* m_pGameObject;
 		
-		std::vector<Transform*> m_children;
-        Transform* m_parent;
+        TransformNode m_node;
 		
         void add_child(Transform& rTransform);
         GameObject& add_child(GameObject& rGameObject);

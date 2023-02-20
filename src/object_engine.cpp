@@ -34,5 +34,9 @@ namespace dragonbyte_engine
 		m_gameObjects.push_back(newObj);
 		return m_gameObjects[m_gameObjects.size() - 1];
 	}
+	GameObject& ObjectEngine::last_game_object()
+	{
+		return m_gameObjects[m_gameObjects.size() - 1];
+	}
 
 } // namespace dragonbyte_engine

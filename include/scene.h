@@ -19,7 +19,7 @@ namespace dragonbyte_engine
 		GameObject& add_object(GameObject object);
 
 	private:
-		Transform m_root;
+		TransformNode m_root;
 		Overseer* m_pOverseer;
 	};
 

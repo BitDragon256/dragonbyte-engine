@@ -1,5 +1,8 @@
 #include "game_object.h"
 
+#include <algorithm>
+#include <functional>
+
 #include "component.h"
 #include "mesh.h"
 
@@ -7,18 +10,53 @@ namespace dragonbyte_engine
 {
     
     /* -----------------------------------------------------
-    *                       Transform
+    *                   Transform Node
+    *  -----------------------------------------------------
+    */
+
+    bool has_child(TransformNode* a_pNode, TransformNode* a_pChild)
+    {
+        return std::find(a_pNode->children.begin(), a_pNode->children.end(), a_pChild) == a_pNode->children.end();
+    }
+    bool is_valid(TransformNode* a_pNode)
+    {
+        return  a_pNode != nullptr &&
+                a_pNode->pTransform != nullptr;
+    }
+
+    TransformNode::TransformNode(Transform* pTransform) :
+        pTransform{ pTransform }
+    {
+
+    }
+    void TransformNode::add_child(TransformNode* a_pNode)
+    {
+        if (a_pNode == nullptr || has_child(this, a_pNode))
+            return;
+        children.push_back(a_pNode);
+        a_pNode->set_parent(this);
+    }
+    void TransformNode::set_parent(TransformNode* a_pNode)
+    {
+        if (a_pNode == nullptr)
+            return;
+        pParent = a_pNode;
+        pParent->add_child(this);
+    }
+
+    /* -----------------------------------------------------
+    *                     Transform
     *  -----------------------------------------------------
     */
     Transform::Transform(const GameObject& a_krGameObject) :
-        m_position{  }, m_scale{  }, m_rotation{  }, m_children{  }, m_parent{ nullptr }, m_pGameObject{ &a_krGameObject }
+        m_position{  }, m_scale{  }, m_rotation{  }, m_pGameObject{ &a_krGameObject }, m_node{ this }
     {
 
     }
 
     void Transform::add_child(Transform& a_rTransform)
     {
-        m_children.push_back(&a_rTransform);
+        m_node.add_child(&a_rTransform.m_node);
     }
     GameObject& Transform::add_child(GameObject& a_rGameObject)
     {
@@ -27,8 +65,7 @@ namespace dragonbyte_engine
     }
     void Transform::set_parent(Transform& a_rTransform)
     {
-        m_parent = &a_rTransform;
-        a_rTransform.add_child(*this);
+        m_node.set_parent(&a_rTransform.m_node);
     }
     void Transform::set_parent(GameObject& a_rGameObject)
     {
@@ -36,34 +73,34 @@ namespace dragonbyte_engine
     }
     Position Transform::global_position()
     {   
-        auto t = this;
-        Position pos = m_position;
-        while (t->m_parent)
+        auto it = &m_node;
+        Position pos{ m_position };
+        while (is_valid(it->pParent))
         {
-            t = t->m_parent;
-            m_position += t->m_position;
+            it = it->pParent;
+            pos += it->pTransform->m_position;
         }
         return pos;
     }
     Scale Transform::global_scale()
     {
-        auto t = this;
-        Scale s = m_scale;
-        while (t->m_parent)
+        auto it = &m_node;
+        Scale scale{ m_scale };
+        while (is_valid(it->pParent))
         {
-            t = t->m_parent;
-            s += t->m_scale;
+            it = it->pParent;
+            scale += it->pTransform->m_scale;
         }
-        return s;
+        return scale;
     }
     Rotation Transform::global_rotation()
     {
-        Transform* t = this;
-        Rotation rot = m_rotation;
-        while (t->m_parent)
+        auto it = &m_node;
+        Rotation rot{ m_rotation };
+        while (is_valid(it->pParent))
         {
-            t = t->m_parent;
-            rot += t->m_rotation;
+            it = it->pParent;
+            rot += it->pTransform->m_rotation;
         }
         return rot;
     }
