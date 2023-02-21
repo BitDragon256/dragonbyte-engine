@@ -44,7 +44,7 @@ namespace dragonbyte_engine
 {	
 
 	RenderEngine::RenderEngine(const RenderEngineConfig& a_kConfig) :
-		m_config(a_kConfig)
+		m_config(a_kConfig), m_pObjectEngine{ a_kConfig.pObjectEngine }
 	{
 		vulkan::oi.reset();
 
@@ -70,8 +70,9 @@ namespace dragonbyte_engine
 		vulkan::oi.pDepthHandler.reset();
 		vulkan::oi.pSwapChain.reset();
 
-		vulkan::oi.pUniformBufferHandler.reset();
-		vulkan::oi.pMVPBufferHandler.reset();
+		// vulkan::oi.pUniformBufferHandler.reset();
+		// vulkan::oi.pMVPBufferHandler.reset();
+		m_objectBufferHandler.destruct();
 
 		vulkan::oi.pDescriptorPool.reset();
 		vulkan::oi.pDescriptorSetHandler.reset();
@@ -174,7 +175,9 @@ namespace dragonbyte_engine
 			create_vertex_buffer();
 			create_index_buffer();
 			// create_uniform_buffer_handler();
-			create_mvp_buffer_handler();
+			// create_mvp_buffer_handler();
+			m_objectCount = 10;
+			create_object_buffer_handler();
 			create_descriptor_pool();
 			create_descriptor_set_handler();
 
@@ -298,7 +301,7 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Create Descriptor Set" << '\n';
 
-		vulkan::oi.pDescriptorSetHandler->create_sets(vulkan::oi.pMVPBufferHandler->get_buffers(), sizeof(vulkan::MVP));
+		vulkan::oi.pDescriptorSetHandler->create_sets(m_objectBufferHandler.get_buffers(), sizeof(vulkan::ObjectData));
 	}
 	void RenderEngine::create_descriptor_pool()
 	{
@@ -346,6 +349,12 @@ namespace dragonbyte_engine
 
 		vulkan::oi.pViewProjectionHandler = std::make_shared<vulkan::ViewProjectionHandler>();
 	}
+	void RenderEngine::create_object_buffer_handler()
+	{
+		std::cout << "Create Object Buffer Handler" << '\n';
+
+		m_objectBufferHandler.create();
+	}
 
 	void RenderEngine::fill_default_meshes()
 	{
@@ -363,8 +372,9 @@ namespace dragonbyte_engine
 	
 		uint32_t imageIndex = vulkan::oi.pSwapChain->acquire_next_image();
 
-		//update_uniform_buffer_handler(imageIndex);
-		update_storage_buffer_handler(imageIndex);
+		// update_uniform_buffer_handler(imageIndex);
+		// update_storage_buffer_handler(imageIndex);
+		update_object_buffer_handler(imageIndex);
 		
 		record_command_buffer(imageIndex);
 		submit_command_buffer();
@@ -413,6 +423,25 @@ namespace dragonbyte_engine
 
 		vulkan::oi.pMVPBufferHandler->push_data(a_currentImage);
 	}
+	void RenderEngine::update_object_buffer_handler(uint32_t a_currentImage)
+	{
+		std::vector<Transform*> transforms;
+		m_pObjectEngine->get_transforms(transforms);
+		std::vector<vulkan::ObjectData> data = {};
+		data.resize(transforms.size());
+		for (size_t i = 0; i < transforms.size(); i++)
+		{
+			data[i].model = glm::mat4(
+				1.0f, 0.0f, 0.0f, transforms[i]->m_position.x,
+				0.0f, 1.0f, 0.0f, transforms[i]->m_position.y,
+				0.0f, 0.0f, 1.0f, transforms[i]->m_position.z,
+				0.0f, 0.0f, 0.0f, 1.0f
+			);
+		}
+
+		m_objectBufferHandler.set_data(data);
+		m_objectBufferHandler.push_data(a_currentImage);
+	}
 	void RenderEngine::record_command_buffer(uint32_t a_imageIndex)
 	{
 		vulkan::oi.pCommandBuffer->begin_recording(a_imageIndex);
@@ -426,7 +455,7 @@ namespace dragonbyte_engine
 		vulkan::oi.pDescriptorSetHandler->bind(a_imageIndex);
 
 		// vkCmdDraw(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pVertexBuffer->m_vertices.size()), 1, 0, 0);
-		//vkCmdDrawIndexed(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pIndexBuffer->m_indices.size()), 1, 0, 0, 0);
+		// vkCmdDrawIndexed(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pIndexBuffer->m_indices.size()), 1, 0, 0, 0);
 		vulkan::oi.pMeshHandler->draw_all_meshes();
 
 		vkCmdEndRenderPass(vulkan::oi.pCommandBuffer->m_commandBuffer);

@@ -75,6 +75,7 @@ namespace dragonbyte_engine
 		renderEngineConfig.renderType = RenderType::Rasterization;
 		renderEngineConfig.windowHeight = a_config.window.height;
 		renderEngineConfig.windowWidth = a_config.window.width;
+		renderEngineConfig.pObjectEngine = m_pObjectEngine;
 
 		m_pRenderEngine = new RenderEngine(renderEngineConfig);
 

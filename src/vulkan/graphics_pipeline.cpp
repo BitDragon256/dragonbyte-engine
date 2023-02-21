@@ -9,6 +9,7 @@
 #include "vulkan/render_pass.h"
 #include "vulkan/swapchain.h"
 #include "vulkan/vertex.h"
+#include "vulkan/push_constant.h"
 
 namespace dragonbyte_engine
 {
@@ -21,7 +22,7 @@ namespace dragonbyte_engine
 		{
 			// create the shader modules
 			m_pVertShaderModule = new ShaderModule(
-				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Vert)
+				default_shaders::get_shader_filename(default_shaders::eShader::SimpleMultimodel, default_shaders::eShaderType::Vert)
 			);
 			m_pFragShaderModule = new ShaderModule(
 				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag)
@@ -186,8 +187,8 @@ namespace dragonbyte_engine
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = 1;
 			pipelineLayoutInfo.pSetLayouts = &oi.pDescriptorSetHandler->m_descriptorSetLayout;
-			pipelineLayoutInfo.pushConstantRangeCount = 0; // Optional
-			pipelineLayoutInfo.pPushConstantRanges = nullptr; // Optional
+			pipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(AllPushConstantRanges::s_size);
+			pipelineLayoutInfo.pPushConstantRanges = AllPushConstantRanges::s_ranges.data();
 
 			VkResult res = vkCreatePipelineLayout(oi.pLogicalDevice->m_device, &pipelineLayoutInfo, nullptr, &m_pipelineLayout);
 			if (res != VK_SUCCESS)

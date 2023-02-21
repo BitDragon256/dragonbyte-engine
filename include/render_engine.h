@@ -7,6 +7,8 @@
 
 #include "default_components/camera.h"
 #include "vulkan/object_info.h"
+#include "vulkan/object_buffer_handler.h"
+#include "object_engine.h"
 
 namespace dragonbyte_engine
 {
@@ -26,6 +28,8 @@ namespace dragonbyte_engine
 		const char* engineName;
 
 		RenderType renderType;
+
+		ObjectEngine* pObjectEngine;
 	};
 
 	// namespace vulkan { struct ObjectInfo; }
@@ -77,6 +81,7 @@ namespace dragonbyte_engine
 		void create_descriptor_set_handler();
 		void create_uniform_buffer_handler();
 		void create_mvp_buffer_handler();
+		void create_object_buffer_handler();
 		void create_descriptor_pool();
 		void create_descriptor_set_layout();
 		void create_depth_handler();
@@ -86,6 +91,7 @@ namespace dragonbyte_engine
 		void draw_frame();
 		void update_uniform_buffer_handler(uint32_t currentImage);
 		void update_storage_buffer_handler(uint32_t currentImage);
+		void update_object_buffer_handler(uint32_t currentImage);
 		void record_command_buffer(uint32_t imageIndex);
 		void submit_command_buffer();
 		void present(uint32_t imageIndex);
@@ -93,6 +99,10 @@ namespace dragonbyte_engine
 		void fill_default_meshes();
 		
 		Camera* m_pCamera;
+		vulkan::ObjectBufferHandler m_objectBufferHandler;
+		size_t m_objectCount;
+
+		ObjectEngine* m_pObjectEngine;
 
 	};
 

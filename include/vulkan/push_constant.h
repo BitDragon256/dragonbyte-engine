@@ -13,6 +13,12 @@ namespace dragonbyte_engine
 
 	namespace vulkan
 	{
+		struct AllPushConstantRanges
+		{
+		public:
+			static std::vector<VkPushConstantRange> s_ranges;
+			static size_t s_size;
+		};
 
 		template<class T>
 		class PushConstantRange
@@ -30,12 +36,18 @@ namespace dragonbyte_engine
 			{
 				if (!m_created)
 				{
-					m_rangeBegin = s_totalRangeSize;
-					s_totalRangeSize += a_size * sizeof(T);
-
+					m_rangeBegin = AllPushConstantRanges::s_size;
 					m_rangeSize = a_size * sizeof(T);
-
 					m_data.resize(a_size);
+
+					m_range.offset = static_cast<uint32_t>(m_rangeBegin);
+					m_range.size = static_cast<uint32_t>(m_rangeSize);
+
+					apply_default_stage_flags();
+					m_range.stageFlags = m_stages;
+
+					AllPushConstantRanges::s_size += m_rangeSize;
+					AllPushConstantRanges::s_ranges.push_back(m_range);
 				}
 			}
 			void set(T a_data, size_t index)
@@ -66,17 +78,18 @@ namespace dragonbyte_engine
 
 			bool m_created;
 
-			static size_t s_totalRangeSize;
 			size_t m_rangeBegin;
 			size_t m_rangeSize;
 
 			VkPushConstantRange m_range;
 			VkShaderStageFlags m_stages;
 
+			void apply_default_stage_flags()
+			{
+				m_stages = VK_SHADER_STAGE_VERTEX_BIT;
+			}
+
 		};
-		
-		template<class T>
-		size_t PushConstantRange<T>::s_totalRangeSize = 0;
 
 	} // namespace vulkan
 

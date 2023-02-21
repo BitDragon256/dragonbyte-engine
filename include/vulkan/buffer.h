@@ -40,18 +40,20 @@ namespace dragonbyte_engine
 
                 m_count = a_count;
                 m_stride = a_stride;
-                m_totalSize = a_count * a_stride;
-
-                create_buffer(a_usage);
-                allocate_memory(a_properties);
-
                 m_alwaysMapped = a_alwaysMapped;
-                if (m_alwaysMapped)
-                {
-                    vkMapMemory(oi.pLogicalDevice->m_device, m_deviceMemory, 0, m_totalSize, 0, &m_mappedMemory);
-                }
 
-                m_created = true;
+                m_usage = a_usage;
+                m_properties = a_properties;
+
+                create_internal();
+            }
+            void resize(uint64_t a_count)
+            {
+                if (m_created)
+                    destruct();
+
+                m_count = a_count;
+                create_internal();
             }
             void copy_data(std::vector<T>& a_rData)
             {
@@ -120,6 +122,8 @@ namespace dragonbyte_engine
             uint32_t m_stride;
             uint64_t m_count;
             VkDeviceSize m_totalSize;
+            VkBufferUsageFlags m_usage;
+            VkMemoryPropertyFlags m_properties;
 
             bool m_created;
             bool m_alwaysMapped;
@@ -176,6 +180,20 @@ namespace dragonbyte_engine
 
                 vkBindBufferMemory(oi.pLogicalDevice->m_device, m_buffer, m_deviceMemory, 0);
 #endif
+            }
+            void create_internal()
+            {
+                m_totalSize = m_count * m_stride;
+
+                create_buffer(m_usage);
+                allocate_memory(m_properties);
+
+                if (m_alwaysMapped)
+                {
+                    vkMapMemory(oi.pLogicalDevice->m_device, m_deviceMemory, 0, m_totalSize, 0, &m_mappedMemory);
+                }
+
+                m_created = true;
             }
 
         };
