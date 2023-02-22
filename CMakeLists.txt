@@ -13,12 +13,13 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 add_subdirectory("external/glfw")
 add_subdirectory("external/VulkanMemoryAllocator")
+add_subdirectory("external/tinyobjloader")
 
 # Engine library
 add_library(DragonbyteEngine ${SOURCE_FILES_ENGINE} ${HEADER_FILES_ENGINE})
 
 target_include_directories(DragonbyteEngine PUBLIC "include")
 
-target_link_libraries(DragonbyteEngine PUBLIC Vulkan::Vulkan glfw VulkanMemoryAllocator)
+target_link_libraries(DragonbyteEngine PUBLIC Vulkan::Vulkan glfw VulkanMemoryAllocator tinyobjloader)
 
 set_property(TARGET DragonbyteEngine PROPERTY CXX_STANDARD 20)
