@@ -13,6 +13,10 @@ namespace dragonbyte_engine
         
         typedef struct Vertex
         {
+            Vertex() : pos{  }, color{  } {}
+            Vertex(float x, float y, float z) : pos{ x, y, z }, color{ 1, 1, 1 } {}
+            Vertex(glm::vec3 pos, glm::vec3 color) : pos{ pos }, color{ color } {}
+
             glm::vec3 pos;
             glm::vec3 color;
             
@@ -20,8 +24,8 @@ namespace dragonbyte_engine
             static std::array<VkVertexInputAttributeDescription, 2> get_attribute_desc();
         } Vertex;
 
-        typedef uint16_t Index;
-#define INDEX_TYPE_VK VK_INDEX_TYPE_UINT16
+        typedef uint32_t Index;
+#define INDEX_TYPE_VK VK_INDEX_TYPE_UINT32
         
     } // namespace vulkan
     

@@ -45,7 +45,5 @@ namespace dragonbyte_engine
 
 		void add_scene(std::string name);
 		Scene& select_scene(std::string name);
-
-		Overseer m_overseer;
 	};
 } // namespace dragonbyte_engine

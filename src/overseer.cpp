@@ -141,4 +141,7 @@ namespace dragonbyte_engine
 		return m_pRenderEngine->should_close_window();
 	}
 
+	/* Overseer static global Object */
+	Overseer Overseer::s_overseer;
+
 } // namespace dragonbyte_engine

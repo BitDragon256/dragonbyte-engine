@@ -1,4 +1,6 @@
 #include "default_components/time_move.h"
+#include "game_object.h"
+#include "game_clock.h"
 
 void CTimeMove::tick()
 {

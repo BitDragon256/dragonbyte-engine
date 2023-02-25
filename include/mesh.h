@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include <vector>
 
 #include "component.h"
@@ -12,14 +13,23 @@
 namespace dragonbyte_engine
 {
 
-	class Mesh : Component
+	class Mesh : public Component
 	{
 	public:
 
-		Mesh();
+		/* -------------------------------
+		*			Mesh Declaration
+		*  -------------------------------
+		*/
 
-		const std::vector<vulkan::Vertex>& vertices();
-		const std::vector<vulkan::Index>& indices();
+		Mesh();
+		~Mesh();
+
+		const std::vector<vulkan::Vertex>& vertices() const;
+		const std::vector<vulkan::Index>& indices() const;
+
+		std::vector<vulkan::Vertex>& vertices();
+		std::vector<vulkan::Index>& indices();
 
 		void set_mesh(const std::vector<vulkan::Vertex>& vertices, const std::vector<vulkan::Index>& indices);
 		void set_vertices(const std::vector<vulkan::Vertex>& vertices);
@@ -32,10 +42,20 @@ namespace dragonbyte_engine
 
 		void change_vertex(size_t index, vulkan::Vertex vertex);
 
+		Mesh& operator=(Mesh& other);
+		Mesh& operator=(const Mesh& other);
+
+		/* --------------------------------
+		*			Load Meshes
+		*  --------------------------------
+		*/
+
+		static Mesh load_mesh(std::string file);
+
 	private:
 
-		std::vector<vulkan::Vertex> m_vertices;
 		std::vector<vulkan::Index> m_indices;
+		std::vector<vulkan::Vertex> m_vertices;
 
 		void change_vertices();
 		void change_indices();

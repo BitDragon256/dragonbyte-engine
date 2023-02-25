@@ -1,11 +1,9 @@
 #pragma once
 
-#include "game_object.h"
-#include "game_clock.h"
-
 namespace dragonbyte_engine
 {
 	class GameClock;
+	class GameObject;
 
 	class Component
 	{

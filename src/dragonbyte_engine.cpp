@@ -14,15 +14,15 @@ namespace dragonbyte_engine
 
 	void DragonbyteEngine::create(EngineConfig a_config)
 	{
-		m_overseer.init_game(a_config);
+		OVERSEER.init_game(a_config);
 	}
 	void DragonbyteEngine::start_game()
 	{
-		m_overseer.run_game();
+		OVERSEER.run_game();
 	}
 	Scene& DragonbyteEngine::select_scene(std::string a_name)
 	{
-		return m_overseer.m_pObjectEngine->m_root;
+		return OVERSEER.m_pObjectEngine->m_root;
 	}
 
 } // namespace dragonbyte_engine

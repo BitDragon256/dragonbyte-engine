@@ -1,5 +1,6 @@
 #include "default_components/rigidbody.h"
 #include "game_clock.h"
+#include "game_object.h"
 
 namespace dragonbyte_engine
 {

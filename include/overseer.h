@@ -53,15 +53,19 @@ namespace dragonbyte_engine
 		void render_tick();
 		void late_tick();
 
+		static Overseer s_overseer;
+		GameClock* m_pGameClock;
+
 	private:
 
 		// game loop
-		GameClock* m_pGameClock;
 		void game_loop();
 		void end_game();
 
 		bool should_end_game();
 
 	};
+
+#define OVERSEER Overseer::s_overseer
 
 } // namespace dragonbyte_engine

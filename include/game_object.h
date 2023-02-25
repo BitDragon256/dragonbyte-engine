@@ -2,14 +2,17 @@
 
 #include <stdint.h>
 
+#include <string>
 #include <memory>
 #include <vector>
 
 #include "mathematics.h"
+#include "overseer.h"
+#include "component.h"
 
 namespace dragonbyte_engine
 {
-    class Component;
+    //class Component;
     class GameObject;
     class Transform;
     
@@ -66,17 +69,22 @@ namespace dragonbyte_engine
         GameObject& operator=(const GameObject& other);
 
         Transform m_transform;
-        std::vector<Component> m_components;
+        std::vector<std::unique_ptr<Component>> m_components;
         
         float m_boundingBox;
         
         Rigidbody& get_rigidbody();
         Mesh& get_mesh();
+        void set_mesh(const Mesh& mesh);
+        void load_mesh(std::string file);
         
         void add_component(const Component& copy_component);
         template<class T> void add_component()
         {
-            m_components.push_back((Component) T{});
+            check_component_indices(typeid(T), m_components.size());
+            m_components.emplace_back(new T {  });
+            m_components[m_components.size() - 1]->m_pGameObject = this;
+            m_components[m_components.size() - 1]->m_pGameClock = OVERSEER.m_pGameClock;
         }
         template<class T> void add_component(const T& copy_component);
         
@@ -93,6 +101,9 @@ namespace dragonbyte_engine
         
         void tick_rb();
         void tick_mesh();
+        void reset_component_indices();
+        void check_component_indices(const type_info& krTypeId, size_t index);
+        bool has_mesh();
     
     };
     
