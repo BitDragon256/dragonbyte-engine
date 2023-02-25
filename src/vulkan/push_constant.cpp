@@ -2,3 +2,4 @@
 
 std::vector<VkPushConstantRange> dragonbyte_engine::vulkan::AllPushConstantRanges::s_ranges = {};
 size_t dragonbyte_engine::vulkan::AllPushConstantRanges::s_size = 0;
+size_t dragonbyte_engine::vulkan::AllPushConstantRanges::s_count = 0;

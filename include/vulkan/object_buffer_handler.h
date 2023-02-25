@@ -24,7 +24,6 @@ namespace dragonbyte_engine
 			~ObjectBufferHandler();
 
 			std::vector<Buffer<ObjectData>> m_buffers;
-			std::vector<void*> m_mappedBuffers;
 
 			std::vector<ObjectData> m_data;
 

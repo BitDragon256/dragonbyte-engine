@@ -2,16 +2,16 @@
 
 #include "vulkan/object_info.h"
 #include "vulkan/swapchain.h"
+#include "tools.h"
 
 namespace dragonbyte_engine
 {
 
 	namespace vulkan
 	{
-
 		ObjectBufferHandler::ObjectBufferHandler()
 		{
-			
+			destruct();
 		}
 		ObjectBufferHandler::~ObjectBufferHandler()
 		{
@@ -21,6 +21,7 @@ namespace dragonbyte_engine
 		void ObjectBufferHandler::create()
 		{
 			m_buffers.resize(oi.pSwapChain->m_images.size());
+			m_data.reserve(OBJECT_BUFFER_HANDLER_DEFAULT_SIZE);
 			for (size_t i = 0; i < m_buffers.size(); i++)
 			{
 				m_buffers[i].create(
@@ -35,16 +36,16 @@ namespace dragonbyte_engine
 		void ObjectBufferHandler::destruct()
 		{
 			m_buffers = {  };
-			m_mappedBuffers = {  };
 			m_data = {  };
 		}
 		void ObjectBufferHandler::set_data(const std::vector<ObjectData>& a_krData)
 		{
-			if (a_krData.size() > m_data.size())
+			if (a_krData.size() > m_data.capacity())
 			{
 				size_t newSize = static_cast<size_t>(floor((double)a_krData.size() / OBJECT_BUFFER_HANDLER_SIZE_STEP + 1));
 				resize_buffers(newSize);
 			}
+
 			m_data = a_krData;
 		}
 		void ObjectBufferHandler::push_data(uint32_t a_frame)

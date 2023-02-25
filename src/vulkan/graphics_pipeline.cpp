@@ -187,7 +187,7 @@ namespace dragonbyte_engine
 			pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 			pipelineLayoutInfo.setLayoutCount = 1;
 			pipelineLayoutInfo.pSetLayouts = &oi.pDescriptorSetHandler->m_descriptorSetLayout;
-			pipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(AllPushConstantRanges::s_size);
+			pipelineLayoutInfo.pushConstantRangeCount = static_cast<uint32_t>(AllPushConstantRanges::s_count);
 			pipelineLayoutInfo.pPushConstantRanges = AllPushConstantRanges::s_ranges.data();
 
 			VkResult res = vkCreatePipelineLayout(oi.pLogicalDevice->m_device, &pipelineLayoutInfo, nullptr, &m_pipelineLayout);

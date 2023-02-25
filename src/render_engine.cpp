@@ -148,7 +148,7 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::add_mesh(Mesh& a_rMesh)
 	{
-		vulkan::oi.pMeshHandler->add_mesh(a_rMesh, 0);
+		vulkan::oi.pMeshHandler->add_mesh(a_rMesh, 1);
 	}
 
 	void RenderEngine::setup_vulkan()
@@ -168,6 +168,7 @@ namespace dragonbyte_engine
 			create_swap_chain();
 			create_render_pass();
 			create_descriptor_set_layout();
+			create_view_projection_handler();
 			create_graphics_pipeline();
 			
 			create_depth_handler();
@@ -180,7 +181,6 @@ namespace dragonbyte_engine
 			create_index_buffer();
 			// create_uniform_buffer_handler();
 			// create_mvp_buffer_handler();
-			m_objectCount = 10;
 			create_object_buffer_handler();
 			create_descriptor_pool();
 			create_descriptor_set_handler();
@@ -365,8 +365,10 @@ namespace dragonbyte_engine
 		Mesh mesh;
 		mesh.set_mesh(vulkan::VertexBuffer::kTestCubeVertices, vulkan::IndexBuffer::kTestCubeIndices);
 
-		vulkan::oi.pMeshHandler->add_mesh(mesh, 1);
-		vulkan::oi.pMeshHandler->add_mesh(mesh, 1);
+		//vulkan::oi.pMeshHandler->add_mesh(mesh, 1);
+		//vulkan::oi.pMeshHandler->add_mesh(mesh, 1);
+
+		add_mesh(mesh);
 	}
 	
 	void RenderEngine::draw_frame()
@@ -457,6 +459,8 @@ namespace dragonbyte_engine
 		vulkan::oi.pIndexBuffer->bind();
 
 		vulkan::oi.pDescriptorSetHandler->bind(a_imageIndex);
+
+		vulkan::oi.pViewProjectionHandler->push();
 
 		// vkCmdDraw(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pVertexBuffer->m_vertices.size()), 1, 0, 0);
 		// vkCmdDrawIndexed(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pIndexBuffer->m_indices.size()), 1, 0, 0, 0);

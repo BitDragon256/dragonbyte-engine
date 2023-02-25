@@ -105,7 +105,6 @@ namespace dragonbyte_engine
 #else
                     if (m_alwaysMapped)
                     {
-                        m_alwaysMapped = false;
                         vkUnmapMemory(oi.pLogicalDevice->m_device, m_deviceMemory);
                     }
 

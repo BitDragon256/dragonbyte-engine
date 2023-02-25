@@ -18,6 +18,7 @@ namespace dragonbyte_engine
 		public:
 			static std::vector<VkPushConstantRange> s_ranges;
 			static size_t s_size;
+			static size_t s_count;
 		};
 
 		template<class T>
@@ -36,10 +37,12 @@ namespace dragonbyte_engine
 			{
 				if (!m_created)
 				{
+					m_created = true;
+
 					m_rangeBegin = AllPushConstantRanges::s_size;
 					m_rangeSize = a_size * sizeof(T);
 					m_data.resize(a_size);
-
+					
 					m_range.offset = static_cast<uint32_t>(m_rangeBegin);
 					m_range.size = static_cast<uint32_t>(m_rangeSize);
 
@@ -48,6 +51,7 @@ namespace dragonbyte_engine
 
 					AllPushConstantRanges::s_size += m_rangeSize;
 					AllPushConstantRanges::s_ranges.push_back(m_range);
+					AllPushConstantRanges::s_count++;
 				}
 			}
 			void set(T a_data, size_t index)
