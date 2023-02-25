@@ -6,6 +6,7 @@
 
 #include "component.h"
 #include "mesh.h"
+#include "render_engine.h"
 
 namespace dragonbyte_engine
 {
@@ -152,16 +153,15 @@ namespace dragonbyte_engine
     Mesh& GameObject::get_mesh()
     {
         assert(has_mesh() && "GameObject does not posess a mesh");
-        Mesh& ret = *dynamic_cast<Mesh*>(m_components[m_meshIndex].get());
-        return ret;
+        return *dynamic_cast<Mesh*>(m_components[m_meshIndex].get());
     }
     void GameObject::set_mesh(const Mesh& a_mesh)
     {
         if (!has_mesh())
             add_component<Mesh>();
 
-        Mesh& mesh = get_mesh();
-        mesh = a_mesh;
+        get_mesh() = a_mesh;
+        OVERSEER.m_pRenderEngine->add_mesh(get_mesh());
     }
     void GameObject::load_mesh(std::string a_file)
     {

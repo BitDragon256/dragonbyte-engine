@@ -11,7 +11,7 @@
 
 #include "buffer.h"
 
-#define DGB_VERTEX_BUFFER_MAX_SIZE 3000
+#define DGB_VERTEX_BUFFER_MAX_SIZE 30000
 
 namespace dragonbyte_engine
 {

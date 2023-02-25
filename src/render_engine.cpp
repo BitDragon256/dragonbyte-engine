@@ -146,6 +146,10 @@ namespace dragonbyte_engine
 		vulkan::oi.pVertexBuffer->reload();
 		vulkan::oi.pIndexBuffer->reload();
 	}
+	void RenderEngine::add_mesh(Mesh& a_rMesh)
+	{
+		vulkan::oi.pMeshHandler->add_mesh(a_rMesh, 0);
+	}
 
 	void RenderEngine::setup_vulkan()
 	{

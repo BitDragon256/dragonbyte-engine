@@ -6,7 +6,7 @@
 #include "buffer.h"
 #include "vertex.h"
 
-#define DGB_INDEX_BUFFER_MAX_SIZE 3000
+#define DGB_INDEX_BUFFER_MAX_SIZE 30000
 
 namespace dragonbyte_engine
 {

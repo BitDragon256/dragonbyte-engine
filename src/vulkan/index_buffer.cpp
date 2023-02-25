@@ -52,7 +52,13 @@ namespace dragonbyte_engine
             if (a_indices.size() + m_bufferEnd >= DGB_INDEX_BUFFER_MAX_SIZE)
                 throw std::runtime_error("Buffer size exceeded");
 
-            m_indices.insert(m_indices.begin() + m_bufferEnd, a_indices.begin(), a_indices.end());
+            // m_indices.insert(m_indices.begin() + m_bufferEnd, a_indices.begin(), a_indices.end());
+            for (auto itOld = m_indices.begin() + m_bufferEnd, itNew = a_indices.begin();
+                itNew != a_indices.end();
+                itOld++, itNew++)
+            {
+                *itOld = *itNew;
+            }
             m_bufferEnd += a_indices.size();
 
             reload();

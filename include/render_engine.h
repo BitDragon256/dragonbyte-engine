@@ -57,6 +57,9 @@ namespace dragonbyte_engine
 		void set_static_meshes(std::vector<Mesh*> meshes);
 		void set_camera(Camera camera);
 
+		void add_mesh(Mesh& rMesh);
+		void fill_default_meshes();
+
 	private:
 	
 		void setup_vulkan();
@@ -92,11 +95,10 @@ namespace dragonbyte_engine
 		void update_uniform_buffer_handler(uint32_t currentImage);
 		void update_storage_buffer_handler(uint32_t currentImage);
 		void update_object_buffer_handler(uint32_t currentImage);
+
 		void record_command_buffer(uint32_t imageIndex);
 		void submit_command_buffer();
 		void present(uint32_t imageIndex);
-
-		void fill_default_meshes();
 		
 		Camera* m_pCamera;
 		vulkan::ObjectBufferHandler m_objectBufferHandler;

@@ -65,7 +65,13 @@ namespace dragonbyte_engine
             if (a_vertices.size() + m_bufferEnd >= DGB_VERTEX_BUFFER_MAX_SIZE)
                 throw std::runtime_error("Buffer size exceeded");
 
-            m_vertices.insert(m_vertices.begin() + m_bufferEnd, a_vertices.begin(), a_vertices.end());
+            // m_vertices.insert(m_vertices.begin() + m_bufferEnd, a_vertices.begin(), a_vertices.end());
+            for (auto itOld = m_vertices.begin() + m_bufferEnd, itNew = a_vertices.begin();
+                 itNew != a_vertices.end();
+                 itOld++, itNew++)
+            {
+                *itOld = *itNew;
+            }
             m_bufferEnd += a_vertices.size();
 
             reload();
