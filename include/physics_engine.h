@@ -10,6 +10,7 @@ namespace dragonbyte_engine
 
 		float gravity;
 
+		void create();
 		void tick();
 
 	private:

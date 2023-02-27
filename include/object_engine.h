@@ -19,6 +19,7 @@ namespace dragonbyte_engine
 	public:
 		ObjectEngine();
 
+		void create();
 		void tick();
 
 		void fixed_tick();

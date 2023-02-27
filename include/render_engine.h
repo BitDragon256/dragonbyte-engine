@@ -44,6 +44,7 @@ namespace dragonbyte_engine
 
 		RenderEngineConfig m_config;
 
+		void create(const RenderEngineConfig& a_kConfig);
 		void tick();
 
 		void render_particles();

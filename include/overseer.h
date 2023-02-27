@@ -3,9 +3,9 @@
 //#include "engine.h"
 //#include "dragonbyte_engine.h"
 
-//#include "physics_engine.h"
-//#include "render_engine.h"
-//#include "object_engine.h"
+#include "physics_engine.h"
+#include "render_engine.h"
+#include "object_engine.h"
 #include "ai_engine.h"
 #include "file_engine.h"
 #include "audio_engine.h"
@@ -14,13 +14,8 @@
 #include "game_clock.h"
 
 namespace dragonbyte_engine
-{
-	class GameClock;
+{	
 
-	class PhysicsEngine;
-	class RenderEngine;
-	class ObjectEngine;
-	
 	struct EngineConfig;
 
 	class Overseer
@@ -30,15 +25,15 @@ namespace dragonbyte_engine
 		~Overseer();
 
 		// main engines
-		PhysicsEngine* m_pPhysicsEngine;
-		RenderEngine* m_pRenderEngine;
-		ObjectEngine* m_pObjectEngine;
+		PhysicsEngine m_physicsEngine;
+		RenderEngine m_renderEngine;
+		ObjectEngine m_objectEngine;
 
 		// side engines
-		AiEngine* m_pAiEngine;
-		FileEngine* m_pFileEngine;
-		AudioEngine* m_pAudioEngine;
-		InputEngine* m_pInputEngine;
+		AiEngine m_aiEngine;
+		FileEngine m_fileEngine;
+		AudioEngine m_audioEngine;
+		InputEngine m_inputEngine;
 
 		// init game
 		void init_game(EngineConfig config);
@@ -54,7 +49,7 @@ namespace dragonbyte_engine
 		void late_tick();
 
 		static Overseer s_overseer;
-		GameClock* m_pGameClock;
+		GameClock m_gameClock;
 
 	private:
 
@@ -67,9 +62,9 @@ namespace dragonbyte_engine
 	};
 
 #define OVERSEER Overseer::s_overseer
-#define RENDER_ENGINE (*OVERSEER.m_pRenderEngine)
-#define OBJECT_ENGINE (*OVERSEER.m_pObjectEngine)
-#define PHYSICS_ENGINE (*OVERSEER.m_pPhysicsEngine)
-#define GAME_CLOCK (*OVERSEER.m_pGameClock)
+#define RENDER_ENGINE OVERSEER.m_renderEngine
+#define OBJECT_ENGINE OVERSEER.m_objectEngine
+#define PHYSICS_ENGINE OVERSEER.m_physicsEngine
+#define GAME_CLOCK OVERSEER.m_gameClock
 
 } // namespace dragonbyte_engine
