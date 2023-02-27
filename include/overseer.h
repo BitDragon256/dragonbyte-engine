@@ -66,5 +66,6 @@ namespace dragonbyte_engine
 #define OBJECT_ENGINE OVERSEER.m_objectEngine
 #define PHYSICS_ENGINE OVERSEER.m_physicsEngine
 #define GAME_CLOCK OVERSEER.m_gameClock
+#define INPUT OVERSEER.m_inputEngine
 
 } // namespace dragonbyte_engine

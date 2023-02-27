@@ -94,8 +94,6 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::tick()
 	{
-		vulkan::oi.pWindow->tick();
-
 		try
 		{
 			draw_frame();
@@ -104,8 +102,9 @@ namespace dragonbyte_engine
 		{
 			std::cerr << e.what() << '\n';
 		}
-		
 
+		vulkan::oi.pWindow->tick();
+		
 		vulkan::oi.pVertexBuffer->reload();
 
 		// render_models();

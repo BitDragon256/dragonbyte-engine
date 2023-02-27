@@ -79,7 +79,7 @@ namespace dragonbyte_engine
 		// initialize other engines
 		m_aiEngine.create();
 		m_audioEngine.create();
-		m_inputEngine.create();
+		m_inputEngine.create(vulkan::oi.pWindow->m_pGlfwWindow);
 	}
 
 	// destructs all pieces of the game / controlled shutdown
