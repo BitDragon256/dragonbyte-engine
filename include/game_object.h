@@ -86,7 +86,6 @@ namespace dragonbyte_engine
             check_component_indices(typeid(T), m_components.size());
             m_components.emplace_back(new T {  });
             m_components[m_components.size() - 1]->m_pGameObject = this;
-            m_components[m_components.size() - 1]->m_pGameClock = OVERSEER.m_pGameClock;
         }
         template<class T> void add_component(const T& copy_component);
         

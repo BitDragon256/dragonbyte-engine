@@ -5,8 +5,8 @@
 namespace dragonbyte_engine
 {
 
-	ObjectEngine::ObjectEngine(Overseer& a_rOverseer) :
-		m_gameObjects{  }, m_root{ a_rOverseer }
+	ObjectEngine::ObjectEngine() :
+		m_gameObjects{  }, m_root{  }
 	{
 		
 	}

@@ -29,8 +29,6 @@ namespace dragonbyte_engine
 	{
 		float physicsFps;
 		float targetFps;
-
-		class Overseer* pOverseer;
 	};
 
 	class GameClock
@@ -42,8 +40,6 @@ namespace dragonbyte_engine
 		void game_loop_tick();
 
 		float m_deltaTime;
-
-		Overseer* m_pOverseer;
 
 	private:
 

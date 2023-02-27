@@ -52,7 +52,6 @@ namespace dragonbyte_engine
 		GameClockConfig clockConfig = {};
 		clockConfig.physicsFps = 50.f;
 		clockConfig.targetFps = a_config.targetFps;
-		clockConfig.pOverseer = this;
 
 		m_pGameClock = new GameClock(clockConfig);
 

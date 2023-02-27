@@ -11,16 +11,21 @@ namespace dragonbyte_engine
 
 		Component()
 		{}
-		Component(GameObject& a_krGameObject, GameClock& a_krGameClock) :
-			m_pGameObject{ &a_krGameObject }, m_pGameClock{ &a_krGameClock }
+		Component(GameObject& a_krGameObject) :
+			m_pGameObject{ &a_krGameObject }
 		{
 
 		}
 
 		GameObject* m_pGameObject;
-		GameClock* m_pGameClock;
 		
 		virtual void tick() {};
+
+	private:
+
+#define TRANSFORM m_pGameObject->m_transform
+#define TIME *OVERSEER.m_pGameClock
+#define GAMEOBJECT *m_pGameObject
 		
 	};
 

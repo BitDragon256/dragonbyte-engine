@@ -22,7 +22,7 @@ namespace dragonbyte_engine
 	}
 	Scene& DragonbyteEngine::select_scene(std::string a_name)
 	{
-		return OVERSEER.m_pObjectEngine->m_root;
+		return OBJECT_ENGINE->m_root;
 	}
 
 } // namespace dragonbyte_engine

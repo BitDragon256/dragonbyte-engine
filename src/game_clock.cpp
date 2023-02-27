@@ -9,13 +9,12 @@ namespace dragonbyte_engine
 		m_targetDeltaTime{ 1.f / config.targetFps },
 		m_deltaTime{ 0 },
 		m_lag{ 0 },
-		m_firstLoop{ true },
-		m_pOverseer{ config.pOverseer }
+		m_firstLoop{ true }
 	{}
 
 	void GameClock::game_loop_tick()
 	{
-		m_pOverseer->pre_tick();
+		OVERSEER.pre_tick();
 
 		auto currentTime = std::chrono::high_resolution_clock::now();
 		if (m_firstLoop)
@@ -35,13 +34,13 @@ namespace dragonbyte_engine
 
 		while (m_lag > m_physicsDeltaTime)
 		{
-			m_pOverseer->physics_tick();
+			OVERSEER.physics_tick();
 
 			m_lag -= m_physicsDeltaTime;
 		}
 		
-		m_pOverseer->tick();
-		m_pOverseer->render_tick();
-		m_pOverseer->late_tick();
+		OVERSEER.tick();
+		OVERSEER.render_tick();
+		OVERSEER.late_tick();
 	}
 } // namespace dragonbyte_engine

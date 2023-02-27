@@ -67,5 +67,9 @@ namespace dragonbyte_engine
 	};
 
 #define OVERSEER Overseer::s_overseer
+#define RENDER_ENGINE (*OVERSEER.m_pRenderEngine)
+#define OBJECT_ENGINE (*OVERSEER.m_pObjectEngine)
+#define PHYSICS_ENGINE (*OVERSEER.m_pPhysicsEngine)
+#define GAME_CLOCK (*OVERSEER.m_pGameClock)
 
 } // namespace dragonbyte_engine

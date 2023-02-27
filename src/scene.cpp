@@ -7,18 +7,18 @@
 namespace dragonbyte_engine
 {
 
-	Scene::Scene(Overseer& a_rOverseer) :
-		m_root{ nullptr }, m_pOverseer{ &a_rOverseer }
+	Scene::Scene() :
+		m_root{ nullptr }
 	{
 
 	}
 
 	GameObject& Scene::add_object(std::string name)
 	{
-		auto& obj = m_pOverseer->m_pObjectEngine->add_game_object(name);
+		auto& obj = OBJECT_ENGINE.add_game_object(name);
 		m_root.add_child(&obj.m_transform.m_node);
 
-		return m_pOverseer->m_pObjectEngine->last_game_object();
+		return OBJECT_ENGINE.last_game_object();
 	}
 
 } // namespace dragonbyte_engine
