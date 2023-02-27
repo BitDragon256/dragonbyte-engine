@@ -26,7 +26,7 @@ namespace dragonbyte_engine
 		m_deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - m_lastTime).count();
 		m_lastTime = currentTime;
 
-		std::cout << 1 / m_deltaTime << '\n';
+		// std::cout << 1 / m_deltaTime << '\n';
 
 		m_lag += m_deltaTime;
 

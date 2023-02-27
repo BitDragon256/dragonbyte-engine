@@ -64,9 +64,11 @@ namespace dragonbyte_engine
     public:
         
         GameObject();
-        GameObject(GameObject& parent);
+        GameObject(Transform& parent);
         GameObject(const GameObject& copy);
         GameObject& operator=(const GameObject& other);
+
+        std::string m_name;
 
         Transform m_transform;
         std::vector<std::unique_ptr<Component>> m_components;

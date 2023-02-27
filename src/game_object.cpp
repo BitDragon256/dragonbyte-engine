@@ -116,7 +116,7 @@ namespace dragonbyte_engine
     {
         reset_component_indices();
     }
-    GameObject::GameObject(GameObject& a_rParent) :
+    GameObject::GameObject(Transform& a_rParent) :
         m_transform{ *this }
     {
         m_transform.set_parent(a_rParent);
@@ -133,6 +133,7 @@ namespace dragonbyte_engine
         if (this == &a_krOther)
             return *this;
 
+        m_name = a_krOther.m_name;
         m_transform = a_krOther.m_transform;
         //m_components = a_krOther.m_components;
         m_boundingBox = a_krOther.m_boundingBox;

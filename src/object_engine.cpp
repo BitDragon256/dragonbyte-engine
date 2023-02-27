@@ -13,7 +13,10 @@ namespace dragonbyte_engine
 
 	void ObjectEngine::tick()
 	{
-
+		for (auto& gameObject : m_gameObjects)
+		{
+			gameObject.tick();
+		}
 	}
 	void ObjectEngine::fixed_tick()
 	{
@@ -39,6 +42,7 @@ namespace dragonbyte_engine
 	GameObject& ObjectEngine::add_game_object(std::string name)
 	{
 		GameObject newObj{ };
+		newObj.m_name = name;
 		m_gameObjects.push_back(newObj);
 		return m_gameObjects[m_gameObjects.size() - 1];
 	}

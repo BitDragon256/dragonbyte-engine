@@ -15,7 +15,7 @@ namespace dragonbyte_engine
 
 	GameObject& Scene::add_object(std::string name)
 	{
-		auto obj = m_pOverseer->m_pObjectEngine->add_game_object(name);
+		auto& obj = m_pOverseer->m_pObjectEngine->add_game_object(name);
 		m_root.add_child(&obj.m_transform.m_node);
 
 		return m_pOverseer->m_pObjectEngine->last_game_object();
