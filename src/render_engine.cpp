@@ -523,6 +523,14 @@ namespace dragonbyte_engine
 		
 		vkQueuePresentKHR(vulkan::oi.pLogicalDevice->m_presentQueue, &presentInfo);
 	}
+	void RenderEngine::set_camera(Camera* a_pCamera)
+	{
+		m_pCamera = a_pCamera;
+	}
+	void RenderEngine::cam_free_move(bool a_move)
+	{
+		m_pCamera->m_freeMove = a_move;
+	}
 	
 	bool RenderEngine::should_close_window()
 	{

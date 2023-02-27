@@ -8,6 +8,8 @@
 #include "physics_engine.h"
 #include "render_engine.h"
 #include "mathematics.h"
+#include "game_object.h"
+#include "default_components/camera.h"
 
 namespace dragonbyte_engine
 {
@@ -80,6 +82,17 @@ namespace dragonbyte_engine
 		m_aiEngine.create();
 		m_audioEngine.create();
 		m_inputEngine.create(vulkan::oi.pWindow->m_pGlfwWindow);
+
+		additional_changes(a_config);
+	}
+	void Overseer::additional_changes(EngineConfig a_config)
+	{
+		if (a_config.useDefaultCamera)
+		{
+			auto& cam = OBJECT_ENGINE.add_game_object("Camera");
+			cam.add_component<Camera>();
+			RENDER_ENGINE.set_camera(cam.get_component<Camera>());
+		}
 	}
 
 	// destructs all pieces of the game / controlled shutdown
@@ -114,6 +127,7 @@ namespace dragonbyte_engine
 	void Overseer::tick()
 	{
 		m_objectEngine.tick();
+		m_inputEngine.tick();
 	}
 	void Overseer::render_tick()
 	{

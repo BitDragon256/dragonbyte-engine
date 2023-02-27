@@ -53,7 +53,8 @@ namespace dragonbyte_engine
 		bool should_close_window();
 
 		void set_static_meshes(std::vector<Mesh*> meshes);
-		void set_camera(Camera camera);
+		void set_camera(Camera* camera);
+		void cam_free_move(bool move);
 
 		void add_mesh(Mesh& rMesh);
 		void fill_default_meshes();

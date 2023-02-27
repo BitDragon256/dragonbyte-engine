@@ -5,14 +5,21 @@
 #include "vulkan/object_info.h"
 #include "vulkan/swapchain.h"
 
+#include "transform.h"
+#include "game_object.h"
+#include "overseer.h"
+#include "input_engine.h"
+
+using namespace dragonbyte_engine;
+
 namespace dragonbyte_engine
 {
     
-    Camera::Camera(GameObject& a_rGameObject) :
-        Component(a_rGameObject), m_fov{ 90.f }, m_nearPlane{ 0.01f }, m_farPlane{ 20.f }
+    Camera::Camera() :
+        m_fov{ 90.f }, m_nearPlane{ 0.01f }, m_farPlane{ 20.f }
     {}
-    Camera::Camera(GameObject& a_rGameObject, float a_fov, float a_nearPlane, float a_farPlane) :
-        Component(a_rGameObject), m_fov{ a_fov }, m_nearPlane{ a_nearPlane }, m_farPlane{ a_farPlane }
+    Camera::Camera(float a_fov, float a_nearPlane, float a_farPlane) :
+        m_fov{ a_fov }, m_nearPlane{ a_nearPlane }, m_farPlane{ a_farPlane }
     {}
     
     glm::mat4 Camera::get_matrix()
@@ -34,6 +41,16 @@ namespace dragonbyte_engine
         };
         
         return proj * view;
+    }
+    void Camera::tick()
+    {
+        if (m_freeMove)
+            free_move();
+    }
+    void Camera::free_move()
+    {
+        TRANSFORM.m_position.x += INPUT.get_axis("Horizontal");
+        TRANSFORM.m_position.y += INPUT.get_axis("Vertical");
     }
     
 } // namespace dragonbyte_engine

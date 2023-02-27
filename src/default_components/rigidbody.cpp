@@ -6,8 +6,8 @@
 namespace dragonbyte_engine
 {
 
-	Rigidbody::Rigidbody(GameObject& a_krGameObject) :
-		m_firstTick{ true }, Component(a_krGameObject)
+	Rigidbody::Rigidbody() :
+		m_firstTick{ true }
 	{
 
 	}

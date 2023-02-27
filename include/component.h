@@ -11,11 +11,6 @@ namespace dragonbyte_engine
 
 		Component()
 		{}
-		Component(GameObject& a_krGameObject) :
-			m_pGameObject{ &a_krGameObject }
-		{
-
-		}
 
 		GameObject* m_pGameObject;
 		

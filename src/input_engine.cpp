@@ -8,10 +8,12 @@ namespace dragonbyte_engine
 	void InputEngine::create(GLFWwindow* a_pWindow)
 	{
 		glfwSetKeyCallback(a_pWindow, s_key_callback_wrapper);
+
+		create_default_axes();
 	}
 	void InputEngine::tick()
 	{
-		
+		update_axes();
 	}
 	bool InputEngine::get_key(char key)
 	{
@@ -26,6 +28,28 @@ namespace dragonbyte_engine
 	void InputEngine::s_key_callback_wrapper(GLFWwindow* a_pWindow, int a_key, int a_scancode, int a_action, int a_mods)
 	{
 		INPUT.key_callback(a_key, a_action);
+	}
+	void InputEngine::add_axis(std::string a_name, char a_keyUp, char a_keyDown)
+	{
+		m_axes[a_name] = std::make_tuple(0, a_keyUp, a_keyDown);
+	}
+	float InputEngine::get_axis(std::string a_name)
+	{
+		return std::get<0>(m_axes[a_name]);
+	}
+	void InputEngine::update_axes()
+	{
+		for (auto& [name, tuple] : m_axes)
+		{
+			auto& [value, keyUp, keyDown] = tuple;
+			float dst = get_key(keyUp) ? 1.f : get_key(keyDown) ? -1.f : 0.f;
+			value = static_cast<float>(std::lerp(value, dst, AXIS_SNAPBACK));
+		}
+	}
+	void InputEngine::create_default_axes()
+	{
+		add_axis("Horizontal", 'D', 'A');
+		add_axis("Vertical", 'W', 'S');
 	}
 
 } // namespace dragonbyte_engine

@@ -59,6 +59,8 @@ namespace dragonbyte_engine
 
 		bool should_end_game();
 
+		void additional_changes(EngineConfig config);
+
 	};
 
 #define OVERSEER Overseer::s_overseer

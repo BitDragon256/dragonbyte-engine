@@ -6,17 +6,21 @@
 namespace dragonbyte_engine
 {
     
-    class Camera : Component
+    class Camera : public Component
     {
     public:
-        Camera(GameObject& gameObject);
-        Camera(GameObject& gameObject, float fov, float nearPlane, float farPlane);
+        Camera();
+        Camera(float fov, float nearPlane, float farPlane);
         
         glm::mat4 get_matrix();
+        void tick() override;
+        void free_move();
         
         float m_fov;
         float m_nearPlane;
         float m_farPlane;
+
+        bool m_freeMove;
         
     };
     
