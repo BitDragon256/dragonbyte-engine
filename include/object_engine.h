@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "ptr_types.h"
-#include "component.h"
 #include "scene.h"
 
 namespace dragonbyte_engine

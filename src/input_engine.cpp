@@ -3,6 +3,10 @@
 namespace dragonbyte_engine
 {
 
+	void InputEngine::create()
+	{
+	
+	}
 	void InputEngine::tick()
 	{
 

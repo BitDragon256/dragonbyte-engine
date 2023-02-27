@@ -2,16 +2,20 @@
 
 #include <iostream>
 
+#include "overseer.h"
+
 namespace dragonbyte_engine
 {
-	GameClock::GameClock(const GameClockConfig& config) :
-		m_physicsDeltaTime{ 1.f / config.physicsFps },
-		m_targetDeltaTime{ 1.f / config.targetFps },
-		m_deltaTime{ 0 },
-		m_lag{ 0 },
-		m_firstLoop{ true }
-	{}
+	GameClock::GameClock() {}
 
+	void GameClock::create(const GameClockConfig& config)
+	{
+		m_physicsDeltaTime = 1.f / config.physicsFps;
+		m_targetDeltaTime = 1.f / config.targetFps;
+		m_deltaTime = 0;
+		m_lag = 0;
+		m_firstLoop = true;
+	}
 	void GameClock::game_loop_tick()
 	{
 		OVERSEER.pre_tick();

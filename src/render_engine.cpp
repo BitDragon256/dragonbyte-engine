@@ -39,19 +39,13 @@
 #include "vulkan/vp_handler.h"
 
 #include "mesh.h"
+#include "overseer.h"
+#include "transform.h"
 
 namespace dragonbyte_engine
 {	
 
-	RenderEngine::RenderEngine(const RenderEngineConfig& a_kConfig) :
-		m_config(a_kConfig), m_pObjectEngine{ a_kConfig.pObjectEngine }
-	{
-		vulkan::oi.reset();
-
-		create_window();
-
-		setup_vulkan();
-	}
+	RenderEngine::RenderEngine() {}
 	RenderEngine::~RenderEngine()
 	{
 		vkWaitForFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence, VK_TRUE, UINT64_MAX);
@@ -88,6 +82,16 @@ namespace dragonbyte_engine
 		vulkan::oi.pWindow.reset();
 	}
 
+	void RenderEngine::create(const RenderEngineConfig& a_kConfig)
+	{
+		m_config = a_kConfig;
+		
+		vulkan::oi.reset();	
+
+		create_window();
+
+		setup_vulkan();
+	}
 	void RenderEngine::tick()
 	{
 		vulkan::oi.pWindow->tick();
@@ -432,7 +436,7 @@ namespace dragonbyte_engine
 	void RenderEngine::update_object_buffer_handler(uint32_t a_currentImage)
 	{
 		std::vector<Transform*> transforms;
-		m_pObjectEngine->get_transforms(transforms);
+		OBJECT_ENGINE.get_transforms(transforms);
 		std::vector<vulkan::ObjectData> data = {};
 		data.resize(transforms.size());
 		for (size_t i = 0; i < transforms.size(); i++)

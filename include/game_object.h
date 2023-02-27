@@ -7,54 +7,11 @@
 #include <vector>
 
 #include "mathematics.h"
-#include "overseer.h"
 #include "component.h"
+#include "transform.h"
 
 namespace dragonbyte_engine
 {
-    //class Component;
-    class GameObject;
-    class Transform;
-    
-    typedef Vec3 Position;
-    typedef Vec3 Scale;
-    typedef Quaternion Rotation;
-
-    typedef struct TransformNode
-    {
-        TransformNode(Transform* pTransform);
-
-        TransformNode* pParent;
-        std::vector<TransformNode*> children;
-
-        Transform* pTransform;
-
-        void add_child(TransformNode* pNode);
-        void set_parent(TransformNode* pNode);
-    } TransformNode;
-    
-	typedef class Transform
-	{
-    public:
-        Transform(const GameObject& rThis);
-
-		Position m_position;
-		Scale m_scale;
-		Rotation m_rotation;
-
-        const GameObject* m_pGameObject;
-		
-        TransformNode m_node;
-		
-        void add_child(Transform& rTransform);
-        GameObject& add_child(GameObject& rGameObject);
-        void set_parent(Transform& rTransform);
-        void set_parent(GameObject& rGameObject);
-		Position global_position();
-		Scale global_scale();
-		Rotation global_rotation();
-		
-	} Transform;
     
     class Rigidbody;
     class Mesh;

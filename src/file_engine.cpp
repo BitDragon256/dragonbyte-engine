@@ -6,6 +6,10 @@
 namespace dragonbyte_engine
 {
 
+	void FileEngine::create()
+	{
+	
+	}
 	void FileEngine::tick()
 	{
 

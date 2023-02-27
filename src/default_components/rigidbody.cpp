@@ -1,6 +1,7 @@
 #include "default_components/rigidbody.h"
 #include "game_clock.h"
 #include "game_object.h"
+#include "overseer.h"
 
 namespace dragonbyte_engine
 {
@@ -43,12 +44,12 @@ namespace dragonbyte_engine
 
 		m_velocity = m_lastPosition - m_position;
 
-		m_velocity += m_acceleration * TIME.m_deltaTime;
+		m_velocity += m_acceleration * GAME_CLOCK.m_deltaTime;
 	}
 	void Rigidbody::law_of_momentum()
 	{
-		m_position += m_velocity * TIME.m_deltaTime;
-		m_globalPosition += m_velocity * TIME.m_deltaTime;
+		m_position += m_velocity * GAME_CLOCK.m_deltaTime;
+		m_globalPosition += m_velocity * GAME_CLOCK.m_deltaTime;
 	}
 	Velocity Rigidbody::calc_impact()
 	{

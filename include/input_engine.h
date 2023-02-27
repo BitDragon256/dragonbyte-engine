@@ -1,13 +1,13 @@
-#include "engine.h"
+#pragma once
 
 namespace dragonbyte_engine
 {
 
-	class InputEngine : public Engine
+	class InputEngine
 	{
 	public:
-		void tick() override;
-
+		void create();
+		void tick();
 	};
 
 } // namespace dragonbyte_engine

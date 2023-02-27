@@ -1,6 +1,7 @@
 #include "object_engine.h"
 
 #include "mesh.h"
+#include "overseer.h"
 
 namespace dragonbyte_engine
 {
@@ -10,7 +11,12 @@ namespace dragonbyte_engine
 	{
 		
 	}
-
+	
+	void ObjectEngine::create()
+	{
+		m_gameObjects.resize(0);
+		m_root = {};
+	}
 	void ObjectEngine::tick()
 	{
 		for (auto& gameObject : m_gameObjects)

@@ -1,13 +1,13 @@
-#include "engine.h"
+#pragma once
 
 namespace dragonbyte_engine
 {
 
-	class AudioEngine : public Engine
+	class AudioEngine
 	{
 	public:
-		void tick() override;
-
+		void create();
+		void tick();
 	};
 
 } // namespace dragonbyte_engine

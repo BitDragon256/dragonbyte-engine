@@ -17,8 +17,7 @@ namespace dragonbyte_engine
 	* ---------------------------------------------------------
 	*/
 
-	Overseer::Overseer() : 
-		m_pGameClock{ nullptr }
+	Overseer::Overseer()
 	{
 
 	}
@@ -53,16 +52,16 @@ namespace dragonbyte_engine
 		clockConfig.physicsFps = 50.f;
 		clockConfig.targetFps = a_config.targetFps;
 
-		m_pGameClock = new GameClock(clockConfig);
+		m_gameClock.create(clockConfig);
 
 		// TODO initialize File Engine
-		m_pFileEngine = new FileEngine{  };
+		m_fileEngine.create();
 
 		// TODO initialize Object Engine
-		m_pObjectEngine = new ObjectEngine{  };
+		m_objectEngine.create();
 
 		// initialize Physics Engine
-		m_pPhysicsEngine = new PhysicsEngine{  };
+		m_physicsEngine.create();
 
 		// initialize Render Engine
 		RenderEngineConfig renderEngineConfig {};
@@ -74,36 +73,26 @@ namespace dragonbyte_engine
 		renderEngineConfig.renderType = RenderType::Rasterization;
 		renderEngineConfig.windowHeight = a_config.window.height;
 		renderEngineConfig.windowWidth = a_config.window.width;
-		renderEngineConfig.pObjectEngine = m_pObjectEngine;
 
-		m_pRenderEngine = new RenderEngine(renderEngineConfig);
+		m_renderEngine.create(renderEngineConfig);
 
 		// initialize other engines
-		m_pAiEngine = new AiEngine();
-		m_pAudioEngine = new AudioEngine();
-		m_pInputEngine = new InputEngine();
+		m_aiEngine.create();
+		m_audioEngine.create();
+		m_inputEngine.create();
 	}
 
 	// destructs all pieces of the game / controlled shutdown
 	void Overseer::end_game()
 	{
-		delete m_pRenderEngine;
-		delete m_pPhysicsEngine;
-		delete m_pObjectEngine;
-
-		delete m_pAiEngine;
-		delete m_pAudioEngine;
-		delete m_pFileEngine;
-		delete m_pInputEngine;
-
-		delete m_pGameClock;
+		
 	}
 	void Overseer::game_loop()
 	{
 		std::cout << "Starting game loop..." << '\n';
 		while (!should_end_game())
 		{
-			m_pGameClock->game_loop_tick();
+			m_gameClock.game_loop_tick();
 		}
 	}
 
@@ -119,16 +108,16 @@ namespace dragonbyte_engine
 	}
 	void Overseer::physics_tick()
 	{
-		m_pPhysicsEngine->tick();
-		m_pObjectEngine->fixed_tick();
+		m_physicsEngine.tick();
+		m_objectEngine.fixed_tick();
 	}
 	void Overseer::tick()
 	{
-		m_pObjectEngine->tick();
+		m_objectEngine.tick();
 	}
 	void Overseer::render_tick()
 	{
-		m_pRenderEngine->tick();
+		m_renderEngine.tick();
 	}
 	void Overseer::late_tick()
 	{
@@ -137,7 +126,7 @@ namespace dragonbyte_engine
 
 	bool Overseer::should_end_game()
 	{
-		return m_pRenderEngine->should_close_window();
+		return m_renderEngine.should_close_window();
 	}
 
 	/* Overseer static global Object */

@@ -1,4 +1,4 @@
-#include "engine.h"
+#pragma once
 
 #include <string>
 #include <vector>
@@ -14,10 +14,11 @@ namespace dragonbyte_engine
 		inline double to_double() { return std::stod(value); };
 	};
 
-	class FileEngine : public Engine
+	class FileEngine
 	{
 	public:
-		void tick() override;
+		void tick();
+		void create();
 
 		ConfigValue get_config_value(const std::string section, const std::string key);
 

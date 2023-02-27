@@ -4,12 +4,8 @@
 #include <functional>
 #include <vector>
 
-#include "overseer.h"
-
 namespace dragonbyte_engine
 {
-	class Overseer;
-
 	class Tickable
 	{
 	public:
@@ -35,16 +31,17 @@ namespace dragonbyte_engine
 	{
 	public:
 
-		GameClock(const GameClockConfig& config);
+		GameClock();
 
+		void create(const GameClockConfig& config);
 		void game_loop_tick();
 
 		float m_deltaTime;
 
 	private:
 
-		const float m_physicsDeltaTime;
-		const float m_targetDeltaTime;
+		float m_physicsDeltaTime;
+		float m_targetDeltaTime;
 
 		float m_lag;
 		bool m_firstLoop;

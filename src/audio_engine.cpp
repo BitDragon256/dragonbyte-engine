@@ -3,6 +3,10 @@
 namespace dragonbyte_engine
 {
 
+	void AudioEngine::create()
+	{
+	
+	}
 	void AudioEngine::tick()
 	{
 
