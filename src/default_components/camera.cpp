@@ -8,11 +8,11 @@
 namespace dragonbyte_engine
 {
     
-    Camera::Camera(GameObject& a_rGameObject, GameClock& a_rGameClock) :
-        Component(a_rGameObject, a_rGameClock), m_fov{ 90.f }, m_nearPlane{ 0.01f }, m_farPlane{ 20.f }
+    Camera::Camera(GameObject& a_rGameObject) :
+        Component(a_rGameObject), m_fov{ 90.f }, m_nearPlane{ 0.01f }, m_farPlane{ 20.f }
     {}
-    Camera::Camera(GameObject& a_rGameObject, GameClock& a_rGameClock, float a_fov, float a_nearPlane, float a_farPlane) :
-        Component(a_rGameObject, a_rGameClock), m_fov{ a_fov }, m_nearPlane{ a_nearPlane }, m_farPlane{ a_farPlane }
+    Camera::Camera(GameObject& a_rGameObject, float a_fov, float a_nearPlane, float a_farPlane) :
+        Component(a_rGameObject), m_fov{ a_fov }, m_nearPlane{ a_nearPlane }, m_farPlane{ a_farPlane }
     {}
     
     glm::mat4 Camera::get_matrix()

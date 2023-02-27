@@ -9,8 +9,8 @@ namespace dragonbyte_engine
     class Camera : Component
     {
     public:
-        Camera(GameObject& gameObject, GameClock& gameClock);
-        Camera(GameObject& gameObject, GameClock& gameClock, float fov, float nearPlane, float farPlane);
+        Camera(GameObject& gameObject);
+        Camera(GameObject& gameObject, float fov, float nearPlane, float farPlane);
         
         glm::mat4 get_matrix();
         

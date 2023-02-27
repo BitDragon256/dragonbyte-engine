@@ -103,7 +103,7 @@ namespace dragonbyte_engine
         void tick_rb();
         void tick_mesh();
         void reset_component_indices();
-        void check_component_indices(const type_info& krTypeId, size_t index);
+        void check_component_indices(const std::type_info& krTypeId, size_t index);
         bool has_mesh();
     
     };

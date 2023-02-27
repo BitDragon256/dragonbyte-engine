@@ -24,8 +24,8 @@ namespace dragonbyte_engine
 	private:
 
 #define TRANSFORM m_pGameObject->m_transform
-#define TIME *OVERSEER.m_pGameClock
-#define GAMEOBJECT *m_pGameObject
+#define TIME (*OVERSEER.m_pGameClock)
+#define GAMEOBJECT (*m_pGameObject)
 		
 	};
 

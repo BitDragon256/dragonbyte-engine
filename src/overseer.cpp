@@ -59,7 +59,7 @@ namespace dragonbyte_engine
 		m_pFileEngine = new FileEngine{  };
 
 		// TODO initialize Object Engine
-		m_pObjectEngine = new ObjectEngine{ *this };
+		m_pObjectEngine = new ObjectEngine{  };
 
 		// initialize Physics Engine
 		m_pPhysicsEngine = new PhysicsEngine{  };

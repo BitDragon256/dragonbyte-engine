@@ -10,7 +10,7 @@ namespace dragonbyte_engine
 	{
 	public:
 
-		Rigidbody(GameObject& a_krGameObject, GameClock& a_krGameClock);
+		Rigidbody(GameObject& a_krGameObject);
 
 		Velocity m_velocity;
 		Acceleration m_acceleration;

@@ -5,8 +5,8 @@
 namespace dragonbyte_engine
 {
 
-	Rigidbody::Rigidbody(GameObject& a_krGameObject, GameClock& a_krGameClock) :
-		m_firstTick{ true }, Component(a_krGameObject, a_krGameClock)
+	Rigidbody::Rigidbody(GameObject& a_krGameObject) :
+		m_firstTick{ true }, Component(a_krGameObject)
 	{
 
 	}
@@ -43,12 +43,12 @@ namespace dragonbyte_engine
 
 		m_velocity = m_lastPosition - m_position;
 
-		m_velocity += m_acceleration * m_pGameClock->m_deltaTime;
+		m_velocity += m_acceleration * TIME.m_deltaTime;
 	}
 	void Rigidbody::law_of_momentum()
 	{
-		m_position += m_velocity * m_pGameClock->m_deltaTime;
-		m_globalPosition += m_velocity * m_pGameClock->m_deltaTime;
+		m_position += m_velocity * TIME.m_deltaTime;
+		m_globalPosition += m_velocity * TIME.m_deltaTime;
 	}
 	Velocity Rigidbody::calc_impact()
 	{

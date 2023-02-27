@@ -17,7 +17,7 @@ namespace dragonbyte_engine
 	class ObjectEngine
 	{
 	public:
-		ObjectEngine(Overseer& rOverseer);
+		ObjectEngine();
 
 		void tick();
 

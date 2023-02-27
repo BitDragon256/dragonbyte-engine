@@ -162,7 +162,7 @@ namespace dragonbyte_engine
             add_component<Mesh>();
 
         get_mesh() = a_mesh;
-        RENDER_ENGINE->add_mesh(get_mesh());
+        RENDER_ENGINE.add_mesh(get_mesh());
     }
     void GameObject::load_mesh(std::string a_file)
     {
@@ -174,7 +174,7 @@ namespace dragonbyte_engine
         m_rigidbodyIndex = kNoComponent;
         m_meshIndex = kNoComponent;
     }
-    void GameObject::check_component_indices(const type_info& a_krTypeId, size_t a_index)
+    void GameObject::check_component_indices(const std::type_info& a_krTypeId, size_t a_index)
     {
         if (a_krTypeId == typeid(Mesh))
         {
