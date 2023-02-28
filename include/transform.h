@@ -34,6 +34,10 @@ namespace dragonbyte_engine
 		Scale m_scale;
 		Rotation m_rotation;
 
+        Position up();
+        Position forward();
+        Position right();
+
         const GameObject* m_pGameObject;
 		
         TransformNode m_node;

@@ -38,11 +38,12 @@ namespace dragonbyte_engine
         void load_mesh(std::string file);
         
         void add_component(const Component& copy_component);
-        template<class T> void add_component()
+        template<class T> T& add_component()
         {
             check_component_indices(typeid(T), m_components.size());
             m_components.emplace_back(new T {  });
             m_components[m_components.size() - 1]->m_pGameObject = this;
+            return *dynamic_cast<T*>(m_components[m_components.size() - 1].get());
         }
         template<class T> void add_component(const T& copy_component);
         

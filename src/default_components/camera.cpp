@@ -1,8 +1,9 @@
 #include "default_components/camera.h"
 
-#include <glm/gtc/matrix_transform.hpp>
-
+#include <math.h>
 #include <vector>
+
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "vulkan/object_info.h"
 #include "vulkan/swapchain.h"
@@ -33,8 +34,12 @@ namespace dragonbyte_engine
         return {
             glm::lookAt(
                 TRANSFORM.m_position.to_glm(),
-                TRANSFORM.m_position.to_glm() + glm::vec3{0.f, 1.f, 0.f},
-                //glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                TRANSFORM.m_position.to_glm()
+                    + glm::vec3{
+                        sin(TRANSFORM.m_rotation.z),
+                        cos(TRANSFORM.m_rotation.z),
+                        sin(TRANSFORM.m_rotation.y)
+                    },
                 glm::vec3(0.f, 0.f, 1.f)
             )
         };
@@ -44,8 +49,8 @@ namespace dragonbyte_engine
         glm::mat4 proj = glm::perspective(
             glm::radians(45.0f),//m_fov),
             vulkan::oi.pSwapChain->m_extent.width / (float)vulkan::oi.pSwapChain->m_extent.height,
-            0.1f,//m_nearPlane,
-            10.f//m_farPlane
+            0.01f,//m_nearPlane,
+            100.f//m_farPlane
         );
         proj[1][1] *= -1;
         return proj;
@@ -57,11 +62,24 @@ namespace dragonbyte_engine
     }
     void Camera::free_move()
     {
-        TRANSFORM.m_position.x += INPUT.get_axis("Horizontal") * GAME_CLOCK.m_deltaTime;
-        TRANSFORM.m_position.y += INPUT.get_axis("Vertical") * GAME_CLOCK.m_deltaTime;
-        TRANSFORM.m_position.z += INPUT.get_axis("FlyControl") * GAME_CLOCK.m_deltaTime;
+        TRANSFORM.m_position += TRANSFORM.right() * INPUT.get_axis("Horizontal") * GAME_CLOCK.m_deltaTime * 3;
+        TRANSFORM.m_position += TRANSFORM.forward() * INPUT.get_axis("Vertical") * GAME_CLOCK.m_deltaTime * 3;
+        TRANSFORM.m_position += TRANSFORM.up() * INPUT.get_axis("FlyControl") * GAME_CLOCK.m_deltaTime * 3;
         
-        TRANSFORM.m_rotation.z += INPUT.get_axis("ArrowHorizontal") * GAME_CLOCK.m_deltaTime * 40.f;
+        TRANSFORM.m_rotation.z += -INPUT.get_delta_mouse_pos().x * GAME_CLOCK.m_deltaTime;
+        if (TRANSFORM.m_rotation.z >= 7)
+            TRANSFORM.m_rotation.z -= 3.14159265f * 2.f;
+        if (TRANSFORM.m_rotation.z <= 7)
+            TRANSFORM.m_rotation.z += 3.14159265f * 2.f;
+        
+        TRANSFORM.m_rotation.y = fmaxf( fminf(
+            static_cast<float>(
+                  TRANSFORM.m_rotation.y
+                + INPUT.get_delta_mouse_pos().y
+                * GAME_CLOCK.m_deltaTime
+            ),
+            3.14159265f / 2), -3.14159265f / 2
+        );
     }
     void Camera::set_active()
     {

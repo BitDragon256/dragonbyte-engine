@@ -10,6 +10,7 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include "tools.h"
 #include "vulkan/validation_layers.h"
@@ -447,30 +448,30 @@ namespace dragonbyte_engine
 				0.0f, 0.0f, 0.0f, 1.0f
 			);*/
 			data[i].model = glm::identity<glm::mat4>();
-			
+
+			// translation
+			data[i].model = glm::translate(
+				data[i].model,
+				transforms[i]->m_position.to_glm()
+			);
 			// rotation
 			// x axis
 			data[i].model = glm::rotate(
 				data[i].model,
-				static_cast<float>(transforms[i]->m_rotation.x),
+				glm::radians(static_cast<float>(transforms[i]->m_rotation.x)),
 				{1.f, 0.f, 0.f}
 			);
 			// y axis
 			data[i].model = glm::rotate(
 				data[i].model,
-				static_cast<float>(transforms[i]->m_rotation.y),
+				glm::radians(static_cast<float>(transforms[i]->m_rotation.y)),
 				{0.f, 1.f, 0.f}
 			);
 			// z axis
 			data[i].model = glm::rotate(
 				data[i].model,
-				static_cast<float>(transforms[i]->m_rotation.z),
+				glm::radians(static_cast<float>(transforms[i]->m_rotation.z)),
 				{0.f, 0.f, 1.f}
-			);
-			
-			data[i].model = glm::translate(
-				data[i].model,
-				transforms[i]->m_position.to_glm()
 			);
 			//data[i].model = glm::scale(data[i].model, transforms[i]->m_scale.to_glm());
 			

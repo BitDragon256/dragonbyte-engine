@@ -102,5 +102,29 @@ namespace dragonbyte_engine
         }
         return rot;
     }
+    Position Transform::up()
+    {
+        return Position {
+            0,
+            0,
+            1
+        };
+    }
+    Position Transform::forward()
+    {
+        return {
+            sin(m_rotation.z),
+            cos(m_rotation.y) * cos(m_rotation.z),
+            sin(m_rotation.y)
+        };
+    }
+    Position Transform::right()
+    {
+        return {
+            cos(m_rotation.z),
+            -sin(m_rotation.z),
+            0
+        };
+    }
     
 } // namespace dragonbyte_engine
