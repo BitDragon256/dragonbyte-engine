@@ -9,7 +9,7 @@ namespace dragonbyte_engine
 	typedef Vec3 Velocity;
 	typedef Vec3 Acceleration;
 	typedef Vec3 Scale;
-	typedef Quaternion Rotation;
+	typedef Vec3 Rotation;
 
 	typedef Vec3 Force;
 

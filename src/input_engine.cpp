@@ -15,7 +15,7 @@ namespace dragonbyte_engine
 	{
 		update_axes();
 	}
-	bool InputEngine::get_key(char key)
+	bool InputEngine::get_key(Key key)
 	{
 		int keyCode = static_cast<int>(key);
 		return m_heldKeys.count(keyCode) && m_heldKeys[keyCode] == GLFW_PRESS;
@@ -29,7 +29,7 @@ namespace dragonbyte_engine
 	{
 		INPUT.key_callback(a_key, a_action);
 	}
-	void InputEngine::add_axis(std::string a_name, char a_keyUp, char a_keyDown)
+	void InputEngine::add_axis(std::string a_name, Key a_keyUp, Key a_keyDown)
 	{
 		m_axes[a_name] = std::make_tuple(0, a_keyUp, a_keyDown);
 	}
@@ -55,6 +55,8 @@ namespace dragonbyte_engine
 		add_axis("Horizontal", 'D', 'A');
 		add_axis("Vertical", 'W', 'S');
 		add_axis("FlyControl", 'E', 'Q');
+		add_axis("ArrowVertical", GLFW_KEY_UP, GLFW_KEY_DOWN);
+		add_axis("ArrowHorizontal", GLFW_KEY_RIGHT, GLFW_KEY_LEFT);
 	}
 
 } // namespace dragonbyte_engine

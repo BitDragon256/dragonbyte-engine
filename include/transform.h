@@ -10,7 +10,7 @@ namespace dragonbyte_engine
     
     typedef Vec3 Position;
     typedef Vec3 Scale;
-    typedef Quaternion Rotation;
+    typedef Vec3 Rotation;
 
     typedef struct TransformNode
     {

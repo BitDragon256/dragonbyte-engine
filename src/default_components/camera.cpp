@@ -60,6 +60,8 @@ namespace dragonbyte_engine
         TRANSFORM.m_position.x += INPUT.get_axis("Horizontal") * GAME_CLOCK.m_deltaTime;
         TRANSFORM.m_position.y += INPUT.get_axis("Vertical") * GAME_CLOCK.m_deltaTime;
         TRANSFORM.m_position.z += INPUT.get_axis("FlyControl") * GAME_CLOCK.m_deltaTime;
+        
+        TRANSFORM.m_rotation.z += INPUT.get_axis("ArrowHorizontal") * GAME_CLOCK.m_deltaTime * 40.f;
     }
     void Camera::set_active()
     {

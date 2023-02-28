@@ -446,8 +446,30 @@ namespace dragonbyte_engine
 				0.0f, 0.0f, 1.0f, transforms[i]->m_position.z,
 				0.0f, 0.0f, 0.0f, 1.0f
 			);*/
+			data[i].model = glm::identity<glm::mat4>();
+			
+			// rotation
+			// x axis
+			data[i].model = glm::rotate(
+				data[i].model,
+				static_cast<float>(transforms[i]->m_rotation.x),
+				{1.f, 0.f, 0.f}
+			);
+			// y axis
+			data[i].model = glm::rotate(
+				data[i].model,
+				static_cast<float>(transforms[i]->m_rotation.y),
+				{0.f, 1.f, 0.f}
+			);
+			// z axis
+			data[i].model = glm::rotate(
+				data[i].model,
+				static_cast<float>(transforms[i]->m_rotation.z),
+				{0.f, 0.f, 1.f}
+			);
+			
 			data[i].model = glm::translate(
-				glm::identity<glm::mat4>(),
+				data[i].model,
 				transforms[i]->m_position.to_glm()
 			);
 			//data[i].model = glm::scale(data[i].model, transforms[i]->m_scale.to_glm());
