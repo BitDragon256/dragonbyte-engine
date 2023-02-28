@@ -18,7 +18,7 @@ namespace dragonbyte_engine
 		{
 
 			typedef enum eShader {
-				Simple = 0, SimpleMultimodel = 1
+				Simple = 0, SimpleMultimodel = 1, Pixel = 1
 			} const tShader;
 
 			typedef enum eShaderType {
@@ -37,7 +37,7 @@ namespace dragonbyte_engine
 				"simple", "simple_multimodel"
 			};
 			const std::string kFragShaderFilenames[]{
-				"simple"
+				"simple", "pixel"
 			};
 
 			std::string get_shader_filename(tShader a_shader, tShaderType a_shaderType);

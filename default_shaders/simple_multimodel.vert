@@ -19,9 +19,12 @@ layout(push_constant) uniform ViewProjectionData
 	mat4 projection;
 } viewProjectionData;
 
+layout(location = 1) out vec2 vPos;
+
 void main()
 {
 	ObjectData objectData = objectBuffer.objects[gl_InstanceIndex];
 	gl_Position = viewProjectionData.projection * viewProjectionData.view * objectData.model * vec4(inPos, 1.0);
 	fragColor = inColor;
+	vPos = gl_Position.xy;
 }
