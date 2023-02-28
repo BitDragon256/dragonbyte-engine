@@ -30,12 +30,11 @@ namespace dragonbyte_engine
     }
     glm::mat4 Camera::get_view_matrix()
     {
-        std::cout << "VM: " << this << '\n';
         return {
             glm::lookAt(
-                //TRANSFORM.m_position.to_glm(),
-                //TRANSFORM.m_position.to_glm() + glm::vec3{0.f, 1.f, 0.f},
-                glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                TRANSFORM.m_position.to_glm(),
+                TRANSFORM.m_position.to_glm() + glm::vec3{0.f, 1.f, 0.f},
+                //glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                 glm::vec3(0.f, 0.f, 1.f)
             )
         };
@@ -53,15 +52,18 @@ namespace dragonbyte_engine
     }
     void Camera::tick()
     {
-        std::cout << "cam tick\n";
         if (m_freeMove)
             free_move();
     }
     void Camera::free_move()
     {
-        std::cout << "FM: " << m_pGameObject << '\n';
-        TRANSFORM.m_position.x += INPUT.get_axis("Horizontal");
-        TRANSFORM.m_position.y += INPUT.get_axis("Vertical");
+        TRANSFORM.m_position.x += INPUT.get_axis("Horizontal") * GAME_CLOCK.m_deltaTime;
+        TRANSFORM.m_position.y += INPUT.get_axis("Vertical") * GAME_CLOCK.m_deltaTime;
+        TRANSFORM.m_position.z += INPUT.get_axis("FlyControl") * GAME_CLOCK.m_deltaTime;
+    }
+    void Camera::set_active()
+    {
+        RENDER_ENGINE.set_camera(this);
     }
     
 } // namespace dragonbyte_engine

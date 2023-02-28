@@ -448,12 +448,10 @@ namespace dragonbyte_engine
 			);*/
 			data[i].model = glm::translate(
 				glm::identity<glm::mat4>(),
-				glm::vec3(
-					transforms[i]->m_position.x,
-					transforms[i]->m_position.y,
-					transforms[i]->m_position.z
-				)
+				transforms[i]->m_position.to_glm()
 			);
+			//data[i].model = glm::scale(data[i].model, transforms[i]->m_scale.to_glm());
+			
 		}
 
 		m_objectBufferHandler.set_data(data);

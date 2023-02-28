@@ -42,7 +42,11 @@ namespace dragonbyte_engine
 		for (auto& [name, tuple] : m_axes)
 		{
 			auto& [value, keyUp, keyDown] = tuple;
-			float dst = get_key(keyUp) ? 1.f : get_key(keyDown) ? -1.f : 0.f;
+			float dst = 0.f;
+			if (get_key(keyUp))
+				dst += 1.f;
+			if (get_key(keyDown))
+				dst -= 1.f;
 			value = static_cast<float>(std::lerp(value, dst, AXIS_SNAPBACK));
 		}
 	}
@@ -50,6 +54,7 @@ namespace dragonbyte_engine
 	{
 		add_axis("Horizontal", 'D', 'A');
 		add_axis("Vertical", 'W', 'S');
+		add_axis("FlyControl", 'E', 'Q');
 	}
 
 } // namespace dragonbyte_engine

@@ -1,10 +1,13 @@
 #include "mesh.h"
 
-#define TINYOBJLOADER_IMPLEMENTATION
-#include <tiny_obj_loader.h>
+#include <stdlib.h>     
+#include <time.h> 
 
 #include <iostream>
 #include<stdexcept>
+
+#define TINYOBJLOADER_IMPLEMENTATION
+#include <tiny_obj_loader.h>
 
 namespace dragonbyte_engine
 {
@@ -138,6 +141,9 @@ namespace dragonbyte_engine
 			}
 			mesh.add_indices(meshIndices);
 		}
+		
+		// random colors
+		srand(time(0));
 
 		// extracting vertices
 		meshVertices.resize(attrib.vertices.size() / 3);
@@ -146,7 +152,10 @@ namespace dragonbyte_engine
 			meshVertices[i] = {
 				attrib.vertices[i * 3 + 0],
 				attrib.vertices[i * 3 + 1],
-				attrib.vertices[i * 3 + 2]
+				attrib.vertices[i * 3 + 2],
+				rand() % 255 / 255.f,
+				rand() % 255 / 255.f,
+				rand() % 255 / 255.f
 			};
 		}
 		mesh.set_vertices(meshVertices);

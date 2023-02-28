@@ -16,13 +16,15 @@ namespace dragonbyte_engine
         glm::mat4 get_view_matrix();
         glm::mat4 get_proj_matrix();
         void tick() override;
-        void free_move();
+        void set_active();
         
         float m_fov;
         float m_nearPlane;
         float m_farPlane;
 
         bool m_freeMove;
+    private:
+        void free_move();
         
     };
     

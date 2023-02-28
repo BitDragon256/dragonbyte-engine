@@ -15,6 +15,7 @@ namespace dragonbyte_engine
         {
             Vertex() : pos{  }, color{  } {}
             Vertex(float x, float y, float z) : pos{ x, y, z }, color{ 1, 1, 1 } {}
+            Vertex(float x, float y, float z, float r, float g, float b) : pos{ x, y, z }, color{ r, g, b } {}
             Vertex(glm::vec3 pos, glm::vec3 color) : pos{ pos }, color{ color } {}
 
             glm::vec3 pos;
