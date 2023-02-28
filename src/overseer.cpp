@@ -89,9 +89,11 @@ namespace dragonbyte_engine
 	{
 		if (a_config.useDefaultCamera)
 		{
+			std::cout << "Setting up Default Camera\n";
 			auto& cam = OBJECT_ENGINE.add_game_object("Camera");
 			cam.add_component<Camera>();
 			RENDER_ENGINE.set_camera(cam.get_component<Camera>());
+			RENDER_ENGINE.cam_free_move(true);
 		}
 	}
 

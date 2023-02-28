@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <vector>
+
 #include "vulkan/object_info.h"
 #include "vulkan/swapchain.h"
 
@@ -24,31 +26,40 @@ namespace dragonbyte_engine
     
     glm::mat4 Camera::get_matrix()
     {
-        glm::mat4 view {
+        return get_proj_matrix() * get_view_matrix();
+    }
+    glm::mat4 Camera::get_view_matrix()
+    {
+        std::cout << "VM: " << this << '\n';
+        return {
             glm::lookAt(
-                glm::vec3(0.f, 3.f, 0.f),
-                glm::vec3(0.f),
-                glm::vec3(0.f, 1.f, 0.f)
+                //TRANSFORM.m_position.to_glm(),
+                //TRANSFORM.m_position.to_glm() + glm::vec3{0.f, 1.f, 0.f},
+                glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
+                glm::vec3(0.f, 0.f, 1.f)
             )
         };
-        glm::mat4 proj {
-            glm::perspective(
-                glm::radians(m_fov),
-                vulkan::oi.pSwapChain->m_extent.width / (float)vulkan::oi.pSwapChain->m_extent.height,
-                m_nearPlane,
-                m_farPlane
-            )
-        };
-        
-        return proj * view;
+    }
+    glm::mat4 Camera::get_proj_matrix()
+    {
+        glm::mat4 proj = glm::perspective(
+            glm::radians(45.0f),//m_fov),
+            vulkan::oi.pSwapChain->m_extent.width / (float)vulkan::oi.pSwapChain->m_extent.height,
+            0.1f,//m_nearPlane,
+            10.f//m_farPlane
+        );
+        proj[1][1] *= -1;
+        return proj;
     }
     void Camera::tick()
     {
+        std::cout << "cam tick\n";
         if (m_freeMove)
             free_move();
     }
     void Camera::free_move()
     {
+        std::cout << "FM: " << m_pGameObject << '\n';
         TRANSFORM.m_position.x += INPUT.get_axis("Horizontal");
         TRANSFORM.m_position.y += INPUT.get_axis("Vertical");
     }

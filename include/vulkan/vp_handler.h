@@ -5,6 +5,7 @@
 
 namespace dragonbyte_engine
 {
+	class Camera;
 
 	struct ViewProjectionData
 	{
@@ -24,10 +25,11 @@ namespace dragonbyte_engine
 
 			ViewProjectionData m_data;
 
-			void push();
+			void push(Camera& camera);
 
 		private:
-
+	
+			void set_view_proj_data(ViewProjectionData vpd);
 			PushConstantRange<ViewProjectionData> m_pushConstantRange;
 
 		};

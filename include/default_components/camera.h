@@ -13,6 +13,8 @@ namespace dragonbyte_engine
         Camera(float fov, float nearPlane, float farPlane);
         
         glm::mat4 get_matrix();
+        glm::mat4 get_view_matrix();
+        glm::mat4 get_proj_matrix();
         void tick() override;
         void free_move();
         

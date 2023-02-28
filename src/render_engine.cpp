@@ -471,7 +471,10 @@ namespace dragonbyte_engine
 
 		vulkan::oi.pDescriptorSetHandler->bind(a_imageIndex);
 
-		vulkan::oi.pViewProjectionHandler->push();
+		if (m_pCamera)
+			vulkan::oi.pViewProjectionHandler->push(*m_pCamera);
+		else
+			std::cerr << "Error: No Camera passed onto Render Engine\n";
 
 		// vkCmdDraw(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pVertexBuffer->m_vertices.size()), 1, 0, 0);
 		// vkCmdDrawIndexed(vulkan::oi.pCommandBuffer->m_commandBuffer, static_cast<uint32_t>(vulkan::oi.pIndexBuffer->m_indices.size()), 1, 0, 0, 0);

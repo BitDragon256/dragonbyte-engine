@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 
-#include <string>
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "mathematics.h"
@@ -46,7 +46,17 @@ namespace dragonbyte_engine
         }
         template<class T> void add_component(const T& copy_component);
         
-        template<class T> T* get_component();
+        template<class T> T* get_component()
+        {
+            for (auto& c : m_components)
+            {
+                if (typeid(T) == typeid(*c.get()))
+                {
+                    return dynamic_cast<T*>(c.get());
+                }
+            }
+            return nullptr;
+        }
         template<class T> void get_component(T* component);
         
         void tick();

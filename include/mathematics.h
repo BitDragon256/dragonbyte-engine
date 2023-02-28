@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <glm/glm.hpp>
 
 namespace dragonbyte_engine
 {
@@ -49,6 +50,10 @@ namespace dragonbyte_engine
 		Vec3 operator/=(const float scalar)
 		{
 			return *this / scalar;
+		}
+		glm::vec3 to_glm()
+		{
+			return glm::vec3{ x, y, z };
 		}
 	};
 
