@@ -20,6 +20,22 @@ namespace dragonbyte_engine
 
 		void MeshHandler::add_mesh(Mesh& a_rMesh, uint32_t a_instanceCount)
 		{
+			for (Mesh& mesh : m_meshes)
+			{
+				if (mesh == a_rMesh)
+				{
+					insert_existing_mesh(&mesh - &m_meshes[0], a_instanceCount);
+					return;
+				}
+			}
+			insert_new_mesh(a_rMesh, a_instanceCount);
+		}
+		void MeshHandler::insert_existing_mesh(size_t a_meshIndex, uint32_t a_instanceCount)
+		{
+			m_bufferData[a_meshIndex].instanceCount += a_instanceCount;
+		}
+		void MeshHandler::insert_new_mesh(Mesh& a_rMesh, uint32_t a_instanceCount)
+		{
 			m_meshes.push_back(a_rMesh);
 			m_bufferData.push_back(
 				{
@@ -45,7 +61,7 @@ namespace dragonbyte_engine
 					m_bufferData[i].instanceCount,
 					m_bufferData[i].indexStart,
 					m_bufferData[i].vertexStart,
-					0//m_bufferData[i].instanceStart
+					m_bufferData[i].instanceStart
 				);
 			}
 		}

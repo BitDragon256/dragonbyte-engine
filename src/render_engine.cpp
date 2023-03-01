@@ -439,14 +439,9 @@ namespace dragonbyte_engine
 		OBJECT_ENGINE.get_transforms(transforms);
 		std::vector<vulkan::ObjectData> data = {};
 		data.resize(transforms.size());
+
 		for (size_t i = 0; i < transforms.size(); i++)
 		{
-			/*data[i].model = glm::mat4(
-				1.0f, 0.0f, 0.0f, transforms[i]->m_position.x,
-				0.0f, 1.0f, 0.0f, transforms[i]->m_position.y,
-				0.0f, 0.0f, 1.0f, transforms[i]->m_position.z,
-				0.0f, 0.0f, 0.0f, 1.0f
-			);*/
 			data[i].model = glm::identity<glm::mat4>();
 
 			// translation
@@ -473,7 +468,6 @@ namespace dragonbyte_engine
 				glm::radians(static_cast<float>(transforms[i]->m_rotation.z)),
 				{0.f, 0.f, 1.f}
 			);
-			//data[i].model = glm::scale(data[i].model, transforms[i]->m_scale.to_glm());
 			
 		}
 

@@ -41,6 +41,9 @@ namespace dragonbyte_engine
 			std::vector<Mesh> m_meshes;
 			std::vector<MeshBufferData> m_bufferData;
 
+			void insert_new_mesh(Mesh& mesh, uint32_t instanceCount);
+			void insert_existing_mesh(size_t meshIndex, uint32_t instanceCount);
+
 		};
 
 	} // namespace vulkan

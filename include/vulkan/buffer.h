@@ -115,6 +115,12 @@ namespace dragonbyte_engine
                     m_created = false;
                 }
             }
+            void* mapped_memory()
+            {
+                if (!m_alwaysMapped || !m_created)
+                    return nullptr;
+                return m_mappedMemory;
+            }
 
         private:
 

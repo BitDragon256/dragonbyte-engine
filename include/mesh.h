@@ -27,6 +27,7 @@ namespace dragonbyte_engine
 
 		const std::vector<vulkan::Vertex>& vertices() const;
 		const std::vector<vulkan::Index>& indices() const;
+		uint32_t m_id; 
 
 		std::vector<vulkan::Vertex>& vertices();
 		std::vector<vulkan::Index>& indices();
@@ -44,6 +45,7 @@ namespace dragonbyte_engine
 
 		Mesh& operator=(Mesh& other);
 		Mesh& operator=(const Mesh& other);
+		bool operator==(const Mesh& other);
 
 		/* --------------------------------
 		*			Load Meshes
@@ -59,6 +61,9 @@ namespace dragonbyte_engine
 
 		void change_vertices();
 		void change_indices();
+		void change_id();
+
+		static uint32_t hash_mesh(const std::vector<vulkan::Index>& krIndices, const std::vector<vulkan::Vertex>& krVertices);
 
 	};
 

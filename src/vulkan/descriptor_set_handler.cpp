@@ -42,6 +42,7 @@ namespace dragonbyte_engine
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to allocate Descriptor Sets");
 
+            std::vector<VkWriteDescriptorSet> descriptorWrites{  };
             for (size_t i = 0; i < imageCount; i++) {
                 VkDescriptorBufferInfo bufferInfo = {};
                 //bufferInfo.buffer = oi.pUniformBufferHandler->m_buffers[i].m_buffer;
@@ -50,22 +51,22 @@ namespace dragonbyte_engine
                 //bufferInfo.range = sizeof(UniformBufferObject);
                 bufferInfo.range = a_elementSize;
 
-                VkWriteDescriptorSet descriptorWrite = {};
-                descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-                descriptorWrite.dstSet = m_descriptorSets[i];
-                descriptorWrite.dstBinding = 0;
-                descriptorWrite.dstArrayElement = 0;
+                descriptorWrites.push_back({  });
+                descriptorWrites[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                descriptorWrites[i].dstSet = m_descriptorSets[i];
+                descriptorWrites[i].dstBinding = 0;
+                descriptorWrites[i].dstArrayElement = 0;
 
                 //descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-                descriptorWrite.descriptorType = m_descriptorType;
-                descriptorWrite.descriptorCount = 1;
+                descriptorWrites[i].descriptorType = m_descriptorType;
+                descriptorWrites[i].descriptorCount = 1;
 
-                descriptorWrite.pBufferInfo = &bufferInfo;
-                descriptorWrite.pImageInfo = nullptr; // Optional
-                descriptorWrite.pTexelBufferView = nullptr; // Optional
+                descriptorWrites[i].pBufferInfo = &bufferInfo;
+                descriptorWrites[i].pImageInfo = nullptr; // Optional
+                descriptorWrites[i].pTexelBufferView = nullptr; // Optional
 
-                vkUpdateDescriptorSets(oi.pLogicalDevice->m_device, 1, &descriptorWrite, 0, nullptr);
             }
+            vkUpdateDescriptorSets(oi.pLogicalDevice->m_device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
         }
         void DescriptorSetHandler::create_layout(VkDescriptorType a_descriptorType, VkShaderStageFlags a_stageFlags)
         {

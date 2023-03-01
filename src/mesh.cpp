@@ -93,10 +93,17 @@ namespace dragonbyte_engine
 	void Mesh::change_vertices()
 	{
 		vulkan::oi.pVertexBuffer->m_hasChanged = true;
+		change_id();
 	}
 	void Mesh::change_indices()
 	{
 		vulkan::oi.pIndexBuffer->m_hasChanged = true;
+		change_id();
+	}
+	void Mesh::change_id()
+	{
+		if (m_vertices.size() != 0 && m_indices.size() != 0)
+			m_id = hash_mesh(m_indices, m_vertices);
 	}
 
 	Mesh& Mesh::operator=(Mesh& a_rOther)
@@ -110,6 +117,10 @@ namespace dragonbyte_engine
 		set_vertices(a_krOther.vertices());
 		set_indices(a_krOther.indices());
 		return *this;
+	}
+	bool Mesh::operator==(const Mesh& a_krOther)
+	{
+		return m_id == a_krOther.m_id;
 	}
 
 	Mesh Mesh::load_mesh(std::string a_file)
@@ -161,6 +172,16 @@ namespace dragonbyte_engine
 		mesh.set_vertices(meshVertices);
 
 		return mesh;
+	}
+
+	uint32_t Mesh::hash_mesh(const std::vector<vulkan::Index>& a_krIndices, const std::vector<vulkan::Vertex>& a_krVertices)
+	{
+		uint32_t hash{ 0 };
+
+		hash = static_cast<uint32_t>(a_krIndices.size()) * 12345678;
+		hash ^= static_cast<uint32_t>(a_krVertices[a_krVertices.size() / 2].pos.y * 1000);
+
+		return hash;
 	}
 
 } // namespace dragonbyte_engine

@@ -22,6 +22,6 @@ layout(push_constant) uniform ViewProjectionData
 void main()
 {
 	ObjectData objectData = objectBuffer.objects[gl_InstanceIndex];
-	gl_Position = viewProjectionData.projection * viewProjectionData.view * objectData.model * vec4(inPos, 1.0);
-	fragColor = inColor;
+	gl_Position = viewProjectionData.projection * viewProjectionData.view * vec4(inPos, 1.0);
+	fragColor = vec3(objectData.model[0][0], objectData.model[1][1], objectData.model[2][2]);
 }

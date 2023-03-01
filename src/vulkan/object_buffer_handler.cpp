@@ -4,6 +4,9 @@
 #include "vulkan/swapchain.h"
 #include "tools.h"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace dragonbyte_engine
 {
 
@@ -21,7 +24,8 @@ namespace dragonbyte_engine
 		void ObjectBufferHandler::create()
 		{
 			m_buffers.resize(oi.pSwapChain->m_images.size());
-			m_data.reserve(OBJECT_BUFFER_HANDLER_DEFAULT_SIZE);
+			m_data.resize(OBJECT_BUFFER_HANDLER_DEFAULT_SIZE);
+
 			for (size_t i = 0; i < m_buffers.size(); i++)
 			{
 				m_buffers[i].create(
@@ -46,11 +50,26 @@ namespace dragonbyte_engine
 				resize_buffers(newSize);
 			}
 
-			m_data = a_krData;
+			for (size_t i = 0; i < a_krData.size(); i++)
+			{
+				m_data[i] = a_krData[i];
+			}
+			//m_data = a_krData;
 		}
 		void ObjectBufferHandler::push_data(uint32_t a_frame)
 		{
-			m_buffers[a_frame].copy_data(m_data);
+			for (auto& data : m_data)
+			{
+				data.model = glm::identity<glm::mat4>();
+				//data.model = glm::mat4{ { 1, 1, 1, 1 },{ 1, 1, 1, 1 },{ 1, 1, 1, 1 },{ 1, 1, 1, 1 } };
+			}
+			//m_buffers[a_frame].copy_data(m_data);
+
+			ObjectData* objectData = (ObjectData*)m_buffers[a_frame].mapped_memory();
+			for (size_t i = 0; i < m_data.size(); i++)
+			{
+				objectData[i].model = m_data[i].model;
+			}
 		}
 		std::vector<VkBuffer> ObjectBufferHandler::get_buffers()
 		{
