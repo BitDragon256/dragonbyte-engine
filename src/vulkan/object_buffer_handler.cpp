@@ -58,11 +58,13 @@ namespace dragonbyte_engine
 		}
 		void ObjectBufferHandler::push_data(uint32_t a_frame)
 		{
+			/*
 			for (auto& data : m_data)
 			{
 				data.model = glm::identity<glm::mat4>();
 				//data.model = glm::mat4{ { 1, 1, 1, 1 },{ 1, 1, 1, 1 },{ 1, 1, 1, 1 },{ 1, 1, 1, 1 } };
 			}
+			*/
 			//m_buffers[a_frame].copy_data(m_data);
 
 			ObjectData* objectData = (ObjectData*)m_buffers[a_frame].mapped_memory();

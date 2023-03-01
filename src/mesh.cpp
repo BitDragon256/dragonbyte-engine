@@ -131,7 +131,7 @@ namespace dragonbyte_engine
 		std::vector<tinyobj::material_t> materials;
 		std::string warnings, errors;
 
-		std::cout << "Loading obj " << a_file << '\n';
+		//std::cout << "Loading obj " << a_file << '\n';
 		auto result = tinyobj::LoadObj(&attrib, &shapes, &materials, &warnings, &errors, a_file.c_str());
 		if (!result)
 		{

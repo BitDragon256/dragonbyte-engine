@@ -49,7 +49,7 @@ namespace dragonbyte_engine
                 bufferInfo.buffer = a_buffers[i];
                 bufferInfo.offset = 0;
                 //bufferInfo.range = sizeof(UniformBufferObject);
-                bufferInfo.range = a_elementSize;
+                bufferInfo.range = VK_WHOLE_SIZE;
 
                 descriptorWrites.push_back({  });
                 descriptorWrites[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;

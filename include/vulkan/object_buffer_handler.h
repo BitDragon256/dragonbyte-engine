@@ -7,7 +7,7 @@
 #include "buffer.h"
 #include "object_data.h"
 
-#define OBJECT_BUFFER_HANDLER_DEFAULT_SIZE 128
+#define OBJECT_BUFFER_HANDLER_DEFAULT_SIZE 26000
 #define OBJECT_BUFFER_HANDLER_SIZE_STEP 64
 
 namespace dragonbyte_engine
