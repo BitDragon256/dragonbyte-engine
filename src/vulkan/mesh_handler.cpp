@@ -4,6 +4,8 @@
 
 #include "vulkan/object_info.h"
 #include "vulkan/command_buffer.h"
+#include "vulkan/index_buffer.h"
+#include "vulkan/vertex_buffer.h"
 
 #include "mesh.h"
 
@@ -24,7 +26,8 @@ namespace dragonbyte_engine
 					static_cast<uint32_t>(oi.pIndexBuffer->m_bufferEnd),
 					static_cast<uint32_t>(a_rMesh.indices().size()),
 					m_totalInstances,
-					a_instanceCount
+					a_instanceCount,
+					static_cast<uint32_t>(oi.pVertexBuffer->m_bufferEnd)
 				}
 			);
 
@@ -41,8 +44,8 @@ namespace dragonbyte_engine
 					m_bufferData[i].indexCount,
 					m_bufferData[i].instanceCount,
 					m_bufferData[i].indexStart,
-					0,
-					m_bufferData[i].instanceStart
+					m_bufferData[i].vertexStart,
+					0//m_bufferData[i].instanceStart
 				);
 			}
 		}

@@ -38,8 +38,6 @@ namespace dragonbyte_engine
 	void InputEngine::cursor_position_callback(double a_xpos, double a_ypos)
 	{
 		m_mousePos = { a_xpos, a_ypos };
-
-		std::cout << a_xpos << " " << a_ypos << '\n';
 	}
 	void InputEngine::s_key_callback_wrapper(GLFWwindow* a_pWindow, int a_key, int a_scancode, int a_action, int a_mods)
 	{

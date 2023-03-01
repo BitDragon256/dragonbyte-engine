@@ -14,13 +14,14 @@ namespace dragonbyte_engine
 
 		struct MeshBufferData
 		{
-			MeshBufferData(uint32_t indexStart, uint32_t indexCount, uint32_t instanceStart, uint32_t instanceCount) :
-				indexStart{ indexStart }, indexCount{ indexCount }, instanceStart{ instanceStart }, instanceCount{ instanceCount } {}
+			MeshBufferData(uint32_t indexStart, uint32_t indexCount, uint32_t instanceStart, uint32_t instanceCount, uint32_t vertexStart) :
+				indexStart{ indexStart }, indexCount{ indexCount }, instanceStart{ instanceStart }, instanceCount{ instanceCount }, vertexStart{ vertexStart } {}
 
 			uint32_t indexStart;
 			uint32_t indexCount;
 			uint32_t instanceStart;
 			uint32_t instanceCount;
+			uint32_t vertexStart;
 		};
 
 		class MeshHandler

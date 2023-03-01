@@ -43,10 +43,10 @@ namespace dragonbyte_engine
             static const std::vector<Vertex> kTest2SquareVertices;
             static const std::vector<Vertex> kTestCubeVertices;
 
+            size_t m_bufferEnd;
+
         private:
 
-            size_t m_bufferEnd;
-        
             std::weak_ptr<LogicalDevice> m_pLogicalDevice;
         
         };
