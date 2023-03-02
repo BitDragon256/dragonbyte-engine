@@ -17,6 +17,8 @@ namespace dragonbyte_engine
 		GameObject& add_object(std::string name);
 		GameObject& add_object(GameObject object);
 
+		void load_from_file(std::string file);
+
 	private:
 		TransformNode m_root;
 	};

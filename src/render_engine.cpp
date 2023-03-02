@@ -435,37 +435,40 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::update_object_buffer_handler(uint32_t a_currentImage)
 	{
-		std::vector<Transform*> transforms;
-		OBJECT_ENGINE.get_transforms(transforms);
-		std::vector<vulkan::ObjectData> data = {};
-		data.resize(transforms.size());
+		std::vector<Mesh*> meshes;
+		OBJECT_ENGINE.get_meshes(meshes);
 
-		for (size_t i = 0; i < transforms.size(); i++)
+		std::vector<vulkan::ObjectData> data = {};
+		data.resize(meshes.size());
+
+		for (size_t i = 0; i < meshes.size(); i++)
 		{
 			data[i].model = glm::identity<glm::mat4>();
+
+			Transform transform = meshes[i]->m_pGameObject->m_transform;
 
 			// translation
 			data[i].model = glm::translate(
 				data[i].model,
-				transforms[i]->m_position.to_glm()
+				transform.m_position.to_glm()
 			);
 			// rotation
 			// x axis
 			data[i].model = glm::rotate(
 				data[i].model,
-				glm::radians(static_cast<float>(transforms[i]->m_rotation.x)),
+				glm::radians(static_cast<float>(transform.m_rotation.x)),
 				{1.f, 0.f, 0.f}
 			);
 			// y axis
 			data[i].model = glm::rotate(
 				data[i].model,
-				glm::radians(static_cast<float>(transforms[i]->m_rotation.y)),
+				glm::radians(static_cast<float>(transform.m_rotation.y)),
 				{0.f, 1.f, 0.f}
 			);
 			// z axis
 			data[i].model = glm::rotate(
 				data[i].model,
-				glm::radians(static_cast<float>(transforms[i]->m_rotation.z)),
+				glm::radians(static_cast<float>(transform.m_rotation.z)),
 				{0.f, 0.f, 1.f}
 			);
 			
