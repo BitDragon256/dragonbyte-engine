@@ -23,7 +23,7 @@ namespace dragonbyte_engine
 		uint32_t windowHeight;
 		uint32_t windowWidth;
 
-		const char* applicationName; 
+		const char* applicationName;
 		const char* engineName;
 
 		RenderType renderType;
@@ -52,11 +52,11 @@ namespace dragonbyte_engine
 		
 		bool should_close_window();
 
-		void set_static_meshes(std::vector<Mesh*> meshes);
 		void set_camera(Camera* camera);
 		void cam_free_move(bool move);
 
-		void add_mesh(Mesh& rMesh);
+		void add_mesh(Mesh& pMesh);
+		void remove_mesh(Mesh& pMesh);
 		void fill_default_meshes();
 
 	private:

@@ -32,13 +32,14 @@ namespace dragonbyte_engine
 			~MeshHandler();
 
 			void add_mesh(Mesh& mesh, uint32_t instanceCount);
+			void remove_mesh(Mesh& mesh, uint32_t instanceCount);
 			void draw_all_meshes();
 
 		private:
 
 			uint32_t m_totalInstances;
 
-			std::vector<Mesh> m_meshes;
+			std::vector<Mesh*> m_meshes;
 			std::vector<MeshBufferData> m_bufferData;
 
 			void insert_new_mesh(Mesh& mesh, uint32_t instanceCount);

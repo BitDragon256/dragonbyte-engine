@@ -129,30 +129,14 @@ namespace dragonbyte_engine
 		if (!m_config.renderGui)
 			return;
 	}
-
-	void RenderEngine::set_static_meshes(std::vector<Mesh*> a_meshes)
-	{
-		//for (Mesh& mesh : a_meshes)
-		for (size_t i = 0; i < a_meshes.size(); i++)
-		{
-			Mesh mesh = *a_meshes[i];
-			vulkan::oi.pVertexBuffer->m_vertices.insert(
-				vulkan::oi.pVertexBuffer->m_vertices.end(),
-				mesh.vertices().begin(),
-				mesh.vertices().end()
-			);
-			vulkan::oi.pIndexBuffer->m_indices.insert(
-				vulkan::oi.pIndexBuffer->m_indices.end(),
-				mesh.indices().begin(),
-				mesh.indices().end()
-			);
-		}
-		vulkan::oi.pVertexBuffer->reload();
-		vulkan::oi.pIndexBuffer->reload();
-	}
+	
 	void RenderEngine::add_mesh(Mesh& a_rMesh)
 	{
 		vulkan::oi.pMeshHandler->add_mesh(a_rMesh, 1);
+	}
+	void RenderEngine::remove_mesh(Mesh& a_rMesh)
+	{
+		vulkan::oi.pMeshHandler->remove_mesh(a_rMesh, 1);
 	}
 
 	void RenderEngine::setup_vulkan()

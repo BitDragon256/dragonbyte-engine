@@ -65,7 +65,6 @@ namespace dragonbyte_engine
             add_component<Mesh>();
 
         get_mesh() = a_mesh;
-        RENDER_ENGINE.add_mesh(get_mesh());
     }
     void GameObject::load_mesh(std::string a_file)
     {

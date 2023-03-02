@@ -43,6 +43,8 @@ namespace dragonbyte_engine
 
 		void change_vertex(size_t index, vulkan::Vertex vertex);
 
+		void bind_to_handler();
+
 		Mesh& operator=(Mesh& other);
 		Mesh& operator=(const Mesh& other);
 		bool operator==(const Mesh& other);
@@ -58,6 +60,8 @@ namespace dragonbyte_engine
 
 		std::vector<vulkan::Index> m_indices;
 		std::vector<vulkan::Vertex> m_vertices;
+
+		bool m_bound;
 
 		void change_vertices();
 		void change_indices();

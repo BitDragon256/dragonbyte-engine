@@ -20,9 +20,9 @@ namespace dragonbyte_engine
 
 		void MeshHandler::add_mesh(Mesh& a_rMesh, uint32_t a_instanceCount)
 		{
-			for (Mesh& mesh : m_meshes)
+			for (auto mesh : m_meshes)
 			{
-				if (mesh == a_rMesh)
+				if (*mesh == a_rMesh)
 				{
 					insert_existing_mesh(&mesh - &m_meshes[0], a_instanceCount);
 					return;
@@ -30,13 +30,33 @@ namespace dragonbyte_engine
 			}
 			insert_new_mesh(a_rMesh, a_instanceCount);
 		}
+		void MeshHandler::remove_mesh(Mesh& a_rMesh, uint32_t a_instanceCount)
+		{
+			for (auto it = m_meshes.begin(); it != m_meshes.end(); it++)
+			{
+				if (**it == a_rMesh)
+				{
+					size_t index = std::distance(m_meshes.begin(), it);
+					if (m_bufferData[index].instanceCount > 1)
+					{
+						m_bufferData[index].instanceCount--;
+					}
+					else
+					{
+						m_bufferData.erase(m_bufferData.begin() + index);
+						m_meshes.erase(it);
+					}
+					break;
+				}
+			}
+		}
 		void MeshHandler::insert_existing_mesh(size_t a_meshIndex, uint32_t a_instanceCount)
 		{
 			m_bufferData[a_meshIndex].instanceCount += a_instanceCount;
 		}
 		void MeshHandler::insert_new_mesh(Mesh& a_rMesh, uint32_t a_instanceCount)
 		{
-			m_meshes.push_back(a_rMesh);
+			m_meshes.push_back(&a_rMesh);
 			m_bufferData.push_back(
 				{
 					static_cast<uint32_t>(oi.pIndexBuffer->m_bufferEnd),

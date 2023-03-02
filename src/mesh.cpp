@@ -4,13 +4,28 @@
 #include <time.h> 
 
 #include <iostream>
-#include<stdexcept>
+#include <stdexcept>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 
+#include "overseer.h"
+
 namespace dragonbyte_engine
 {
+
+	Mesh::Mesh()
+	{
+		m_vertices = {  };
+		m_indices = {  };
+
+		m_bound = false;
+	}
+	Mesh::~Mesh()
+	{
+		if (m_bound)
+			RENDER_ENGINE.remove_mesh(*this);
+	}
 
 	const std::vector<vulkan::Vertex>& Mesh::vertices() const
 	{
@@ -27,16 +42,6 @@ namespace dragonbyte_engine
 	std::vector<vulkan::Index>& Mesh::indices()
 	{
 		return m_indices;
-	}
-
-	Mesh::Mesh()
-	{
-		m_vertices = {  };
-		m_indices = {  };
-	}
-	Mesh::~Mesh()
-	{
-		
 	}
 
 	void Mesh::set_mesh(const std::vector<vulkan::Vertex>& a_krVertices, const std::vector<vulkan::Index>& a_krIndices)
@@ -88,6 +93,11 @@ namespace dragonbyte_engine
 		}
 		vertices().at(a_index) = a_vertex;
 		change_vertices();
+	}
+	void Mesh::bind_to_handler()
+	{
+		RENDER_ENGINE.add_mesh(*this);
+		m_bound = true;
 	}
 
 	void Mesh::change_vertices()
