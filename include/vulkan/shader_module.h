@@ -49,15 +49,18 @@ namespace dragonbyte_engine
 
 		public:
 
+			ShaderModule();
 			ShaderModule(std::string a_shaderFile);
 			~ShaderModule();
 
 			VkShaderModule m_shaderModule;
 
+			void create(std::string a_shaderFile);
+
 		private:
 
 			std::vector<char> m_shaderCode;
-			const LogicalDevice& m_krLogicalDevice;
+			bool m_created;
 
 		};
 

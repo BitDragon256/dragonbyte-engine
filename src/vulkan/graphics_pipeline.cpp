@@ -10,6 +10,7 @@
 #include "vulkan/swapchain.h"
 #include "vulkan/vertex.h"
 #include "vulkan/push_constant.h"
+#include "compute_shader.h"
 
 namespace dragonbyte_engine
 {
@@ -42,15 +43,6 @@ namespace dragonbyte_engine
 			fragShaderStageInfo.module = m_pFragShaderModule->m_shaderModule;
 			fragShaderStageInfo.pName = "main";
 			
-			
-			// for each compute shader
-			auto pComputeShader = new ShaderModule("compute.spv");
-			VkPipelineShaderStageCreateInfo computeShaderStageInfo = {};
-			computeShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-			computeShaderStageInfo.stage = VK_SHADER_STAGE_COMPUTE_BIT;
-			computeShaderStageInfo.module = pComputeShader->m_shaderModule;
-			computeShaderStageInfo.pName = "main";
-
 			// combine both
 			VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
 

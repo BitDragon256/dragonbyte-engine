@@ -32,9 +32,22 @@ namespace dragonbyte_engine
 
 		} // namespace default_shaders
 
+		ShaderModule::ShaderModule() : m_created{ false } {}
 		ShaderModule::ShaderModule(std::string a_shaderFile) :
-			m_krLogicalDevice{ *oi.pLogicalDevice }
+			m_created{ false }
 		{
+			create(a_shaderFile);
+		}
+		ShaderModule::~ShaderModule()
+		{
+			vkDestroyShaderModule(oi.pLogicalDevice->m_device, m_shaderModule, nullptr);
+		}
+
+		void ShaderModule::create(std::string a_shaderFile)
+		{
+			if (m_created)
+				return;
+
 			// get the compiled shader
 			m_shaderCode = FileEngine::read_file(a_shaderFile);
 
@@ -49,10 +62,8 @@ namespace dragonbyte_engine
 			{
 				throw std::runtime_error("Failed to create shader module");
 			}
-		}
-		ShaderModule::~ShaderModule()
-		{
-			vkDestroyShaderModule(m_krLogicalDevice.m_device, m_shaderModule, nullptr);
+
+			m_created = true;
 		}
 
 	} // namespace vulkan
