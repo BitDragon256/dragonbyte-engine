@@ -30,8 +30,7 @@ namespace dragonbyte_engine
 
 		void UniformBufferHandler::push_data(uint32_t a_frame, UniformBufferObject a_ubo)
 		{
-			std::vector<UniformBufferObject> v = { a_ubo };
-			m_buffers[a_frame].copy_data(v);
+			m_buffers[a_frame].copy_data(&a_ubo);
 		}
 
 	} // namespace vulkan

@@ -23,7 +23,7 @@ namespace dragonbyte_engine
 			ObjectBufferHandler();
 			~ObjectBufferHandler();
 
-			std::vector<Buffer<ObjectData>> m_buffers;
+			std::vector<Buffer> m_buffers;
 
 			std::vector<ObjectData> m_data;
 

@@ -56,7 +56,7 @@ namespace dragonbyte_engine
 
         void VertexBuffer::reload()
         {
-            m_stagingBuffer.copy_data(m_vertices);
+            m_stagingBuffer.copy_data(m_vertices.data());
             m_buffer.copy_from(m_stagingBuffer);
         }
 

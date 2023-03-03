@@ -24,8 +24,8 @@ namespace dragonbyte_engine
 
             std::vector<Index> m_indices;
 
-            Buffer<Index> m_buffer;
-            Buffer<Index> m_stagingBuffer;
+            Buffer m_buffer;
+            Buffer m_stagingBuffer;
 
             void bind();
             void reload();

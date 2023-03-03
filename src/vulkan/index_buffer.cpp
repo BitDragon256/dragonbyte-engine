@@ -44,7 +44,7 @@ namespace dragonbyte_engine
         }
         void IndexBuffer::reload()
         {
-            m_stagingBuffer.copy_data(m_indices);
+            m_stagingBuffer.copy_data(m_indices.data());
             m_buffer.copy_from(m_stagingBuffer);
         }
         void IndexBuffer::insert(std::vector<Index> a_indices)

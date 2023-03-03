@@ -38,7 +38,7 @@ namespace dragonbyte_engine
 				std::cout << '\n';
 			}*/
 			
-			m_buffers[a_frame].copy_data(m_mvps);
+			m_buffers[a_frame].copy_data(m_mvps.data());
 		}
 		std::vector<VkBuffer> MVPBufferHandler::get_buffers()
 		{

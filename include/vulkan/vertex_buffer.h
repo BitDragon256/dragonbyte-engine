@@ -28,8 +28,8 @@ namespace dragonbyte_engine
         
             std::vector<Vertex> m_vertices;
             
-            Buffer<Vertex> m_buffer;
-            Buffer<Vertex> m_stagingBuffer;
+            Buffer m_buffer;
+            Buffer m_stagingBuffer;
             
             void bind();
             void reload();

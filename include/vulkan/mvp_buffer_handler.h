@@ -26,7 +26,7 @@ namespace dragonbyte_engine
 			MVPBufferHandler();
 			~MVPBufferHandler();
 
-			std::vector<Buffer<MVP>> m_buffers;
+			std::vector<Buffer> m_buffers;
 			std::vector<void*> m_mappedBuffers;
 
 			std::vector<MVP> m_mvps;

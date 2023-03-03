@@ -17,7 +17,7 @@ namespace dragonbyte_engine
 			UniformBufferHandler();
 			~UniformBufferHandler();
 
-			std::vector<Buffer<UniformBufferObject>> m_buffers;
+			std::vector<Buffer> m_buffers;
 			std::vector<void*> m_mappedBuffers;
 
 			void push_data(uint32_t frame, UniformBufferObject ubo);

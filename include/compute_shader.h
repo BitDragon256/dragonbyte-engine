@@ -11,7 +11,8 @@
 
 namespace dragonbyte_engine
 {
-    class DescriptorSet;
+    class Buffer;
+    class Image;
 
     class ComputeShader
     {
@@ -27,7 +28,8 @@ namespace dragonbyte_engine
         vulkan::ShaderModule m_shaderModule;
 
         void create();
-        void add_descriptor_set(DescriptorSet set);
+        void add_buffer(Buffer buffer);
+        void add_image(Image image);
 
     private:
         void create_shader_module();
