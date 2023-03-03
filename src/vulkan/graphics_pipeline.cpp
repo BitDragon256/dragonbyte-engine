@@ -28,7 +28,6 @@ namespace dragonbyte_engine
 				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag)
 			);
 			
-			
 
 			// create infos for later staging the shader modules
 			VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};
@@ -42,6 +41,15 @@ namespace dragonbyte_engine
 			fragShaderStageInfo.stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 			fragShaderStageInfo.module = m_pFragShaderModule->m_shaderModule;
 			fragShaderStageInfo.pName = "main";
+			
+			
+			// for each compute shader
+			auto pComputeShader = new ShaderModule("compute.spv");
+			VkPipelineShaderStageCreateInfo computeShaderStageInfo = {};
+			computeShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+			computeShaderStageInfo.stage = VK_SHADER_STAGE_COMPUTE_BIT;
+			computeShaderStageInfo.module = pComputeShader->m_shaderModule;
+			computeShaderStageInfo.pName = "main";
 
 			// combine both
 			VkPipelineShaderStageCreateInfo shaderStages[] = { vertShaderStageInfo, fragShaderStageInfo };
