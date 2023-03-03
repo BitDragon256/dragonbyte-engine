@@ -42,35 +42,33 @@ namespace dragonbyte_engine
             if (res != VK_SUCCESS)
                 throw std::runtime_error("Failed to allocate Descriptor Sets");
 
-            std::vector<VkWriteDescriptorSet> descriptorWrites{  };
             for (size_t i = 0; i < imageCount; i++) {
                 VkDescriptorBufferInfo bufferInfo = {};
-                //bufferInfo.buffer = oi.pUniformBufferHandler->m_buffers[i].m_buffer;
+                VkWriteDescriptorSet descriptorWrite;
                 bufferInfo.buffer = a_buffers[i];
                 bufferInfo.offset = 0;
-                //bufferInfo.range = sizeof(UniformBufferObject);
                 bufferInfo.range = VK_WHOLE_SIZE;
 
-                descriptorWrites.push_back({  });
-                descriptorWrites[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-                descriptorWrites[i].dstSet = m_descriptorSets[i];
-                descriptorWrites[i].dstBinding = 0;
-                descriptorWrites[i].dstArrayElement = 0;
+                descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+                descriptorWrite.dstSet = m_descriptorSets[i];
+                descriptorWrite.dstBinding = 0;
+                descriptorWrite.dstArrayElement = 0;
 
-                //descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-                descriptorWrites[i].descriptorType = m_descriptorType;
-                descriptorWrites[i].descriptorCount = 1;
+                descriptorWrite.descriptorType = m_descriptorTypes[0];
+                descriptorWrite.descriptorCount = 1;
 
-                descriptorWrites[i].pBufferInfo = &bufferInfo;
-                descriptorWrites[i].pImageInfo = nullptr; // Optional
-                descriptorWrites[i].pTexelBufferView = nullptr; // Optional
+                descriptorWrite.pBufferInfo = &bufferInfo;
+                descriptorWrite.pImageInfo = nullptr; // Optional
+                descriptorWrite.pTexelBufferView = nullptr; // Optional
 
+                vkUpdateDescriptorSets(oi.pLogicalDevice->m_device, 1, &descriptorWrite, 0, nullptr);
             }
-            vkUpdateDescriptorSets(oi.pLogicalDevice->m_device, static_cast<uint32_t>(descriptorWrites.size()), descriptorWrites.data(), 0, nullptr);
         }
         void DescriptorSetHandler::create_layout(VkDescriptorType a_descriptorType, VkShaderStageFlags a_stageFlags)
         {
-            m_descriptorType = a_descriptorType;
+            if (m_descriptorTypes.size() == 0)
+                m_descriptorTypes.push_back({  });
+            m_descriptorTypes[0] = a_descriptorType;
 
             VkDescriptorSetLayoutBinding layoutBinding = {};
             layoutBinding.binding = 0;
@@ -103,7 +101,20 @@ namespace dragonbyte_engine
                 VK_PIPELINE_BIND_POINT_GRAPHICS,
                 vulkan::oi.pGraphicsPipeline->m_pipelineLayout,
                 0,
-                1,
+                m_descriptorSets.size(),
+                &m_descriptorSets[a_frame],
+                0,
+                nullptr
+            );
+        }
+        void DescriptorSetHandler::bind(uint32_t a_frame, VkPipelineLayout a_pipelineLayout, VkPipelineBindPoint a_bindPoint)
+        {
+            vkCmdBindDescriptorSets(
+                vulkan::oi.pCommandBuffer->m_commandBuffer,
+                VK_PIPELINE_BIND_POINT_GRAPHICS,
+                a_pipelineLayout,
+                0,
+                m_descriptorSets.size(),
                 &m_descriptorSets[a_frame],
                 0,
                 nullptr

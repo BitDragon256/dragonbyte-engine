@@ -31,14 +31,18 @@ namespace dragonbyte_engine
 
             void create_sets(std::vector<VkBuffer> buffers, VkDeviceSize elementSize);
             void create_layout(VkDescriptorType descriptorType, VkShaderStageFlags stageFlags);
+
+            void create_sets(std::vector<std::vector<VkBuffer>> buffers, std::vector<VkDeviceSize> bufferRanges);
+            void create_layout(std::vector<VkDescriptorType> descriptorTypes, std::vector<VkShaderStageFlags> stagesFlags);
+            
             void destruct();
 
-            void bind(uint32_t frame);
-            
+            void bind(uint32_t frame); // binding for the graphics pipeline
+            void bind(uint32_t frame, VkPipelineLayout pipelineLayout, VkPipelineBindPoint a_bindPoint); // bind for all-purpose pipelines
             
         private:
             
-            VkDescriptorType m_descriptorType;
+            std::vector<VkDescriptorType> m_descriptorTypes;
 
         };
         
