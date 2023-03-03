@@ -27,6 +27,8 @@ namespace dragonbyte_engine
 			m_pFragShaderModule = new ShaderModule(
 				default_shaders::get_shader_filename(default_shaders::eShader::Simple, default_shaders::eShaderType::Frag)
 			);
+			
+			
 
 			// create infos for later staging the shader modules
 			VkPipelineShaderStageCreateInfo vertShaderStageInfo = {};

@@ -57,6 +57,7 @@ namespace dragonbyte_engine
     Mesh& GameObject::get_mesh()
     {
         assert(has_mesh() && "GameObject does not posess a mesh");
+        assert(m_components.size() > m_meshIndex && "Mesh Component does not exist or is at wrong position");
         return *dynamic_cast<Mesh*>(m_components[m_meshIndex].get());
     }
     void GameObject::set_mesh(const Mesh& a_mesh)
