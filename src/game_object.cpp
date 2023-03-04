@@ -1,6 +1,7 @@
 #include "game_object.h"
 
 #include <cassert>
+#include <utility>
 
 #include "component.h"
 #include "mesh.h"
@@ -38,11 +39,19 @@ namespace dragonbyte_engine
 
         m_name = a_krOther.m_name;
         m_transform = a_krOther.m_transform;
-        //m_components = a_krOther.m_components;
         m_boundingBox = a_krOther.m_boundingBox;
 
         m_rigidbodyIndex = a_krOther.m_rigidbodyIndex;
         m_meshIndex = a_krOther.m_meshIndex;
+
+        // transferring components
+        //m_components = std::move(a_krOther.m_components);
+        m_components = std::vector<std::unique_ptr<Component>>();
+        for (size_t i = 0; i < a_krOther.m_components.size(); i++)
+        {
+            m_components.emplace_back(a_krOther.m_components[i]->clone());
+            m_components[i]->m_pGameObject = a_krOther.m_components[i]->m_pGameObject;
+        }
 
         return *this;
     }
@@ -66,6 +75,7 @@ namespace dragonbyte_engine
             add_component<Mesh>();
 
         get_mesh() = a_mesh;
+        get_mesh().bind_to_handler();
     }
     void GameObject::load_mesh(std::string a_file)
     {

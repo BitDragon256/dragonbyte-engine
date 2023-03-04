@@ -10,7 +10,11 @@ namespace dragonbyte_engine
     {
     public:
         Camera();
+        Camera(const Camera& copy);
         Camera(float fov, float nearPlane, float farPlane);
+        ~Camera();
+
+        Component* clone() const override;
         
         glm::mat4 get_matrix();
         glm::mat4 get_view_matrix();

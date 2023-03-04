@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 #include <vulkan/vulkan.h>
 
 namespace dragonbyte_engine
@@ -11,8 +13,10 @@ namespace dragonbyte_engine
 		class DescriptorPool
 		{
 		public:
-			DescriptorPool(VkDescriptorType descriptorType);
+			DescriptorPool();
 			~DescriptorPool();
+
+			void create(std::vector<VkDescriptorType> descriptorTypes, std::vector<uint32_t> descriptorCounts);
 
 			VkDescriptorPool m_descriptorPool;
 		};

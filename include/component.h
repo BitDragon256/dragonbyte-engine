@@ -11,10 +11,12 @@ namespace dragonbyte_engine
 
 		Component()
 		{}
+		virtual ~Component() {};
 
 		GameObject* m_pGameObject;
 		
 		virtual void tick() {};
+		virtual Component* clone() const = 0;
 
 	private:
 

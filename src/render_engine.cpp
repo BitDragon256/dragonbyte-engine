@@ -299,7 +299,8 @@ namespace dragonbyte_engine
 	{
 		std::cout << "Create Descriptor Pool" << '\n';
 
-		vulkan::oi.pDescriptorPool = std::make_shared<vulkan::DescriptorPool>(VK_DESCRIPTOR_TYPE_STORAGE_BUFFER);
+		vulkan::oi.pDescriptorPool = std::make_shared<vulkan::DescriptorPool>();
+		vulkan::oi.pDescriptorPool->create({ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER }, { static_cast<uint32_t>(vulkan::oi.pSwapChain->m_images.size() * 3) });
 	}
 	void RenderEngine::create_descriptor_set_layout()
 	{

@@ -21,10 +21,23 @@ namespace dragonbyte_engine
 
 		m_bound = false;
 	}
+	Mesh::Mesh(const Mesh& a_copy)
+	{
+		*this = a_copy;
+
+		if (a_copy.m_bound)
+		{
+			bind_to_handler();
+		}
+	}
 	Mesh::~Mesh()
 	{
 		if (m_bound)
 			RENDER_ENGINE.remove_mesh(*this);
+	}
+	Component* Mesh::clone() const
+	{
+		return new Mesh{ *this };
 	}
 
 	const std::vector<vulkan::Vertex>& Mesh::vertices() const

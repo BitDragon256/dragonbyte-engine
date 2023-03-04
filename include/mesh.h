@@ -23,7 +23,10 @@ namespace dragonbyte_engine
 		*/
 
 		Mesh();
+		Mesh(const Mesh& copy);
 		~Mesh();
+
+		Component* clone() const override;
 
 		const std::vector<vulkan::Vertex>& vertices() const;
 		const std::vector<vulkan::Index>& indices() const;

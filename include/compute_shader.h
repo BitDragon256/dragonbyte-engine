@@ -24,9 +24,6 @@ namespace dragonbyte_engine
         
         static std::vector<ComputeShader> s_allShaders;
         std::string m_file;
-
-        vulkan::ShaderModule m_shaderModule;
-
         void create();
         void add_buffer(Buffer buffer);
         void add_image(Image image);
@@ -36,6 +33,8 @@ namespace dragonbyte_engine
         void create_pipeline();
         VkPipelineLayout m_computePipelineLayout;
         VkPipeline m_computePipeline;
+
+        vulkan::ShaderModule m_shaderModule;
     };
     
 } // namespace dragonbyte_engine

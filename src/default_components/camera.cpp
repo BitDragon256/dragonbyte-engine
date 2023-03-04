@@ -21,9 +21,18 @@ namespace dragonbyte_engine
     Camera::Camera() :
         m_fov{ 90.f }, m_nearPlane{ 0.01f }, m_farPlane{ 20.f }
     {}
+    Camera::Camera(const Camera& a_krCopy) :
+        m_fov{ a_krCopy.m_fov }, m_nearPlane{ a_krCopy.m_nearPlane }, m_farPlane{a_krCopy.m_farPlane}, m_freeMove{a_krCopy.m_freeMove}
+    {}
     Camera::Camera(float a_fov, float a_nearPlane, float a_farPlane) :
         m_fov{ a_fov }, m_nearPlane{ a_nearPlane }, m_farPlane{ a_farPlane }
     {}
+    Camera::~Camera() {}
+
+    Component* Camera::clone() const
+    {
+        return new Camera{ *this };
+    }
     
     glm::mat4 Camera::get_matrix()
     {
