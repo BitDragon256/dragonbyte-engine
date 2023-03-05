@@ -362,7 +362,7 @@ namespace dragonbyte_engine
 		time = std::chrono::high_resolution_clock::now();
 		auto dTime = std::chrono::duration<float, std::chrono::milliseconds::period>(time - startTime).count();
 		startTime = time;
-		std::cout << dTime << " | ";
+		std::cout << std::setw(6) << dTime << " | ";
 	}
 	
 	void RenderEngine::draw_frame()
@@ -396,7 +396,7 @@ namespace dragonbyte_engine
 
 		time_point(startTime, time);
 
-		std::cout << '\n';
+		std::cout << 1.f / GAME_CLOCK.m_deltaTime << " |\n";
 	}
 	void RenderEngine::update_uniform_buffer_handler(uint32_t a_currentImage)
 	{
@@ -442,17 +442,13 @@ namespace dragonbyte_engine
 	}
 	void RenderEngine::update_object_buffer_handler(uint32_t a_currentImage)
 	{
-		std::vector<Mesh*> meshes;
-		OBJECT_ENGINE.get_meshes(meshes);
+		std::vector<vulkan::ObjectData> data{ OBJECT_ENGINE.m_gameObjects.size() };
 
-		std::vector<vulkan::ObjectData> data = {};
-		data.resize(meshes.size());
-
-		for (size_t i = 0; i < meshes.size(); i++)
+		for (size_t i = 0; i < OBJECT_ENGINE.m_gameObjects.size(); i++)
 		{
 			data[i].model = glm::identity<glm::mat4>();
 
-			Transform transform = meshes[i]->m_pGameObject->m_transform;
+			Transform transform = OBJECT_ENGINE.m_gameObjects[i].m_transform;
 
 			// translation
 			data[i].model = glm::translate(
@@ -461,6 +457,8 @@ namespace dragonbyte_engine
 			);
 			// rotation
 			// x axis
+
+			/*
 			data[i].model = glm::rotate(
 				data[i].model,
 				glm::radians(static_cast<float>(transform.m_rotation.x)),
@@ -478,7 +476,8 @@ namespace dragonbyte_engine
 				glm::radians(static_cast<float>(transform.m_rotation.z)),
 				{0.f, 0.f, 1.f}
 			);
-			
+			*/
+
 		}
 
 		m_objectBufferHandler.set_data(data);

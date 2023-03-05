@@ -133,12 +133,16 @@ namespace dragonbyte_engine
 	{
 		set_vertices(a_rOther.vertices());
 		set_indices(a_rOther.indices());
+		if (a_rOther.m_bound)
+			bind_to_handler();
 		return *this;
 	}
 	Mesh& Mesh::operator=(const Mesh& a_krOther)
 	{
 		set_vertices(a_krOther.vertices());
 		set_indices(a_krOther.indices());
+		if (a_krOther.m_bound)
+			bind_to_handler();
 		return *this;
 	}
 	bool Mesh::operator==(const Mesh& a_krOther)

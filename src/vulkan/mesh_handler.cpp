@@ -20,13 +20,15 @@ namespace dragonbyte_engine
 
 		void MeshHandler::add_mesh(Mesh& a_rMesh, uint32_t a_instanceCount)
 		{
+			size_t i{ 0 };
 			for (auto mesh : m_meshes)
 			{
 				if (*mesh == a_rMesh)
 				{
-					insert_existing_mesh(&mesh - &m_meshes[0], a_instanceCount);
+					insert_existing_mesh(i, a_instanceCount);
 					return;
 				}
+				i++;
 			}
 			insert_new_mesh(a_rMesh, a_instanceCount);
 		}

@@ -60,7 +60,7 @@ namespace dragonbyte_engine
 		m_fileEngine.create();
 
 		// TODO initialize Object Engine
-		m_objectEngine.create();
+		m_objectEngine.create(a_config.maxGameObjects);
 
 		// initialize Physics Engine
 		m_physicsEngine.create();

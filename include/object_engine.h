@@ -17,7 +17,7 @@ namespace dragonbyte_engine
 	public:
 		ObjectEngine();
 
-		void create();
+		void create(uint32_t a_maxGameObjects);
 		void tick();
 
 		void fixed_tick();

@@ -12,9 +12,10 @@ namespace dragonbyte_engine
 		
 	}
 	
-	void ObjectEngine::create()
+	void ObjectEngine::create(uint32_t a_maxGameObjects)
 	{
 		m_gameObjects.resize(0);
+		m_gameObjects.reserve(a_maxGameObjects);
 		m_root = {};
 	}
 	void ObjectEngine::tick()
@@ -48,6 +49,8 @@ namespace dragonbyte_engine
 	}
 	GameObject& ObjectEngine::add_game_object(std::string name)
 	{
+		assert(m_gameObjects.capacity() > m_gameObjects.size() && "Max GameObject limit reached");
+
 		GameObject newObj{ };
 		newObj.m_name = name;
 		m_gameObjects.push_back(newObj);

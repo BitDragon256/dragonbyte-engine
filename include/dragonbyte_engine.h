@@ -26,6 +26,7 @@ namespace dragonbyte_engine
 
 		float targetFps;
 		bool useDefaultCamera;
+		uint32_t maxGameObjects;
 
 		WindowConfig window;
 		PhysicsConfig physics;

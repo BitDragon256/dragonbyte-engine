@@ -71,11 +71,11 @@ namespace dragonbyte_engine
     }
     void Camera::free_move()
     {
-        TRANSFORM.m_position += TRANSFORM.right() * INPUT.get_axis("Horizontal") * GAME_CLOCK.m_deltaTime * 3;
-        TRANSFORM.m_position += TRANSFORM.forward() * INPUT.get_axis("Vertical") * GAME_CLOCK.m_deltaTime * 3;
-        TRANSFORM.m_position += TRANSFORM.up() * INPUT.get_axis("FlyControl") * GAME_CLOCK.m_deltaTime * 3;
+        TRANSFORM.m_position += TRANSFORM.right()   * INPUT.get_axis("Horizontal")  * 3 * GAME_CLOCK.m_deltaTime;
+        TRANSFORM.m_position += TRANSFORM.forward() * INPUT.get_axis("Vertical")    * 3 * GAME_CLOCK.m_deltaTime;
+        TRANSFORM.m_position += TRANSFORM.up()      * INPUT.get_axis("FlyControl")  * 3 * GAME_CLOCK.m_deltaTime;
         
-        TRANSFORM.m_rotation.z += -INPUT.get_delta_mouse_pos().x * GAME_CLOCK.m_deltaTime;
+        TRANSFORM.m_rotation.z += -INPUT.get_delta_mouse_pos().x * 0.01;
         if (TRANSFORM.m_rotation.z >= 7)
             TRANSFORM.m_rotation.z -= 3.14159265f * 2.f;
         if (TRANSFORM.m_rotation.z <= 7)
@@ -85,7 +85,7 @@ namespace dragonbyte_engine
             static_cast<float>(
                   TRANSFORM.m_rotation.y
                 + INPUT.get_delta_mouse_pos().y
-                * GAME_CLOCK.m_deltaTime
+                * 0.01
             ),
             3.14159265f / 2), -3.14159265f / 2
         );
