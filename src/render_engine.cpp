@@ -167,8 +167,6 @@ namespace dragonbyte_engine
 
 			create_vertex_buffer();
 			create_index_buffer();
-			// create_uniform_buffer_handler();
-			// create_mvp_buffer_handler();
 			create_object_buffer_handler();
 			create_descriptor_pool();
 			create_descriptor_set_handler();
@@ -178,7 +176,6 @@ namespace dragonbyte_engine
 			create_sync_objects();
 
 			create_mesh_handler();
-			// fill_default_meshes();
 		}
 		catch (const std::exception& e)
 		{
@@ -300,7 +297,7 @@ namespace dragonbyte_engine
 		std::cout << "Create Descriptor Pool" << '\n';
 
 		vulkan::oi.pDescriptorPool = std::make_shared<vulkan::DescriptorPool>();
-		vulkan::oi.pDescriptorPool->create({ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER }, { static_cast<uint32_t>(vulkan::oi.pSwapChain->m_images.size() * 3) });
+		vulkan::oi.pDescriptorPool->create({ VK_DESCRIPTOR_TYPE_STORAGE_BUFFER }, { static_cast<uint32_t>(vulkan::oi.pSwapChain->m_images.size()) });
 	}
 	void RenderEngine::create_descriptor_set_layout()
 	{
@@ -359,22 +356,47 @@ namespace dragonbyte_engine
 
 		add_mesh(mesh);
 	}
+
+	void time_point(std::chrono::steady_clock::time_point& startTime, std::chrono::steady_clock::time_point& time)
+	{
+		time = std::chrono::high_resolution_clock::now();
+		auto dTime = std::chrono::duration<float, std::chrono::milliseconds::period>(time - startTime).count();
+		startTime = time;
+		std::cout << dTime << " | ";
+	}
 	
 	void RenderEngine::draw_frame()
 	{
+		auto startTime = std::chrono::high_resolution_clock::now();
+		auto time = startTime;
+		std::cout << "| ";
+		
 		vkWaitForFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence, VK_TRUE, UINT64_MAX);
 		vkResetFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence);
 	
+		time_point(startTime, time);
+
 		uint32_t imageIndex = vulkan::oi.pSwapChain->acquire_next_image();
 
-		// update_uniform_buffer_handler(imageIndex);
-		// update_storage_buffer_handler(imageIndex);
+		time_point(startTime, time);
+
 		update_object_buffer_handler(imageIndex);
-		
+
+		time_point(startTime, time);
+
 		record_command_buffer(imageIndex);
+
+		time_point(startTime, time);
+
 		submit_command_buffer();
+
+		time_point(startTime, time);
 		
 		present(imageIndex);
+
+		time_point(startTime, time);
+
+		std::cout << '\n';
 	}
 	void RenderEngine::update_uniform_buffer_handler(uint32_t a_currentImage)
 	{

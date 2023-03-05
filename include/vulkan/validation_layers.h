@@ -75,8 +75,20 @@ namespace dragonbyte_engine
                 else
                     return VK_FALSE;
 
-                std::cerr << "validation layer: " << pCallbackData->pMessage
-                          << "\033[0m" << std::endl;
+                std::string message{ pCallbackData->pMessage };
+                std::vector<std::string> splitMessage;
+                size_t posStart = 0, pos;
+                while ((pos = message.find('|', posStart)) != std::string::npos)
+                {
+                    splitMessage.push_back(message.substr(posStart, pos - posStart));
+                    posStart = pos + 1;
+                }
+                splitMessage.push_back(message.substr(posStart));
+
+                std::cerr << "validation layer:\n";
+                for (auto s : splitMessage)
+                    std::cerr << "   " << s << '\n';
+                std::cerr << "\033[0m" << std::endl;
 
                 return VK_FALSE;
             }

@@ -166,7 +166,7 @@ namespace dragonbyte_engine
                 VK_PIPELINE_BIND_POINT_GRAPHICS,
                 vulkan::oi.pGraphicsPipeline->m_pipelineLayout,
                 0,
-                static_cast<uint32_t>(m_descriptorSets.size()),
+                1,//static_cast<uint32_t>(m_descriptorSets.size()),
                 &m_descriptorSets[a_frame],
                 0,
                 nullptr
@@ -176,7 +176,7 @@ namespace dragonbyte_engine
         {
             vkCmdBindDescriptorSets(
                 vulkan::oi.pCommandBuffer->m_commandBuffer,
-                VK_PIPELINE_BIND_POINT_GRAPHICS,
+                a_bindPoint,
                 a_pipelineLayout,
                 0,
                 static_cast<uint32_t>(m_descriptorSets.size()),
