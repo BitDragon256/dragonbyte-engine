@@ -30,11 +30,12 @@ namespace dragonbyte_engine
 	}
 	void ObjectEngine::get_meshes(std::vector<Mesh*>& a_rMeshes)
 	{
-		a_rMeshes.resize(m_gameObjects.size());
+		a_rMeshes.reserve(m_gameObjects.size());
 		
 		for (size_t i = 0; i < m_gameObjects.size(); i++)
 		{
-			a_rMeshes[i] = &m_gameObjects[i].get_mesh();
+			if (m_gameObjects[i].has_mesh())
+				a_rMeshes.push_back(&m_gameObjects[i].get_mesh());
 		}
 	}
 	void ObjectEngine::get_transforms(std::vector<Transform*>& a_rTransforms)

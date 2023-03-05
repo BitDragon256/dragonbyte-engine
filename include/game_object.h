@@ -34,6 +34,7 @@ namespace dragonbyte_engine
         
         Rigidbody& get_rigidbody();
         Mesh& get_mesh();
+        bool has_mesh();
         void set_mesh(const Mesh& mesh);
         void load_mesh(std::string file);
         
@@ -72,7 +73,6 @@ namespace dragonbyte_engine
         void tick_mesh();
         void reset_component_indices();
         void check_component_indices(const std::type_info& krTypeId, size_t index);
-        bool has_mesh();
     
     };
     
