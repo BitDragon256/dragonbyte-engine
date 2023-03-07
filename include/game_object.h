@@ -30,13 +30,15 @@ namespace dragonbyte_engine
         Transform m_transform;
         std::vector<std::unique_ptr<Component>> m_components;
         
-        float m_boundingBox;
+        float m_boundingSphere;
         
         Rigidbody& get_rigidbody();
         Mesh& get_mesh();
         bool has_mesh();
         void set_mesh(const Mesh& mesh);
         void load_mesh(std::string file);
+        
+        bool has_rigidbody();
         
         void add_component(const Component& copy_component);
         template<class T> T& add_component()

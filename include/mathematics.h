@@ -96,7 +96,7 @@ namespace dragonbyte_engine
 
 		Vec3 to_euler()
 		{
-
+			return {};
 		}
 		void rotate(float angle, Vec3 up);
 		static Quaternion identity()

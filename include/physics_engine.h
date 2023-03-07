@@ -1,9 +1,11 @@
 #pragma once
 
-#include "component.h"
+#include <vector>
 
 namespace dragonbyte_engine
 {
+	class Rigidbody;
+
 	class PhysicsEngine
 	{
 	public:
@@ -12,10 +14,17 @@ namespace dragonbyte_engine
 
 		void create();
 		void tick();
+		
+		void add_rigidbody(Rigidbody& rRigidbody);
 
 	private:
 
-
+		std::vector<Rigidbody*> m_allRigidbodies;
+		
+		std::vector<Rigidbody*> m_intersectingVolumeRigidbodies;
+		void detect_collisions();
+		void broad_phase();
+		void narrow_phase();
 
 	};
 

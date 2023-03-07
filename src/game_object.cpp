@@ -7,6 +7,7 @@
 #include "mesh.h"
 #include "render_engine.h"
 #include "overseer.h"
+#include "default_components/rigidbody.h"
 
 namespace dragonbyte_engine
 {
@@ -60,6 +61,8 @@ namespace dragonbyte_engine
     {
         for (std::size_t i = 0; i < m_components.size(); i++)
         {
+            if (has_rigidbody() && i == m_rigidbodyIndex) // not update rigidbodies in default game tick
+                continue;
             m_components[i]->tick();
         }
     }
@@ -93,10 +96,18 @@ namespace dragonbyte_engine
         {
             m_meshIndex = a_index;
         }
+        else if (a_krTypeId == typeid(Rigidbody))
+        {
+            m_rigidbodyIndex = a_index;
+        }
     }
     bool GameObject::has_mesh()
     {
         return m_meshIndex != kNoComponent;
+    }
+    bool GameObject::has_rigidbody()
+    {
+        return m_rigidbodyIndex != kNoComponent;
     }
     
     

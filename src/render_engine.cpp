@@ -1,6 +1,7 @@
 #include "render_engine.h"
 
 #include <chrono>
+#include <iomanip>
 #include <iostream>
 #include <stdexcept>
 
@@ -357,9 +358,9 @@ namespace dragonbyte_engine
 		add_mesh(mesh);
 	}
 
-	void time_point(std::chrono::steady_clock::time_point& startTime, std::chrono::steady_clock::time_point& time)
+	void time_point(std::chrono::time_point<std::chrono::high_resolution_clock>& startTime)
 	{
-		time = std::chrono::high_resolution_clock::now();
+		auto time = std::chrono::high_resolution_clock::now();
 		auto dTime = std::chrono::duration<float, std::chrono::milliseconds::period>(time - startTime).count();
 		startTime = time;
 		std::cout << std::setw(6) << dTime << " | ";
@@ -368,33 +369,32 @@ namespace dragonbyte_engine
 	void RenderEngine::draw_frame()
 	{
 		auto startTime = std::chrono::high_resolution_clock::now();
-		auto time = startTime;
 		std::cout << "| ";
 		
 		vkWaitForFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence, VK_TRUE, UINT64_MAX);
 		vkResetFences(vulkan::oi.pLogicalDevice->m_device, 1, &vulkan::oi.pSyncHandler->m_inFlightFence);
 	
-		time_point(startTime, time);
+		time_point(startTime);
 
 		uint32_t imageIndex = vulkan::oi.pSwapChain->acquire_next_image();
 
-		time_point(startTime, time);
+		time_point(startTime);
 
 		update_object_buffer_handler(imageIndex);
 
-		time_point(startTime, time);
+		time_point(startTime);
 
 		record_command_buffer(imageIndex);
 
-		time_point(startTime, time);
+		time_point(startTime);
 
 		submit_command_buffer();
 
-		time_point(startTime, time);
+		time_point(startTime);
 		
 		present(imageIndex);
 
-		time_point(startTime, time);
+		time_point(startTime);
 
 		std::cout << 1.f / GAME_CLOCK.m_deltaTime << " |\n";
 	}
@@ -456,9 +456,8 @@ namespace dragonbyte_engine
 				transform.m_position.to_glm()
 			);
 			// rotation
-			// x axis
 
-			/*
+			// x axis
 			data[i].model = glm::rotate(
 				data[i].model,
 				glm::radians(static_cast<float>(transform.m_rotation.x)),
@@ -476,7 +475,7 @@ namespace dragonbyte_engine
 				glm::radians(static_cast<float>(transform.m_rotation.z)),
 				{0.f, 0.f, 1.f}
 			);
-			*/
+			
 
 		}
 
